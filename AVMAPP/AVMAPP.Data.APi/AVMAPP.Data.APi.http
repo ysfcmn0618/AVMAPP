@@ -1,0 +1,6 @@
+@AVMAPP.Data.APi_HostAddress = http://localhost:5168
+
+GET {{AVMAPP.Data.APi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
