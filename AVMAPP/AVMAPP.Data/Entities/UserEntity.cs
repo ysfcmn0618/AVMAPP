@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 
 namespace AVMAPP.Data.Entities
 {
-    public class ApplicationUser : IdentityUser, IGenericField
+    internal class UserEntity : IdentityUser, IGenericField
     {
         public string? FullName { get; set; }
 
+        public ICollection<ProductEntity> Products { get; set; } = new List<ProductEntity>();
+
         public int Id { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
-        public DateTime UpdatedAt { get; set; } = DateTime.Now;
-        public string CreatedBy { get; set; } = "System";
-        public string UpdatedBy { get; set; } = "System";
+        public DateTime UpdatedAt { get; set; } = DateTime.Now;       
         public bool IsActive { get; set; } = true;
         public bool IsDeleted { get; set; } = false;
     }
