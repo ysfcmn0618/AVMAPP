@@ -8,7 +8,7 @@ namespace AVMAPP.Data.Entities
 {
     internal interface IGenericField
     {
-        int Id { get; set; }
+        string Id { get; set; }
         DateTime CreatedAt { get; set; }
         DateTime UpdatedAt { get; set; }       
         bool IsActive { get; set; }

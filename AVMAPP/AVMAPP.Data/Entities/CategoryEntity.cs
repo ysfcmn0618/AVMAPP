@@ -6,16 +6,11 @@ using System.Threading.Tasks;
 
 namespace AVMAPP.Data.Entities
 {
-    internal class ProductEntity : IGenericField
+    internal class CategoryEntity : IGenericField
     {
-        public string SellerId { get; set; } = null!;
-        public UserEntity Seller { get; set; } = null!;
-        public int CategoryId { get; set; }
         public string Name { get; set; }
-        public decimal Price { get; set; }
-        public string Details { get; set; }
-        public byte StockAmount { get; set; }=0;
-        public string[] ImageUrl { get; set; } = Array.Empty<string>();
+        public string Color { get; set; }
+        public string Icon { get; set; }
 
         // IGenericField alanları
         public DateTime CreatedAt { get; set; }

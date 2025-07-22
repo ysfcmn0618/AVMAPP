@@ -13,7 +13,7 @@ namespace AVMAPP.Data.Entities
 
         public ICollection<ProductEntity> Products { get; set; } = new List<ProductEntity>();
 
-        public int Id { get; set; }
+        public string Id { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime UpdatedAt { get; set; } = DateTime.Now;       
         public bool IsActive { get; set; } = true;
