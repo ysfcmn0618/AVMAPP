@@ -15,8 +15,8 @@ namespace AVMAPP.Data.Entities
         public decimal Price { get; set; }
         public string Details { get; set; }
         public byte StockAmount { get; set; }=0;
-        public ProductImageEntity[] ImageUrl { get; set; } = Array.Empty<ProductImageEntity>();
-        public List<ProductCommentEntity> ProductComments { get; set; } = new List<ProductCommentEntity>();
+        public virtual ICollection<ProductImageEntity> Images { get; set; } = null!;
+        public virtual ICollection<ProductCommentEntity> ProductComments { get; set; } = null!;
 
         // IGenericField alanları
         public DateTime CreatedAt { get; set; }
