@@ -9,7 +9,13 @@ namespace AVMAPP.Data.Entities
 {
     internal class UserEntity : IdentityUser, IGenericField
     {
-        public RoleEntity RoleEntity { get; set; } = null!;
+        public string Email { get; set; } = null!;
+        public string FirstName { get; set; } = null!;
+        public string LastName { get; set; } = null!;
+        public string Password { get; set; } = null!;
+        public string? ResetPasswordToken { get; set; }
+        public int RoleId { get; set; }
+        public RoleEntity Role { get; set; } = null!;
         public string? FullName { get; set; }
         public ICollection<ProductEntity> Products { get; set; } = new List<ProductEntity>();
         public string Id { get; set; }
