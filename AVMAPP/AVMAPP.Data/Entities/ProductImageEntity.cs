@@ -9,6 +9,7 @@ namespace AVMAPP.Data.Entities
     internal class ProductImageEntity : IGenericField
     {
         public string ProductId { get; set; } = null!;
+        public ProductEntity? Product { get; set; }
         public string Url { get; set; } = null!;
 
         // IGenericField alanları

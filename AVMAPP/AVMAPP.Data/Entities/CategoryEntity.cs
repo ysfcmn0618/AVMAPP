@@ -11,6 +11,9 @@ namespace AVMAPP.Data.Entities
         public string Name { get; set; }
         public string Color { get; set; }
         public string Icon { get; set; }
+        // Her kategoriye ait birden fazla ürün olabilir
+        public ICollection<ProductEntity> Products { get; set; } = new List<ProductEntity>();
+
 
         // IGenericField alanları
         public DateTime CreatedAt { get; set; }

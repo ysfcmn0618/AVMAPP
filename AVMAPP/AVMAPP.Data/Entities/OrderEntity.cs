@@ -9,9 +9,10 @@ namespace AVMAPP.Data.Entities
     internal class OrderEntity: IGenericField
     {
         public string UserId { get; set; }
+        public UserEntity User { get; set; }
         public string Address { get; set; }
         public string OrderCode { get; set; }
-        public List<OrderItemEntity> OrderItems { get; set; } = new List<OrderItemEntity>();
+        public ICollection<OrderItemEntity>? OrderItems { get; set; } 
         // IGenericField alanları
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
