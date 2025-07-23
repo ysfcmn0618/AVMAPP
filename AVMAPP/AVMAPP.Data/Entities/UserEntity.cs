@@ -17,12 +17,14 @@ namespace AVMAPP.Data.Entities
         public int RoleId { get; set; }
         public RoleEntity Role { get; set; } = null!;
         public string? FullName { get; set; }
-        public ICollection<ProductEntity> Products { get; set; } = new List<ProductEntity>();
+        public virtual ICollection<OrderEntity> Orders { get; set; }
+        public virtual ICollection<ProductEntity> Products { get; set; } 
         public string Id { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime UpdatedAt { get; set; } = DateTime.Now;       
         public bool IsActive { get; set; } = true;
         public bool IsDeleted { get; set; } = false;
+
     }
 
 }
