@@ -1,4 +1,5 @@
-﻿using AVMAPP.Data.Infrastructure.AVMDbContext;
+﻿using AVMAPP.Data.Entities;
+using AVMAPP.Data.Infrastructure.AVMDbContext;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -25,28 +26,26 @@ namespace AVMAPP.Data.Infrastructure
             return entity;
         }
 
-        public async Task<T> Delete(int id)
+        public async Task<T> Delete( string id)
         {
-            var entity = await _dbSet.FindAsync(id);
-            if (entity is not null)
-            {
-                _dbSet.Remove(entity);
-                await _dbContext.SaveChangesAsync();
-                return entity;
-            }
-            throw new KeyNotFoundException($"Entity {typeof(T).Name} with ID {id} not found.");
+            var entity = await _dbSet.FindAsync(id)
+         ?? throw new KeyNotFoundException($"Entity {typeof(T).Name} with ID {id} not found.");
+
+            _dbSet.Remove(entity);
+            await _dbContext.SaveChangesAsync();
+            return entity;
 
         }
 
-        public async Task<IEnumerable<T>> GetAll()
+        public async Task<IEnumerable<T>> GetAllAsync()
         {
             return await _dbSet.ToListAsync();
         }
-        public IQueryable<T> GetAllAsync()
+        public IQueryable<T> GetAll()
         {
             return _dbContext.Set<T>();
         }
-        public async Task<T> GetById(int id)
+        public async Task<T?> GetByIdAsync(string id)
         {
             var entity = await _dbSet.FindAsync(id);
             if (entity is not null)
@@ -58,6 +57,8 @@ namespace AVMAPP.Data.Infrastructure
 
         public async Task<T> Update(T entity)
         {
+            if (entity == null)
+                throw new ArgumentNullException(nameof(entity));
             _dbContext.Entry(entity).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
             return entity;
@@ -72,7 +73,7 @@ namespace AVMAPP.Data.Infrastructure
             return await query.ToListAsync();
         }
 
-        public async Task<T?> GetByIdIncludingAsync(int id, params Expression<Func<T, object>>[] includes)
+        public async Task<T?> GetByIdIncludingAsync(string id, params Expression<Func<T, object>>[] includes)
         {
             IQueryable<T> query = _dbSet;
 
@@ -81,7 +82,7 @@ namespace AVMAPP.Data.Infrastructure
                 query = query.Include(include);
             }
 
-            return await query.FirstOrDefaultAsync(e => EF.Property<int>(e, "Id") == id);
+            return await query.FirstOrDefaultAsync(e => ((IGenericField)e).Id == id);
         }
         public async Task<T?> FirstOrDefaultAsync(Expression<Func<T, bool>> predicate)
         {
