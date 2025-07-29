@@ -26,7 +26,7 @@ namespace AVMAPP.Data.Infrastructure
             return entity;
         }
 
-        public async Task<T> Delete( string id)
+        public async Task<T> Delete( int id)
         {
             var entity = await _dbSet.FindAsync(id)
          ?? throw new KeyNotFoundException($"Entity {typeof(T).Name} with ID {id} not found.");
@@ -45,7 +45,7 @@ namespace AVMAPP.Data.Infrastructure
         {
             return _dbContext.Set<T>();
         }
-        public async Task<T?> GetByIdAsync(string id)
+        public async Task<T> GetByIdAsync(int id)
         {
             var entity = await _dbSet.FindAsync(id);
             if (entity is not null)
@@ -73,7 +73,7 @@ namespace AVMAPP.Data.Infrastructure
             return await query.ToListAsync();
         }
 
-        public async Task<T?> GetByIdIncludingAsync(string id, params Expression<Func<T, object>>[] includes)
+        public async Task<T?> GetByIdIncludingAsync(int id, params Expression<Func<T, object>>[] includes)
         {
             IQueryable<T> query = _dbSet;
 

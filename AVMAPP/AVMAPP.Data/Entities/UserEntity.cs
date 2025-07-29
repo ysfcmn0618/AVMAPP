@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace AVMAPP.Data.Entities
 {
-    internal class UserEntity : IdentityUser, IGenericField
+    internal class UserEntity : IdentityUser<int>, IGenericField
     {
-        public string Email { get; set; } = null!;
         public string FirstName { get; set; } = null!;
         public string LastName { get; set; } = null!;
         public string Address { get; set; } = null!;
@@ -22,7 +21,6 @@ namespace AVMAPP.Data.Entities
         public virtual ICollection<OrderEntity>? Orders { get; set; }
         public virtual ICollection<ProductEntity>? Products { get; set; } 
         public virtual ICollection<ProductCommentEntity>? Comments { get; set; }
-        public string Id { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime UpdatedAt { get; set; } = DateTime.Now;       
         public bool IsActive { get; set; } = true;

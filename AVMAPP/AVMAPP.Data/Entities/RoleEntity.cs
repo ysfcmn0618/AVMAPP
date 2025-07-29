@@ -7,13 +7,15 @@ using System.Threading.Tasks;
 
 namespace AVMAPP.Data.Entities
 {
-    internal class RoleEntity : IdentityRole, IGenericField
+    internal class RoleEntity : IdentityRole<int>, IGenericField
     {
+       
         // IGenericField alanları
+        public string Description { get; set; } = null!;
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public bool IsActive { get; set; }
         public bool IsDeleted { get; set; }
-        public string Id { get; set; }
+
     }
 }

@@ -8,8 +8,8 @@ namespace AVMAPP.Data.Entities
 {
     internal class OrderItemEntity: IGenericField
     {
-        public string OrderId { get; set; }
-        public string ProductId { get; set; }
+        public int OrderId { get; set; }
+        public int ProductId { get; set; }
         public byte Quantity { get; set; }
         public decimal UnitPrice { get; set; }
         // IGenericField alanları
@@ -17,6 +17,6 @@ namespace AVMAPP.Data.Entities
         public DateTime UpdatedAt { get; set; }
         public bool IsActive { get; set; }
         public bool IsDeleted { get; set; }
-        public string Id { get; set; }
+        public int Id { get; set; }
     }
 }

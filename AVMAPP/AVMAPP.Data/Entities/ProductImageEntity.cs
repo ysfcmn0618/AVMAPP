@@ -8,7 +8,7 @@ namespace AVMAPP.Data.Entities
 {
     internal class ProductImageEntity : IGenericField
     {
-        public string ProductId { get; set; } = null!;
+        public int ProductId { get; set; } 
         public ProductEntity? Product { get; set; }
         public string Url { get; set; } = null!;
 
@@ -17,6 +17,6 @@ namespace AVMAPP.Data.Entities
         public DateTime UpdatedAt { get; set; }
         public bool IsActive { get; set; }
         public bool IsDeleted { get; set; }
-        public string Id { get; set; }
+        public int Id { get; set; }
     }
 }

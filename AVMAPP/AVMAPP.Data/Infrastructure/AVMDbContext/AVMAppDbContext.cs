@@ -7,9 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace AVMAPP.Data.Infrastructure.AVMDbContext
 {
-    internal class AVMAppDbContext : IdentityDbContext<UserEntity>
+    internal class AVMAppDbContext : IdentityDbContext<UserEntity, RoleEntity, int>
     {
         public AVMAppDbContext(DbContextOptions<AVMAppDbContext> options) : base(options) { }
         public DbSet<UserEntity> Users { get; set; }
@@ -25,7 +26,7 @@ namespace AVMAPP.Data.Infrastructure.AVMDbContext
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            
+
             builder.Entity<UserEntity>().ToTable("Users");
             builder.Entity<RoleEntity>().ToTable("Roles");
             builder.Entity<ProductImageEntity>().ToTable("ProductImages");
@@ -70,63 +71,116 @@ namespace AVMAPP.Data.Infrastructure.AVMDbContext
                 .OnDelete(DeleteBehavior.Restrict);
             //bir ürünün çok yorumu bir yorum bir ürününün olabilir
             builder.Entity<ProductEntity>()
-                .HasMany(c=>c.Comments)
-                .WithOne(p => p.Product) 
-                .HasForeignKey(p => p.ProductId) 
+                .HasMany(c => c.Comments)
+                .WithOne(p => p.Product)
+                .HasForeignKey(p => p.ProductId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired(false);
             //bir ürünün bir kategorisi olmak zorunda bir kategorinin çok ürünü olabilir ve zorunlu alan 
             builder.Entity<ProductEntity>()
                 .HasOne(p => p.Category)
-                .WithMany(c=>c.Products)
+                .WithMany(c => c.Products)
                 .HasForeignKey(p => p.CategoryId)
                 .IsRequired(true)
                 .OnDelete(DeleteBehavior.Restrict);
             //Order Entitiy mapping ------------------------------------------------------------
             builder.Entity<OrderEntity>()
-                .HasMany(o=>o.OrderItems)
+                .HasMany(o => o.OrderItems)
                 .WithOne()
                 .HasForeignKey(o => o.OrderId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired(true);
             builder.Entity<OrderEntity>()
-                .HasOne(u=>u.User)
+                .HasOne(u => u.User)
                 .WithMany()
                 .HasForeignKey(u => u.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // Varsayılan rollerin eklenmesi (Seed) seller ve buyer direk active yapmıyorum admin kontrolunde gerçekleşsin istiyorum
+            // Seed sabit ID'ler
+            var roleAdminId = 111;
+            var roleSellerId = 222;
+            var roleBuyerId = 333;
+
+            var user1Id = 4;
+            var user2Id = 5;
+            var user3Id = 6;
+
+            // RoleEntity Seed
             builder.Entity<RoleEntity>().HasData(
-                new RoleEntity
+                new RoleEntity { Id = roleAdminId, Name = "Admin", NormalizedName = "ADMIN", IsActive = true, IsDeleted = false, CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow },
+                new RoleEntity { Id = roleSellerId, Name = "Seller", NormalizedName = "SELLER", IsActive = false, IsDeleted = false, CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow },
+                new RoleEntity { Id = roleBuyerId, Name = "Buyer", NormalizedName = "BUYER", IsActive = false, IsDeleted = false, CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow }
+            );
+
+            // CategoryEntity Seed
+            builder.Entity<CategoryEntity>().HasData(
+                new CategoryEntity { Id = 1, Name = "Elektronik" },
+                new CategoryEntity { Id = 2, Name = "Kitap" },
+                new CategoryEntity { Id = 3, Name = "Giyim" },
+                new CategoryEntity { Id = 4, Name = "Ev & Yaşam" },
+                new CategoryEntity { Id = 5, Name = "Spor & Outdoor" },
+                new CategoryEntity { Id = 6, Name = "Güzellik & Kişisel Bakım" },
+                new CategoryEntity { Id = 7, Name = "Oyun & Eğlence" },
+                new CategoryEntity { Id = 8, Name = "Müzik & Film" },
+                new CategoryEntity { Id = 9, Name = "Ofis & Kırtasiye" },
+                new CategoryEntity { Id = 10, Name = "Evcil Hayvan" }
+            );
+
+            // UserEntity Seed
+            _ = builder.Entity<UserEntity>().HasData(
+                new UserEntity
                 {
-                    Id = Guid.NewGuid().ToString(),
-                    Name = "Admin",
-                    NormalizedName = "ADMIN",
-                    IsActive = true,
-                    IsDeleted = false,
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow
+                    Id = user1Id,
+                    UserName = "testbuyer",
+                    NormalizedUserName = "TESTBUYER",
+                    Email = "buyer@test.com",
+                    NormalizedEmail = "BUYER@TEST.COM",
+                    EmailConfirmed = true,
+                    PasswordHash = "AQAAAAEAACcQAAAAE...",
+                    SecurityStamp = Guid.NewGuid().ToString()
                 },
-                new RoleEntity
+                new UserEntity
                 {
-                    Id = Guid.NewGuid().ToString(),
-                    Name = "Seller",
-                    NormalizedName = "SELLER",
-                    IsActive = false,
-                    IsDeleted = false,
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow
+                    Id = user2Id,
+                    UserName = "testseller",
+                    NormalizedUserName = "TESTSELLER",
+                    Email = "seller@test.com",
+                    NormalizedEmail = "SELLER@TEST.COM",
+                    EmailConfirmed = true,
+                    PasswordHash = "AQAAAAEAACcQAAAAE...",
+                    SecurityStamp = Guid.NewGuid().ToString()
                 },
-                new RoleEntity
+                new UserEntity
                 {
-                    Id = Guid.NewGuid().ToString(),
-                    Name = "Buyer",
-                    NormalizedName = "BUYER",
-                    IsActive = false,
-                    IsDeleted = false,
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow
+                    Id = user3Id,
+                    UserName = "testadmin",
+                    NormalizedUserName = "TESTADMIN",
+                    Email = "admin@test.com",
+                    NormalizedEmail = "ADMIN@TEST.COM",
+                    EmailConfirmed = true,
+                    PasswordHash = "AQAAAAEAACcQAAAAE...",
+                    SecurityStamp = Guid.NewGuid().ToString()
                 }
+            );
+
+            // ProductEntity Seed (sadece ana bilgiler)
+            builder.Entity<ProductEntity>().HasData(
+                new ProductEntity { Id = 1, Name = "Akıllı Telefon", Details = "Yeni nesil telefon", Price = 10000, CategoryId = 1, SellerId = user2Id },
+                new ProductEntity { Id = 2, Name = "Roman Kitabı", Details = "Popüler roman", Price = 150, CategoryId = 2, SellerId = user2Id },
+                new ProductEntity { Id = 3, Name = "Tışört", Details = "Pamuklu tışört", Price = 50, CategoryId = 3, SellerId = user2Id }
+            );
+
+            // ProductImageEntity Seed
+            builder.Entity<ProductImageEntity>().HasData(
+                new ProductImageEntity { Id = 1, ProductId = 1, Url = "https://picsum.photos/200/300" },
+                new ProductImageEntity { Id = 2, ProductId = 2, Url = "https://picsum.photos/200/300" },
+                new ProductImageEntity { Id = 3, ProductId = 3, Url = "https://picsum.photos/200/300" }
+            );
+
+            // ProductCommentEntity Seed
+            builder.Entity<ProductCommentEntity>().HasData(
+                new ProductCommentEntity { Id = 1, ProductId = 2, UserId = user1Id, Comment = "Bu kitabı çok beğendim!", StarCount = 5, CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow, IsActive = true, IsDeleted = false },
+                new ProductCommentEntity { Id = 2, ProductId = 3, UserId = user1Id, Comment = "Oldukça rahattı", StarCount = 4, CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow, IsActive = true, IsDeleted = false }
             );
 
 

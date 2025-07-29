@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AVMAPP.Data.Entities
 {
-    internal class CategoryEntity : IGenericField
+    internal class CategoryEntity 
     {
         public string Name { get; set; }
         public string Color { get; set; }
@@ -20,6 +20,6 @@ namespace AVMAPP.Data.Entities
         public DateTime UpdatedAt { get; set; }
         public bool IsActive { get; set; }
         public bool IsDeleted { get; set; }
-        public string Id { get; set; }
+        public int Id { get; set; }
     }
 }
