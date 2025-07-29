@@ -10,7 +10,6 @@ namespace AVMAPP.Data.Entities
     {
         public string UserId { get; set; }
         public UserEntity User { get; set; }
-        //public string Address { get; set; }
         public string OrderCode { get; set; }
         public ICollection<OrderItemEntity>? OrderItems { get; set; } 
         // IGenericField alanları

@@ -19,17 +19,13 @@ namespace AVMAPP.Data.Infrastructure.AVMDbContext
         public DbSet<ProductCommentEntity> ProductComments { get; set; }
         public DbSet<OrderItemEntity> OrderItems { get; set; }
         public DbSet<OrderEntity> Orders { get; set; }
-        public DbSet<CategoryEntity> Category { get; set; }
+        public DbSet<CategoryEntity> Categories { get; set; }
         public DbSet<CartItemEntity> CartItems { get; set; }
         public DbSet<ContactFormEntity> ContactForms { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            base.OnModelCreating(builder);
-
-            base.OnModelCreating(builder);
-
-
+            
             builder.Entity<UserEntity>().ToTable("Users");
             builder.Entity<RoleEntity>().ToTable("Roles");
             builder.Entity<ProductImageEntity>().ToTable("ProductImages");
