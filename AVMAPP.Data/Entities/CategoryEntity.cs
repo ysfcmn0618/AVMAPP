@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AVMAPP.Data.Entities
 {
-    internal class CategoryEntity 
+    public class CategoryEntity 
     {
         public string Name { get; set; }
         public string Color { get; set; }

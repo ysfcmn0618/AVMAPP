@@ -1,0 +1,24 @@
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using AVMAPP.Data.Infrastructure.AVMDbContext;
+
+namespace AVMAPP.Services
+{
+    public class ServiceExtensions
+    {
+        public static void ConfigureServices(IServiceCollection services,IConfiguration configuration)
+        {
+            var connectionString = configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<AVMAppDbContext>(options =>
+            {
+                options.UseSqlServer(connectionString);
+            });
+        }
+    }
+}

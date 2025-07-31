@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AVMAPP.Data.Entities
 {
-    internal class OrderEntity: IGenericField
+    public class OrderEntity: IGenericField
     {
         public string UserId { get; set; }
         public UserEntity User { get; set; }

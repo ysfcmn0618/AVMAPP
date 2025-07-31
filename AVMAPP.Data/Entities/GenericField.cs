@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AVMAPP.Data.Entities
 {
-    internal abstract class GenericField
+    public abstract class GenericField
     {
         public int Id { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;

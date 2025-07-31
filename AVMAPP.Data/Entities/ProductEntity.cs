@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AVMAPP.Data.Entities
 {
-    internal class ProductEntity : IGenericField
+    public class ProductEntity : IGenericField
     {
         public int SellerId { get; set; }
         public UserEntity Seller { get; set; } = null!;
