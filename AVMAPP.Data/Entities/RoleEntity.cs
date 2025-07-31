@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 
 namespace AVMAPP.Data.Entities
 {
-    public class RoleEntity : IdentityRole<int>, IGenericField
+    public class RoleEntity : IdentityRole
     {
-       
+        public int Id { get; set; }
+        public virtual ICollection<UserRoleEntity> UserRoles { get; set; }
         // IGenericField alanları
         public string Description { get; set; } = null!;
         public DateTime CreatedAt { get; set; }

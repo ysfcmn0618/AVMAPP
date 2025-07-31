@@ -10,11 +10,12 @@ using System.Threading.Tasks;
 
 namespace AVMAPP.Data.Infrastructure.AVMDbContext
 {
-    public class AVMAppDbContext : IdentityDbContext<UserEntity, RoleEntity, int>
+    public class AVMAppDbContext : IdentityDbContext<UserEntity>
     {
         public AVMAppDbContext(DbContextOptions<AVMAppDbContext> options) : base(options) { }
         public DbSet<UserEntity> Users { get; set; }
         public DbSet<RoleEntity> Roles { get; set; }
+        public DbSet<UserRoleEntity> UserRoles { get; set; }
         public DbSet<ProductImageEntity> ProductImages { get; set; }
         public DbSet<ProductEntity> Products { get; set; }
         public DbSet<ProductCommentEntity> ProductComments { get; set; }
@@ -23,12 +24,13 @@ namespace AVMAPP.Data.Infrastructure.AVMDbContext
         public DbSet<CategoryEntity> Categories { get; set; }
         public DbSet<CartItemEntity> CartItems { get; set; }
         public DbSet<ContactFormEntity> ContactForms { get; set; }
-
+        
         protected override void OnModelCreating(ModelBuilder builder)
         {
 
             builder.Entity<UserEntity>().ToTable("Users");
             builder.Entity<RoleEntity>().ToTable("Roles");
+            builder.Entity<UserRoleEntity>().ToTable("UserRoles");
             builder.Entity<ProductImageEntity>().ToTable("ProductImages");
             builder.Entity<ProductEntity>().ToTable("Products");
             builder.Entity<ProductCommentEntity>().ToTable("ProductComments");
@@ -38,19 +40,30 @@ namespace AVMAPP.Data.Infrastructure.AVMDbContext
             builder.Entity<CartItemEntity>().ToTable("CartItems");
             builder.Entity<ContactFormEntity>().ToTable("ContactForms");
 
-            // RoleEntity mapping********************************************************************
-            builder.Entity<RoleEntity>().Property(r => r.CreatedAt)
-                .HasDefaultValueSql("GETDATE()");
+          //  RoleEntity mapping********************************************************************
+           builder.Entity<RoleEntity>().Property(r => r.CreatedAt)
+               .HasDefaultValueSql("GETDATE()");
             builder.Entity<RoleEntity>().Property(r => r.UpdatedAt)
                 .HasDefaultValueSql("GETDATE()");
             //UserEntity mapping***********************************************************************
-            builder.Entity<UserEntity>().Property(r => r.Role).HasDefaultValueSql("BUYER");
             //Tüm kullanıcılar (rolü ne olursa olsun) ürün sahibi olabilir gibi gösterir, ama bu sadece fiziksel veri modeli için geçerli.Sadece satıcıların ürünleri olabilir kontrolunu servislerde tanımlayacağız!!!
             builder.Entity<UserEntity>()
              .HasMany(u => u.Products)
              .WithOne(p => p.Seller)
              .HasForeignKey(p => p.SellerId)
              .OnDelete(DeleteBehavior.Restrict).IsRequired(false);
+            builder.Entity<UserRoleEntity>(userRole =>
+            {
+                userRole.HasKey(ur => new { ur.UserId, ur.RoleId });
+                userRole.HasOne(ur => ur.User)
+                        .WithMany(u => u.UserRoles)
+                        .HasForeignKey(ur => ur.UserId)
+                        .IsRequired();
+                userRole.HasOne(ur => ur.Role)
+                        .WithMany(r => r.UserRoles)
+                        .HasForeignKey(ur => ur.RoleId)
+                        .IsRequired();
+            });
             //kullanıcnın birden fazla siparişi olur her siparişin bir sahibi olur 
             builder.Entity<UserEntity>()
                 .HasMany(u => u.Orders)
