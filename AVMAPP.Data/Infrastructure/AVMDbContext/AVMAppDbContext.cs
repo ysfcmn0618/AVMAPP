@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace AVMAPP.Data.Infrastructure.AVMDbContext
 {
-    internal class AVMAppDbContext : IdentityDbContext<UserEntity, RoleEntity, int>
+    public class AVMAppDbContext : IdentityDbContext<UserEntity, RoleEntity, int>
     {
         public AVMAppDbContext(DbContextOptions<AVMAppDbContext> options) : base(options) { }
         public DbSet<UserEntity> Users { get; set; }
