@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AVMAPP.Data.Entities
 {
-    internal class CartItemEntity:IGenericField
+    public class CartItemEntity:IGenericField
     {
         public int UserId { get; set; }
         public int ProductId { get; set; }

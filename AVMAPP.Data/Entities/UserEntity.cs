@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AVMAPP.Data.Entities
 {
-    internal class UserEntity : IdentityUser<int>, IGenericField
+    public class UserEntity : IdentityUser<int>, IGenericField
     {
         public string FirstName { get; set; } = null!;
         public string LastName { get; set; } = null!;

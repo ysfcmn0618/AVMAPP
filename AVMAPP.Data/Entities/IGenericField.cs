@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AVMAPP.Data.Entities
 {
-    internal interface IGenericField
+    public interface IGenericField
     {
         int Id { get; set; }
         DateTime CreatedAt { get; set; }

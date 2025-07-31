@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AVMAPP.Data.Entities
 {
-    internal class ContactFormEntity:IGenericField
+    public class ContactFormEntity:IGenericField
     {
         public string Name { get; set; } = null!;
         public string Email { get; set; } = null!;

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AVMAPP.Data.Entities
 {
-    internal class RoleEntity : IdentityRole<int>, IGenericField
+    public class RoleEntity : IdentityRole<int>, IGenericField
     {
        
         // IGenericField alanları
