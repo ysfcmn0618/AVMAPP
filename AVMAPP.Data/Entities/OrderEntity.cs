@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace AVMAPP.Data.Entities
 {
-    public class OrderEntity: IGenericField
+    public class OrderEntity : IGenericField
     {
-        public string UserId { get; set; }
+        public Guid UserId { get; set; }
         public UserEntity User { get; set; }
         public string OrderCode { get; set; }
-        public ICollection<OrderItemEntity>? OrderItems { get; set; } 
+        public ICollection<OrderItemEntity>? OrderItems { get; set; }
         // IGenericField alanları
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }

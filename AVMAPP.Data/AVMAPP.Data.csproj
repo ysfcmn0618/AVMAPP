@@ -16,8 +16,5 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.18" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\AVMAPP.Data.APi\AVMAPP.Data.APi.csproj" />
-  </ItemGroup>
 
 </Project>

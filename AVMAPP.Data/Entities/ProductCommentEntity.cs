@@ -10,7 +10,7 @@ namespace AVMAPP.Data.Entities
     {
         public int ProductId { get; set; }
         public ProductEntity Product { get; set; }
-        public int UserId { get; set; }
+        public Guid UserId { get; set; }
         public UserEntity User { get; set; }
         public string Comment { get; set; }
         public byte StarCount { get; set; }
