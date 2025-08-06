@@ -8,7 +8,7 @@ namespace AVMAPP.Data.Entities
 {
     public class CartItemEntity:IGenericField
     {
-        public int UserId { get; set; }
+        public Guid UserId { get; set; }
         public int ProductId { get; set; }
         public byte Quantity { get; set; }
 

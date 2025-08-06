@@ -8,7 +8,7 @@ namespace AVMAPP.Data.Entities
 {
     public class ProductEntity : IGenericField
     {
-        public int SellerId { get; set; }
+        public Guid SellerId { get; set; }
         public UserEntity Seller { get; set; } = null!;
         public int CategoryId { get; set; }
         public CategoryEntity Category { get; set; } = null!;
