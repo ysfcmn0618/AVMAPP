@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AVMAPP.Data.Entities
 {
-    public class RoleEntity : IdentityRole<int>, IGenericField
+    public class RoleEntity : IdentityRole<Guid>
     {
         public Guid Id { get; set; } = Guid.NewGuid();
         public string Name { get; set; } = null!;

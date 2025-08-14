@@ -13,12 +13,12 @@ namespace AVMAPP.Data.Entities
         public string UserName { get; set; } = null!;
         public string Email { get; set; } = null!;
         public bool EmailConfirmed { get; set; } = true;
-        public string? PasswordHash { get; set; } = null!;
+        public string? PasswordHash { get; set; } = string.Empty;
         public string? FirstName { get; set; } = null!;
         public string? LastName { get; set; } = null!;
         public string? Address { get; set; } = null!;
         public string? AddressOther { get; set; }
-        public string Password { get; set; } = "1111-0101";
+        public string Password { get; set; } 
         public string? ResetPasswordToken { get; set; }
         public Guid RoleId { get; set; }
         public RoleEntity Role { get; set; } = null!;
