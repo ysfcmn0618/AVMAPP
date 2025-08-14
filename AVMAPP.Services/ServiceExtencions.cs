@@ -10,14 +10,14 @@ using AVMAPP.Data.Infrastructure.AVMDbContext;
 
 namespace AVMAPP.Services
 {
-    public class ServiceExtensions
+    public static class ServiceExtensions
     {
-        public static void ConfigureServices(IServiceCollection services,IConfiguration configuration)
+        public static void ConfigureServices(this IServiceCollection services,IConfiguration configuration)
         {
             var connectionString = configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<AVMAppDbContext>(options =>
             {
-                options.UseSqlServer(connectionString);
+                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
             });
         }
     }

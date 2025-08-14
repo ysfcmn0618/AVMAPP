@@ -9,8 +9,8 @@ namespace AVMAPP.Data.Entities
     public class CategoryEntity 
     {
         public string Name { get; set; }
-        public string Color { get; set; }
-        public string Icon { get; set; }
+        public string Color { get; set; }= "#FFFFFF"; // Varsayılan beyaz renk
+        public string Icon { get; set; } = "icon-avg";
         // Her kategoriye ait birden fazla ürün olabilir
         public ICollection<ProductEntity> Products { get; set; } = new List<ProductEntity>();
 
