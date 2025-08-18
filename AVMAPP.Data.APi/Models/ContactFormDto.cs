@@ -18,9 +18,22 @@ namespace AVMAPP.Data.APi.Models
         public ContactFormProfile()
         {
             CreateMap<ContactFormDto, ContactFormEntity>()
-                .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => DateTime.UtcNow))
-                .ForMember(dest => dest.IsActive, opt => opt.MapFrom(src => true))
-                .ForMember(dest => dest.IsDeleted, opt => opt.MapFrom(src => false));
+                .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(_ => DateTime.UtcNow))
+                .ForMember(dest => dest.CreatedAt, opt =>
+                {
+                opt.Condition((src, dest, srcMember, destMember, ctx) => dest.Id == 0);
+                opt.MapFrom(_ => DateTime.UtcNow);
+                                })
+                .ForMember(dest => dest.IsActive, opt =>
+                {
+                opt.Condition((src, dest, srcMember, destMember, ctx) => dest.Id == 0);
+                opt.MapFrom(_ => true);
+                                })
+                .ForMember(dest => dest.IsDeleted, opt =>
+                {
+                opt.Condition((src, dest, srcMember, destMember, ctx) => dest.Id == 0);
+                opt.MapFrom(_ => false);
+                                });
             CreateMap<ContactFormEntity, ContactFormDto>();
         }
     }

@@ -62,6 +62,7 @@ namespace AVMAPP.Data.APi.Controllers
                 return NotFound();
             }
             var contactFormEntity = mapper.Map<ContactFormEntity>(contactFormDto);
+            contactFormEntity.UpdatedAt = DateTime.UtcNow;
             await repo.Update(contactFormEntity);
             return NoContent();
         }
