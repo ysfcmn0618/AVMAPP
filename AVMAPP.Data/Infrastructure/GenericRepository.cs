@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace AVMAPP.Data.Infrastructure
 {
-    internal class GenericRepository<T> : IGenericRepository<T> where T : class
+    public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
         private readonly AVMAppDbContext _dbContext;
         private readonly DbSet<T> _dbSet;

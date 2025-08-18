@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using AVMAPP.Data.Infrastructure.AVMDbContext;
+using AVMAPP.Data.Infrastructure;
 
 namespace AVMAPP.Services
 {
@@ -19,6 +20,7 @@ namespace AVMAPP.Services
             {
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
             });
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
         }
     }
 }
