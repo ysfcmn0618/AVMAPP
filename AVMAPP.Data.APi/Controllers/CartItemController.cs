@@ -9,7 +9,7 @@ namespace AVMAPP.Data.APi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CartItemController(IGenericRepository<CartItemEntity> repo,IMapper mapper) : ControllerBase
+    public class CartItemController(IGenericRepository<CartItemEntity> repo, IMapper mapper) : ControllerBase
     {
         [HttpGet]
         public async Task<IActionResult> GetCartItems()
@@ -36,7 +36,7 @@ namespace AVMAPP.Data.APi.Controllers
 
         [HttpGet("active")]
         public async Task<IActionResult> GetActiveCartItems()
-        {            
+        {
             var activeCartItems = await repo.GetAllIncludingAsync(x => x.IsActive);
             if (activeCartItems is null || !activeCartItems.Any())
             {
@@ -66,7 +66,7 @@ namespace AVMAPP.Data.APi.Controllers
             var cartItemEntity = mapper.Map<CartItemEntity>(cartItemDto);
             var addedCartItem = await repo.Add(cartItemEntity);
             var addedCartItemDto = mapper.Map<CartItemDto>(addedCartItem);
-            return CreatedAtAction(nameof(GetCartItemById),  addedCartItemDto);
+            return CreatedAtAction(nameof(GetCartItemById), addedCartItemDto);
         }
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCartItem(int id, [FromBody] CartItemDto cartItemDto)
@@ -93,15 +93,16 @@ namespace AVMAPP.Data.APi.Controllers
             {
                 return NotFound($"Cart item with ID {id} not found.");
             }
-            if(!existingCartItem.IsDeleted)
+            if (!existingCartItem.IsDeleted)
             {
                 return BadRequest("Cart silindi olarak işaretlenmemiş.!");
             }
-            if(existingCartItem.Quantity > 0)
+            if (existingCartItem.Quantity > 0)
             {
                 return BadRequest("Mevcutta hala miktar görünüyor.");
             }
             await repo.Delete(id);
             return NoContent();
         }
+    }
 }
