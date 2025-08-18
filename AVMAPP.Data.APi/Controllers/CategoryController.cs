@@ -1,4 +1,6 @@
-﻿using AVMAPP.Data.Entities;
+﻿using AutoMapper;
+using AVMAPP.Data.APi.Models;
+using AVMAPP.Data.Entities;
 using AVMAPP.Data.Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -7,7 +9,7 @@ namespace AVMAPP.Data.APi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CategoryController(IGenericRepository<CategoryEntity> repo) : ControllerBase
+    public class CategoryController(IGenericRepository<CategoryEntity> repo,IMapper mapper) : ControllerBase
     {
         [HttpGet]
         public async Task<IActionResult> GetAll()
@@ -29,25 +31,25 @@ namespace AVMAPP.Data.APi.Controllers
             }
         }
         [HttpPost]
-        public async Task<IActionResult> Add([FromBody] CategoryEntity category)
+        public async Task<IActionResult> Add([FromBody] CategoryDto category)
         {
             if (category == null)
             {
                 return BadRequest("Kategori bilgisi eksik.");
             }
-            var addedCategory = await repo.Add(category);
+            var addedCategory = await repo.Add(mapper.Map<CategoryEntity>(category));
             return CreatedAtAction(nameof(GetById), new { id = addedCategory.Id }, addedCategory);
         }
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] CategoryEntity category)
+        public async Task<IActionResult> Update(int id, [FromBody] CategoryDto category)
         {
-            if (category == null || id != category.Id)
-            {
-                return BadRequest("Kategori bilgisi eksik veya ID uyuşmuyor.");
-            }
+           
             try
             {
-                var updatedCategory = await repo.Update(category);
+                var existing = await repo.GetByIdAsync(id);
+               
+               existing= mapper.Map(category, existing);
+                var updatedCategory = await repo.Update(existing);
                 return Ok(updatedCategory);
             }
             catch (KeyNotFoundException)
