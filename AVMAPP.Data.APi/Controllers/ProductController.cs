@@ -30,6 +30,7 @@ namespace AVMAPP.Data.APi.Controllers
         {
             if (productDto == null) return BadRequest("Ürün bilgileri eksik.");
             var product = mapper.Map<ProductEntity>(productDto);
+            product.CreatedAt = DateTime.UtcNow;            
             var addedProduct = await repo.Add(product);
             return CreatedAtAction(nameof(GetById), new { id = addedProduct.Id }, mapper.Map<ProductDto>(addedProduct));
         }

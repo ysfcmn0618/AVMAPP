@@ -11,8 +11,8 @@ namespace AVMAPP.Data.APi.Models
         public decimal Price { get; set; }
         public string Details { get; set; }
         public byte StockAmount { get; set; } = 0;
-        public virtual ICollection<ProductImageEntity> Images { get; set; } = null!;
-        public virtual ICollection<ProductCommentEntity> Comments { get; set; } = null!;
+        public ICollection<ProductImageDto> Images { get; set; } = new List<ProductImageDto>();
+        public ICollection<ProductCommentDto> Comments { get; set; } = new List<ProductCommentDto>();
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public bool IsActive { get; set; }
