@@ -21,7 +21,15 @@ namespace AVMAPP.Data.APi.Models
         public ProductCommentProfile()
         {
             CreateMap<ProductCommentEntity, ProductCommentDto>()
-                .ReverseMap();
+                .ReverseMap()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
+                .ForMember(dest => dest.ProductId, opt => opt.Ignore())
+                .ForMember(dest => dest.UserId, opt => opt.Ignore())
+                .ForMember(dest => dest.IsDeleted, opt => opt.Ignore())
+                .ForMember(dest => dest.IsActive, opt => opt.Ignore())
+                .ForMember(dest => dest.IsConfirmed, opt => opt.Ignore())
+            ;
         }
     }
 }

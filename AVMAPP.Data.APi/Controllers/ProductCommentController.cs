@@ -37,10 +37,11 @@ namespace AVMAPP.Data.APi.Controllers
             var existingcomment = await repo.GetByIdAsync(id);
             if (existingcomment == null)
             {
-                return BadRequest("Comment bulunamadı");
+                return BadRequest("Yorum bulunamadı");
             }
-            comment.UpdatedAt = DateTime.UtcNow;
+            
             mapper.Map(comment, existingcomment);
+            comment.UpdatedAt = DateTime.UtcNow;
             await repo.Update(existingcomment);
 
             return Ok(mapper.Map<ProductCommentDto>(existingcomment));
@@ -49,7 +50,7 @@ namespace AVMAPP.Data.APi.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var comment= await repo.GetByIdAsync(id);
-            if (comment == null) return BadRequest("Id eşleşmesi sağlanamadı.");
+            if (comment == null) return NotFound("Yorum bulunamadı.");
             await repo.Delete(id);
 
             return NoContent();
