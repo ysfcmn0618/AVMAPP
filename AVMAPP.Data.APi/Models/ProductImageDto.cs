@@ -18,7 +18,12 @@ namespace AVMAPP.Data.APi.Models
     {
         public ProductImageProfile()
         {
-            CreateMap<ProductImageEntity, ProductImageDto>().ReverseMap();
+            CreateMap<ProductImageEntity, ProductImageDto>()
+                .ReverseMap()
+                .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
+                .ForMember(dest => dest.UpdatedAt, opt => opt.Ignore())
+                .ForMember(dest => dest.IsDeleted, opt => opt.Ignore())
+                .ForMember(dest => dest.Product, opt => opt.Ignore());
         }
 
     }

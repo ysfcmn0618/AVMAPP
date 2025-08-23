@@ -9,7 +9,7 @@ namespace AVMAPP.Data.APi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductImageController(IGenericRepository<ProductImageEntity> repo,IMapper mapper) : ControllerBase
+    public class ProductImageController(IGenericRepository<ProductImageEntity> repo, IMapper mapper) : ControllerBase
     {
         [HttpGet]
         public async Task<IActionResult> GetAll()
@@ -29,16 +29,17 @@ namespace AVMAPP.Data.APi.Controllers
             var dto = mapper.Map<ProductImageDto>(entity);
             return Ok(dto);
         }
-        [HttpGet("{prductId:int}")]
-        public async Task<IActionResult> GetByProductId(int prductId)
+        [HttpGet("by-product/{productId:int}")]
+        public async Task<IActionResult> GetByProductId(int productId)
         {
-            var entity = await repo.GetByIdAsync(prductId);
-            if (entity == null)
+            var all = await repo.GetAllAsync();
+            var filtered = all.Where(pi => pi.ProductId == productId);
+            if (!filtered.Any())
             {
                 return NotFound();
             }
-            var dto = mapper.Map<IEnumerable<ProductImageDto>>(entity);
-            return Ok(dto);
+            var dtos = mapper.Map<IEnumerable<ProductImageDto>>(filtered);
+            return Ok(dtos);
         }
         [HttpPost]
         public async Task<IActionResult> Create(ProductImageDto dto)
@@ -57,6 +58,10 @@ namespace AVMAPP.Data.APi.Controllers
             }
             var entity = mapper.Map<ProductImageEntity>(dto);
             var updatedEntity = await repo.Update(entity);
+            if (updatedEntity is null)
+            {
+                return NotFound();
+            }
             var updatedDto = mapper.Map<ProductImageDto>(updatedEntity);
             return Ok(updatedDto);
         }
