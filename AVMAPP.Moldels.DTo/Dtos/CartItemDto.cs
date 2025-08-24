@@ -1,7 +1,6 @@
-﻿using AutoMapper;
-using AVMAPP.Data.Entities;
-
-namespace AVMAPP.Data.APi.Models
+﻿
+namespace AVMAPP.Models.DTo.Dtos
+  
 {
     public class CartItemDto
     {       
@@ -10,13 +9,5 @@ namespace AVMAPP.Data.APi.Models
             public byte Quantity { get; set; }          
             public bool IsActive { get; set; }
             public bool IsDeleted { get; set; }       
-    }
-    public class CartItemProfile:Profile
-    {
-        public CartItemProfile()
-        {
-            CreateMap<CartItemEntity, CartItemDto>()
-                .ReverseMap();
-        }
     }
 }

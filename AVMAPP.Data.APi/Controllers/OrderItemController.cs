@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
-using AVMAPP.Data.APi.Models;
 using AVMAPP.Data.Entities;
 using AVMAPP.Data.Infrastructure;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using AVMAPP.Data.APi.Models;
 
 namespace AVMAPP.Data.APi.Controllers
 {
