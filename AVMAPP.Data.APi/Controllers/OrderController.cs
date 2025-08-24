@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using AVMAPP.Data.APi.Models;
+using AVMAPP.Data.APi.Models.Dtos;
 using AVMAPP.Data.Entities;
 using AVMAPP.Data.Infrastructure;
 using Microsoft.AspNetCore.Http;

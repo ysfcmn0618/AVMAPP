@@ -1,10 +1,12 @@
+using AVMAPP.Data.APi.Models;
 using AVMAPP.Services;
+using AVMAPP.Services.Profiles;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 //Automapper configuration
-builder.Services.AddAutoMapper(typeof(Program).Assembly);
+builder.Services.AddAutoMapper(typeof(OrderItemProfile).Assembly);
 
 
 builder.Services.AddControllers();

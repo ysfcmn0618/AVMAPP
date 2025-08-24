@@ -1,7 +1,6 @@
-﻿using AutoMapper;
-using AVMAPP.Data.Entities;
+﻿using AVMAPP.Data.Entities;
 
-namespace AVMAPP.Data.APi.Models
+namespace AVMAPP.Data.APi.Models.Dtos
 {
     public class OrderDto
     {
@@ -16,14 +15,6 @@ namespace AVMAPP.Data.APi.Models
         public bool IsDeleted { get; set; }
 
     }
-    public class OrderProfile : Profile
-    {
-        public OrderProfile()
-        {
-            CreateMap<OrderDto, OrderEntity>().ReverseMap();
-        }
-
-
-    }
+   
 }
  
