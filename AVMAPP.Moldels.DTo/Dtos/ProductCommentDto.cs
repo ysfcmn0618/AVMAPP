@@ -6,7 +6,7 @@ namespace AVMAPP.Data.APi.Models
     {
         public int ProductId { get; set; }
         public Guid UserId { get; set; }
-        public string Comment { get; set; }
+        public string Comment { get; set; } = "Undefined";
         public byte StarCount { get; set; }
         public bool IsConfirmed { get; set; }
         public DateTime CreatedAt { get; set; }

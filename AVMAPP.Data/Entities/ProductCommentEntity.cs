@@ -9,10 +9,10 @@ namespace AVMAPP.Data.Entities
     public class ProductCommentEntity:IGenericField
     {
         public int ProductId { get; set; }
-        public ProductEntity Product { get; set; }
+        public ProductEntity? Product { get; set; }
         public Guid UserId { get; set; }
-        public UserEntity User { get; set; }
-        public string Comment { get; set; }
+        public UserEntity? User { get; set; }
+        public string? Comment { get; set; }
         public byte StarCount { get; set; }
         public bool IsConfirmed { get; set; }
 
