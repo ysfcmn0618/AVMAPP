@@ -2,6 +2,7 @@
 using AVMAPP.Data.Entities;
 using AVMAPP.Data.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
+using AVMAPP.Models.DTo.Dtos;
 using AVMAPP.Data.APi.Models;
 
 namespace AVMAPP.Data.APi.Controllers
@@ -15,6 +16,7 @@ namespace AVMAPP.Data.APi.Controllers
         {
             var orderItems = await repo.GetAllIncludingAsync(u=>u.OrderId);
             return Ok(mapper.Map<IEnumerable<OrderItemDto>>(orderItems));
+           
         }
         [HttpPut("{id:int}")]
         public async Task<IActionResult> Update(int id,[FromBody] OrderItemDto orderItemDto)
