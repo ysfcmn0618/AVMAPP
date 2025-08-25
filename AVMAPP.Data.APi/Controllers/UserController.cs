@@ -9,7 +9,7 @@ namespace AVMAPP.Data.APi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController(IGenericRepository<UserEntity> repo) : ControllerBase
+    public class UserController(IGenericRepository<UserEntity> repo,IConfiguration configuration) : ControllerBase
     {
         [HttpGet]
         public async Task<IActionResult> GetAll()
@@ -35,32 +35,32 @@ namespace AVMAPP.Data.APi.Controllers
         public async Task<IActionResult> Login([FromBody] LogInDto loginDto)
         {
             if (loginDto == null || string.IsNullOrEmpty(loginDto.Email) || string.IsNullOrEmpty(loginDto.Password))
-            {
                 return BadRequest("Invalid user credentials.");
-            }
 
-            // Email'e göre kullanıcıyı Role bilgisi ile çek
             var existingUser = await repo.GetSingleWithIncludeAsync(
                 u => u.Email == loginDto.Email,
                 u => u.Role
             );
 
             if (existingUser == null)
-            {
                 return Unauthorized("Invalid username or password.");
-            }
 
-            // Şifre doğrulama
-            bool isPasswordValid = PasswordHelper.VerifyPassword(loginDto.Password, existingUser.Password);
-            if (!isPasswordValid)
-            {
+            if (!PasswordHelper.VerifyPassword(loginDto.Password, existingUser.Password))
                 return Unauthorized("Invalid username or password.");
-            }
 
-            // Burada JWT token oluşturabilirsin
+            // JWT üretimi
+            var token = JwtHelper.GenerateToken(
+                existingUser,
+                secretKey: configuration["JwtSettings:SecretKey"],
+                issuer: configuration["JwtSettings:Issuer"],
+                audience: configuration["JwtSettings:Audience"],
+                expirationMinutes: int.Parse(configuration["JwtSettings:ExpirationMinutes"])
+            );
+
             return Ok(new
             {
                 Message = "Login successful",
+                Token = token,
                 User = new
                 {
                     existingUser.Id,
@@ -70,6 +70,7 @@ namespace AVMAPP.Data.APi.Controllers
             });
         }
 
-
     }
+
+
 }
