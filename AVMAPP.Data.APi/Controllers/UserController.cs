@@ -29,16 +29,17 @@ namespace AVMAPP.Data.APi.Controllers
             }
         }
 
-        [HttpPost("login",Name ="GetUser")]
-        public async Task<IActionResult> Login([FromBody]UserEntity user)
+        [HttpPost("login", Name = "GetUser")]
+        public async Task<IActionResult> Login([FromBody] UserEntity user)
         {
             if (user == null || string.IsNullOrEmpty(user.UserName) || string.IsNullOrEmpty(user.Password))
             {
                 return BadRequest("Invalid user credentials.");
             }
-            var existingUser = await repo.GetAllAsync()
-                .Include(u => u.Role)
-                .SingleOrDefaultAsync(u => u.Email == login.Email && u.Password == login.Password);
+            var existingUser = await repo.GetSingleWithIncludeAsync(
+                 u => u.Email == user.Email && u.Password == user.Password,
+                 u => u.Role
+);
             if (existingUser == null)
             {
                 return Unauthorized("Invalid username or password.");
