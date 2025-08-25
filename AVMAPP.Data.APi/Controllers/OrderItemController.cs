@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
+using AVMAPP.Data.APi.Models;
 using AVMAPP.Data.Entities;
 using AVMAPP.Data.Infrastructure;
-using Microsoft.AspNetCore.Mvc;
 using AVMAPP.Models.DTo.Dtos;
-using AVMAPP.Data.APi.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AVMAPP.Data.APi.Controllers
 {
@@ -11,6 +12,7 @@ namespace AVMAPP.Data.APi.Controllers
     [ApiController]
     public class OrderItemController(IGenericRepository<OrderItemEntity> repo,IMapper mapper) : ControllerBase
     {
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -18,6 +20,7 @@ namespace AVMAPP.Data.APi.Controllers
             return Ok(mapper.Map<IEnumerable<OrderItemDto>>(orderItems));
            
         }
+        [Authorize]
         [HttpPut("{id:int}")]
         public async Task<IActionResult> Update(int id,[FromBody] OrderItemDto orderItemDto)
         {
@@ -29,6 +32,7 @@ namespace AVMAPP.Data.APi.Controllers
             var updatedOrderItem = await repo.Update(orderItemEntity);
             return Ok(mapper.Map<OrderItemDto>(updatedOrderItem));
         }
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody]OrderItemDto orderItemDto)
         {
@@ -36,6 +40,7 @@ namespace AVMAPP.Data.APi.Controllers
             var createdOrderItem = await repo.Add(orderItemEntity);
             return CreatedAtAction(nameof(GetAll), new { id = createdOrderItem.Id }, mapper.Map<OrderItemDto>(createdOrderItem));
         }
+        [Authorize]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {

@@ -1,11 +1,12 @@
 ﻿using AutoMapper;
+using AVMAPP.Data.APi.Models;
 using AVMAPP.Data.Entities;
 using AVMAPP.Data.Infrastructure;
+using AVMAPP.Models.DTo;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using AVMAPP.Models.DTo;
-using AVMAPP.Data.APi.Models;
 
 namespace AVMAPP.Data.APi.Controllers
 {
@@ -13,6 +14,7 @@ namespace AVMAPP.Data.APi.Controllers
     [ApiController]
     public class ProductCommentController(IGenericRepository<ProductCommentEntity> repo, IMapper mapper) : ControllerBase
     {
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -20,6 +22,7 @@ namespace AVMAPP.Data.APi.Controllers
             var result = mapper.Map<IEnumerable<ProductCommentDto>>(comments);
             return Ok(result);
         }
+        [Authorize]
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -31,6 +34,7 @@ namespace AVMAPP.Data.APi.Controllers
             var result = mapper.Map<ProductCommentDto>(comment);
             return Ok(result);
         }
+        [Authorize]
         [HttpPut("{id:int}")]
         public async Task<IActionResult> Update(int id, [FromBody] ProductCommentDto comment)
         {
@@ -47,6 +51,7 @@ namespace AVMAPP.Data.APi.Controllers
 
             return Ok(mapper.Map<ProductCommentDto>(existingcomment));
         }
+        [Authorize]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {

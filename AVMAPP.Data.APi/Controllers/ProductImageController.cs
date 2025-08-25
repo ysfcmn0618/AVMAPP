@@ -2,11 +2,13 @@
 using AVMAPP.Data.APi.Models;
 using AVMAPP.Data.Entities;
 using AVMAPP.Data.Infrastructure;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AVMAPP.Data.APi.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ProductImageController(IGenericRepository<ProductImageEntity> repo, IMapper mapper) : ControllerBase

@@ -2,6 +2,7 @@
 using AVMAPP.Data.Infrastructure;
 using AVMAPP.Models.DTo.Dtos;
 using AVMAPP.Services.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,6 +12,7 @@ namespace AVMAPP.Data.APi.Controllers
     [ApiController]
     public class UserController(IGenericRepository<UserEntity> repo,IConfiguration configuration) : ControllerBase
     {
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {

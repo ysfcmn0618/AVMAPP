@@ -3,6 +3,7 @@ using AVMAPP.Data.APi.Models;
 using AVMAPP.Data.APi.Models.Dtos;
 using AVMAPP.Data.Entities;
 using AVMAPP.Data.Infrastructure;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,6 +13,7 @@ namespace AVMAPP.Data.APi.Controllers
     [ApiController]
     public class OrderController(IGenericRepository<OrderEntity> repo, IMapper mapper) : ControllerBase
     {
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -23,6 +25,7 @@ namespace AVMAPP.Data.APi.Controllers
             var orderDtos = mapper.Map<IEnumerable<OrderDto>>(orders);
             return Ok(orderDtos);
         }
+        [Authorize]
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -34,6 +37,7 @@ namespace AVMAPP.Data.APi.Controllers
             var orderDto = mapper.Map<OrderDto>(order);
             return Ok(orderDto);
         }
+        [Authorize]
         [HttpGet("{userId:guid}")]
         public async Task<IActionResult> GetByUserId(Guid userId)
         {
@@ -45,6 +49,7 @@ namespace AVMAPP.Data.APi.Controllers
             var orderDtos = mapper.Map<IEnumerable<OrderDto>>(orders);
             return Ok(orderDtos);
         }
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] OrderDto orderDto)
         {
@@ -57,6 +62,7 @@ namespace AVMAPP.Data.APi.Controllers
             var createdOrderDto = mapper.Map<OrderDto>(createdOrder);
             return CreatedAtAction(nameof(GetById), new { id = createdOrder.Id }, createdOrderDto);
         }
+        [Authorize]
         [HttpPut("{id:int}")]
         public async Task<IActionResult> Update(int id, [FromBody] OrderDto orderDto)
         {
@@ -76,6 +82,7 @@ namespace AVMAPP.Data.APi.Controllers
             var updatedOrderDto = mapper.Map<OrderDto>(updatedOrder);
             return Ok(updatedOrderDto);
         }
+        [Authorize]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {

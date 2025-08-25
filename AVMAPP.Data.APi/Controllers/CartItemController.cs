@@ -2,6 +2,7 @@
 using AVMAPP.Data.Entities;
 using AVMAPP.Data.Infrastructure;
 using AVMAPP.Models.DTo.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -56,6 +57,7 @@ namespace AVMAPP.Data.APi.Controllers
             var cartItemDto = mapper.Map<CartItemDto>(cartItem);
             return Ok(cartItemDto);
         }
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> AddCartItem([FromBody] CartItemDto cartItemDto)
         {
@@ -68,6 +70,7 @@ namespace AVMAPP.Data.APi.Controllers
             var addedCartItemDto = mapper.Map<CartItemDto>(addedCartItem);
             return CreatedAtAction(nameof(GetCartItemById), addedCartItemDto);
         }
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCartItem(int id, [FromBody] CartItemDto cartItemDto)
         {
@@ -85,6 +88,7 @@ namespace AVMAPP.Data.APi.Controllers
             await repo.Update(updatedCartItemEntity);
             return Ok(updatedCartItemEntity);
         }
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCartItem(int id)
         {

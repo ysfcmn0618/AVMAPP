@@ -2,6 +2,7 @@
 using AVMAPP.Data.APi.Models.Dtos;
 using AVMAPP.Data.Entities;
 using AVMAPP.Data.Infrastructure;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,12 +12,13 @@ namespace AVMAPP.Data.APi.Controllers
     [ApiController]
     public class CategoryController(IGenericRepository<CategoryEntity> repo,IMapper mapper) : ControllerBase
     {
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
+        [Authorize]
+        [HttpGet]        public async Task<IActionResult> GetAll()
         {
             var categories = await repo.GetAllAsync();
             return Ok(categories);
         }
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -30,6 +32,7 @@ namespace AVMAPP.Data.APi.Controllers
                 return NotFound($"Bu id ye:{id} sahip bir kategori bulunamadı.");
             }
         }
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Add([FromBody] CategoryDto category)
         {
@@ -40,6 +43,7 @@ namespace AVMAPP.Data.APi.Controllers
             var addedCategory = await repo.Add(mapper.Map<CategoryEntity>(category));
             return CreatedAtAction(nameof(GetById), new { id = addedCategory.Id }, addedCategory);
         }
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] CategoryDto category)
         {
@@ -57,6 +61,7 @@ namespace AVMAPP.Data.APi.Controllers
                 return NotFound($"Bu id ye:{id} sahip bir kategori bulunamadı.");
             }
         }
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

@@ -3,6 +3,7 @@ using AVMAPP.Data.APi.Models;
 using AVMAPP.Data.APi.Models.Dtos;
 using AVMAPP.Data.Entities;
 using AVMAPP.Data.Infrastructure;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,6 +13,7 @@ namespace AVMAPP.Data.APi.Controllers
     [ApiController]
     public class ContactFormController(IGenericRepository<ContactFormEntity> repo, IMapper mapper) : ControllerBase
     {
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -19,6 +21,7 @@ namespace AVMAPP.Data.APi.Controllers
             var contactFormDtos = mapper.Map<IEnumerable<ContactFormDto>>(contactForms);
             return Ok(contactFormDtos);
         }
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -31,6 +34,7 @@ namespace AVMAPP.Data.APi.Controllers
             contactFormDto.SeenAt = DateTime.UtcNow;
             return Ok(contactFormDto);
         }
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] ContactFormDto contactFormDto)
         {
@@ -46,6 +50,7 @@ namespace AVMAPP.Data.APi.Controllers
             await repo.Add(contactFormEntity);
             return CreatedAtAction(nameof(GetById), new { id = contactFormEntity.Id }, contactFormDto);
         }
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] ContactFormDto contactFormDto)
         {
@@ -67,6 +72,7 @@ namespace AVMAPP.Data.APi.Controllers
             await repo.Update(contactFormEntity);
             return NoContent();
         }
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
