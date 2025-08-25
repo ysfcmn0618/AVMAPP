@@ -1,9 +1,11 @@
-﻿using System;
+﻿using BCrypt.Net;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using BCrypt.Net;
 
 namespace AVMAPP.Services.Helpers
 {
@@ -11,11 +13,14 @@ namespace AVMAPP.Services.Helpers
     {
         public static string HashPassword(string password)
         {
-            return BCrypt.Net.BCrypt.HashPassword(password);
+            using var sha256 = SHA256.Create();
+            var hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+            return Convert.ToBase64String(hashedBytes);
         }
-        public static bool VerifyPassword(string password, string hashedPassword)
+        public static bool VerifyPassword(string enteredPassword, string storedHashedPassword)
         {
-            return BCrypt.Net.BCrypt.Verify(password, hashedPassword);
+            var hashOfInput = HashPassword(enteredPassword);
+            return hashOfInput == storedHashedPassword;
         }
     }
 }

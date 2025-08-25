@@ -11,12 +11,21 @@ using System.Threading.Tasks;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace AVMAPP.Services.Profiles
-{
+{   
     public class OrderItemProfile : Profile
     {
         public OrderItemProfile()
         {
             CreateMap<OrderItemEntity, OrderItemDto>()
+                .ReverseMap();
+        }
+    }
+    public class UserProfile : Profile
+    {
+        public UserProfile()
+        {
+            CreateMap<UserEntity, UserDto>()
+                .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role.ToString()))
                 .ReverseMap();
         }
     }

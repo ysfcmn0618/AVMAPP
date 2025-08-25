@@ -6,6 +6,7 @@ namespace AVMAPP.Data.Infrastructure
 {
     public interface IGenericRepository<T> where T : class
     {
+        IQueryable<T> Query();
         Task<IEnumerable<T>> GetAllAsync();
         IQueryable<T> GetAll(bool asNoTracking = false);
         Task<T> GetByIdAsync(int id);

@@ -10,6 +10,10 @@ namespace AVMAPP.Data.Infrastructure
         protected readonly AVMAppDbContext _dbContext;
         protected readonly DbSet<T> _dbSet;
 
+        public IQueryable<T> Query()
+        {
+            return _dbSet.AsQueryable();
+        }
         public GenericRepository(AVMAppDbContext context)
         {
             _dbContext = context;

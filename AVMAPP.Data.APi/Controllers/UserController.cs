@@ -1,4 +1,5 @@
-﻿using AVMAPP.Data.Entities;
+﻿using AutoMapper;
+using AVMAPP.Data.Entities;
 using AVMAPP.Data.Infrastructure;
 using AVMAPP.Models.DTo.Dtos;
 using AVMAPP.Services.Helpers;
@@ -10,15 +11,16 @@ namespace AVMAPP.Data.APi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController(IGenericRepository<UserEntity> repo,IConfiguration configuration) : ControllerBase
+    public class UserController(IGenericRepository<UserEntity> repo,IMapper mapper) : ControllerBase
     {
-        [Authorize]
+        [Authorize("Admin")]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
             var users = await repo.GetAllAsync();
             return Ok(users);
         }
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -32,45 +34,32 @@ namespace AVMAPP.Data.APi.Controllers
                 return NotFound(ex.Message);
             }
         }
-
-        [HttpPost("login", Name = "Login")]
-        public async Task<IActionResult> Login([FromBody] LogInDto loginDto)
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] UserDto userDto)
         {
-            if (loginDto == null || string.IsNullOrEmpty(loginDto.Email) || string.IsNullOrEmpty(loginDto.Password))
-                return BadRequest("Invalid user credentials.");
-
-            var existingUser = await repo.GetSingleWithIncludeAsync(
-                u => u.Email == loginDto.Email,
-                u => u.Role
-            );
-
-            if (existingUser == null)
-                return Unauthorized("Invalid username or password.");
-
-            if (!PasswordHelper.VerifyPassword(loginDto.Password, existingUser.Password))
-                return Unauthorized("Invalid username or password.");
-
-            // JWT üretimi
-            var token = JwtHelper.GenerateToken(
-                existingUser,
-                secretKey: configuration["JwtSettings:SecretKey"],
-                issuer: configuration["JwtSettings:Issuer"],
-                audience: configuration["JwtSettings:Audience"],
-                expirationMinutes: int.Parse(configuration["JwtSettings:ExpirationMinutes"])
-            );
-
-            return Ok(new
-            {
-                Message = "Login successful",
-                Token = token,
-                User = new
-                {
-                    existingUser.Id,
-                    existingUser.Email,
-                    RoleName = existingUser.Role?.Name
-                }
-            });
+            if (userDto == null)
+                return BadRequest("User data is null.");
+            if (string.IsNullOrWhiteSpace(userDto.Email) || string.IsNullOrWhiteSpace(userDto.Password))
+                return BadRequest("Email and password are required.");
+           var newUser = mapper.Map<UserEntity>(userDto);
+            var createdUser = await repo.Add(newUser);
+            return CreatedAtAction(nameof(GetById), new { id = createdUser.Id }, createdUser);
         }
+        [Authorize("Admin")]
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                var deletedUser = await repo.Delete(id);
+                return Ok(deletedUser);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
 
     }
 
