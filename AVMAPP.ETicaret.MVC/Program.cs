@@ -1,8 +1,17 @@
+using AVMAPP.ETicaret.MVC.Handlers;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddTransient<TokenAttachHandler>();
+builder.Services.AddHttpClient("ApiClient", client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration["ApiSettings:BaseUrl"]);
+    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+})
+.AddHttpMessageHandler<TokenAttachHandler>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
