@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\AVMAPP.Data.APi\AVMAPP.Data.APi.csproj" />
     <ProjectReference Include="..\AVMAPP.File.APi\AVMAPP.File.APi.csproj" />
     <ProjectReference Include="..\AVMAPP.Moldels.DTo\AVMAPP.Models.DTo.csproj" />
