@@ -73,7 +73,7 @@ namespace AVMAPP.ETicaret.MVC.Controllers
 
             if (!response.IsSuccessStatusCode)
             {
-                ModelState.AddModelError("", "Invalid email or password");
+                ModelState.AddModelError("", "Kullanıcı adı veya şifre hatalı.");
                 return View(loginDto);
             }
 
