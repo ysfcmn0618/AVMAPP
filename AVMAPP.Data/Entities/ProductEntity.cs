@@ -12,12 +12,14 @@ namespace AVMAPP.Data.Entities
         public UserEntity Seller { get; set; } = null!;
         public int CategoryId { get; set; }
         public CategoryEntity Category { get; set; } = null!;
+        public int? DiscountId { get; set; }
+        public DiscountEntity? Discount { get; set; }       
         public string Name { get; set; } = "Undefined";
         public decimal Price { get; set; }
-        public string Details { get; set; } = "Undefined";
+        public string Description { get; set; } = "Undefined";
         public byte StockAmount { get; set; }=0;
-        public virtual ICollection<ProductImageEntity> Images { get; set; } = null!;
-        public virtual ICollection<ProductCommentEntity> Comments { get; set; } = null!;
+        public virtual ICollection<ProductImageEntity> Images { get; set; } = new List<ProductImageEntity>();
+        public virtual ICollection<ProductCommentEntity> Comments { get; set; } = new List<ProductCommentEntity>();
 
         // IGenericField alanları
         public DateTime CreatedAt { get; set; }

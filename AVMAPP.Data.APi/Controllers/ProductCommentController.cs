@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace AVMAPP.Data.APi.Controllers
 {
@@ -44,7 +46,7 @@ namespace AVMAPP.Data.APi.Controllers
             {
                 return BadRequest("Yorum bulunamadı");
             }
-            
+
             mapper.Map(comment, existingcomment);
             comment.UpdatedAt = DateTime.UtcNow;
             await repo.Update(existingcomment);
@@ -55,12 +57,49 @@ namespace AVMAPP.Data.APi.Controllers
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var comment= await repo.GetByIdAsync(id);
+            var comment = await repo.GetByIdAsync(id);
             if (comment == null) return NotFound("Yorum bulunamadı.");
             await repo.Delete(id);
 
             return NoContent();
         }
+        [Authorize]
+        [HttpPost("{productId:int}/comment")]
+        public async Task<IActionResult> AddComment(int productId, [FromBody] ProductCommentDto commentDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var product = await repo.GetByIdAsync(productId);
+            if (product is null)
+            {
+                return NotFound(new { message = "Ürün bulunamadı." });
+            }
+
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userIdClaim) || !Guid.TryParse(userIdClaim, out var userId))
+            {
+                return Unauthorized();
+            }
+
+            // DTO → Entity
+            var entity = mapper.Map<ProductCommentEntity>(commentDto);
+            entity.ProductId = productId;
+            entity.UserId = userId;
+            entity.CreatedAt = DateTime.UtcNow;
+            entity.UpdatedAt = DateTime.UtcNow;
+            entity.IsActive = true;
+            entity.IsDeleted = false;
+
+            await repo.Add(entity);
+
+            return Ok(new { message = "Yorum başarıyla eklendi." });
+        }
+
+
+
 
     }
 }
