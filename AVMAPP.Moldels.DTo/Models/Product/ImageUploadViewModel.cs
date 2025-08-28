@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AVMAPP.Models.DTo.Dtos.Product
+namespace AVMAPP.Models.DTo.Models.Product
 {
     public class ImageUploadViewModel
     {

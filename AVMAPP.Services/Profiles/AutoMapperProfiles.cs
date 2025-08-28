@@ -3,7 +3,7 @@ using AVMAPP.Data.APi.Models;
 using AVMAPP.Data.APi.Models.Dtos;
 using AVMAPP.Data.Entities;
 using AVMAPP.Models.DTo.Dtos;
-using AVMAPP.Models.DTo.Dtos.Home;
+using AVMAPP.Models.DTo.Models.Home;
 using System;
 using System.Collections.Generic;
 using System.Linq;

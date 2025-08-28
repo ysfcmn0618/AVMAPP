@@ -1,0 +1,64 @@
+﻿@model CheckoutViewModel
+
+@{
+    ViewData["Title"] = "Ödeme";
+}
+
+<h2>Ödeme İşlemi</h2>
+
+<!-- Hata Mesajları -->
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <p>@error.ErrorMessage</p>
+        }
+    </div>
+}
+
+<form asp-action="Create" asp-controller="Order" method="post">
+    <div class="form-group mb-3">
+        <label for="Address">Teslimat Adresi</label>
+        <textarea id="Address" name="Address" class="form-control" rows="3">@Model?.Address</textarea>
+    </div>
+
+    <h4>Sepetiniz</h4>
+    @if (Model?.CartItems != null && Model.CartItems.Any())
+    {
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Ürün</th>
+                    <th>Adet</th>
+                    <th>Fiyat</th>
+                    <th>Toplam</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.CartItems)
+                {
+                    <tr>
+                        <td>
+                            @item.ProductName
+                            @if (!string.IsNullOrEmpty(item.ProductImage))
+                            {
+                                <br />
+                                <img src="@item.ProductImage" alt="@item.ProductName" style="max-width:60px;" />
+                            }
+                        </td>
+                        <td>@item.Quantity</td>
+                        <td>@item.Price.ToString("C")</td>
+                        <td>@(item.Price* item.Quantity).ToString("C")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>Sepetiniz boş.</p>
+    }
+
+    <button type="submit" class="btn btn-primary">Ödemeyi Tamamla</button>
+</form>

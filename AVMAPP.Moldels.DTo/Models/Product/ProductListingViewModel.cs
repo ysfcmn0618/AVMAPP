@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AVMAPP.Models.DTo.Dtos.Product
+namespace AVMAPP.Models.DTo.Models.Product
 {
     public class ProductListingViewModel
     {
@@ -15,7 +15,7 @@ namespace AVMAPP.Models.DTo.Dtos.Product
         public byte? DiscountPercentage { get; set; }
 
         public decimal? DiscountedPrice =>
-            DiscountPercentage.HasValue ? Price - (Price * DiscountPercentage.Value / 100) : null;
+            DiscountPercentage.HasValue ? Price - Price * DiscountPercentage.Value / 100 : null;
 
         public string? ImageUrl { get; set; }
     }

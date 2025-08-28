@@ -2,7 +2,7 @@
 using AVMAPP.Data.APi.Models;
 using AVMAPP.Data.Entities;
 using AVMAPP.Models.DTo.Dtos;
-using AVMAPP.Models.DTo.Dtos.Cart;
+using AVMAPP.Models.DTo.Models.Cart;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

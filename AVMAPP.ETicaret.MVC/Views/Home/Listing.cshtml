@@ -1,4 +1,5 @@
-﻿@model IEnumerable<ProductListingViewModel>
+﻿@using AVMAPP.Models.DTo.Models.Product
+@model IEnumerable<ProductListingViewModel>
 @{
     ViewData["Title"] = "Listing";
     var discountedProducts = Model.Where(x => x.DiscountPercentage is not null).ToList();

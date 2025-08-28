@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using AVMAPP.Data.Entities;
 using AVMAPP.ETicaret.MVC.Models;
-using AVMAPP.Models.DTo.Dtos.Home;
-using AVMAPP.Models.DTo.Dtos.Product;
+using AVMAPP.Models.DTo.Models.Home;
+using AVMAPP.Models.DTo.Models.Product;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 

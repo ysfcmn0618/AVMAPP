@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using AVMAPP.Models.DTo.Dtos;
-using AVMAPP.Models.DTo.Dtos.Auth;
+using AVMAPP.Models.DTo.Models.Auth;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;

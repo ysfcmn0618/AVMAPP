@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AVMAPP.Models.DTo.Dtos.Home
+namespace AVMAPP.Models.DTo.Models.Home
 {
     public class NewContactFormMessageViewModel
     {

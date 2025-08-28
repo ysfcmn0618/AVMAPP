@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AVMAPP.Models.DTo.Dtos.Home
+namespace AVMAPP.Models.DTo.Models.Home
 {
     public class HomeProductDetailViewModel
     {
@@ -13,7 +13,7 @@ namespace AVMAPP.Models.DTo.Dtos.Home
         public decimal Price { get; set; }
         public byte? DiscountRate { get; set; }
         public decimal? DiscountedPrice =>
-            DiscountRate.HasValue ? Price - (Price * DiscountRate.Value / 100) : null;
+            DiscountRate.HasValue ? Price - Price * DiscountRate.Value / 100 : null;
         public string Description { get; set; } = null!;
         public byte StockAmount { get; set; }
         public string SellerName { get; set; } = null!;

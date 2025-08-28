@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AVMAPP.Models.DTo.Dtos.Cart
+namespace AVMAPP.Models.DTo.Models.Cart
 {
     public class CartItemViewModel
     {
