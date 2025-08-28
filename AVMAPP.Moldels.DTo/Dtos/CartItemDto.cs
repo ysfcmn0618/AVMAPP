@@ -1,13 +1,18 @@
 ﻿
+using AVMAPP.Data.APi.Models;
+using AVMAPP.Data.Entities;
+
 namespace AVMAPP.Models.DTo.Dtos
-  
+
 {
     public class CartItemDto
-    {       
-            public Guid UserId { get; set; }
-            public int ProductId { get; set; }
-            public byte Quantity { get; set; }          
-            public bool IsActive { get; set; }
-            public bool IsDeleted { get; set; }       
+    {
+        public int Id { get; set; }
+        public Guid UserId { get; set; }
+        public int ProductId { get; set; }
+        public byte Quantity { get; set; }
+        public bool IsActive { get; set; }
+        public bool IsDeleted { get; set; }
+        public ProductDto Product { get; set; } = null!;
     }
 }

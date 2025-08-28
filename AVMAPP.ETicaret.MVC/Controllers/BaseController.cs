@@ -38,7 +38,15 @@ namespace AVMAPP.ETicaret.MVC.Controllers
 
         protected bool IsUserLoggedIn() => /*GetCookie("userId") != null;*/User.Identity?.IsAuthenticated ?? false;
 
-        protected int? GetUserId() => /*int.TryParse(GetCookie("userId"), out int userId) ? userId : null;*/int.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out int userId) ? userId : null;
+        protected Guid? GetUserId()
+        {
+            var userIdValue = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (Guid.TryParse(userIdValue, out Guid userId))
+                return userId;
+
+            return null;
+        }
 
 
         protected async Task<bool> IsUserAdminAsync()
