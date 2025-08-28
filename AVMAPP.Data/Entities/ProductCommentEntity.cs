@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AVMAPP.Data.Entities
 {
-    public class ProductCommentEntity:IGenericField
+    public class ProductCommentEntity:GenericField
     {
         public int ProductId { get; set; }
         public ProductEntity? Product { get; set; }
@@ -14,13 +14,6 @@ namespace AVMAPP.Data.Entities
         public UserEntity? User { get; set; }
         public string? Comment { get; set; }
         public byte StarCount { get; set; }
-        public bool IsConfirmed { get; set; }
-
-        // IGenericField alanları
-        public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
-        public bool IsActive { get; set; }
-        public bool IsDeleted { get; set; }
-        public int Id { get; set; }
+        public bool IsConfirmed { get; set; }       
     }
 }

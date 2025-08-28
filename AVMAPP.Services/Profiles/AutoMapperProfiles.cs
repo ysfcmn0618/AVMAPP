@@ -4,6 +4,7 @@ using AVMAPP.Data.APi.Models.Dtos;
 using AVMAPP.Data.Entities;
 using AVMAPP.Models.DTo.Dtos;
 using AVMAPP.Models.DTo.Models.Home;
+using AVMAPP.Models.DTo.Models.Product;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -92,23 +93,36 @@ namespace AVMAPP.Services.Profiles
     {
         public ProductCommentProfile()
         {
-            CreateMap<ProductCommentEntity, ProductCommentDto>()
-                .ReverseMap()
+            // DTO → Entity mapping
+            CreateMap<ProductCommentDto, ProductCommentEntity>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
+                .ForMember(dest => dest.UpdatedAt, opt => opt.Ignore())
                 .ForMember(dest => dest.ProductId, opt => opt.Ignore())
                 .ForMember(dest => dest.UserId, opt => opt.Ignore())
-                .ForMember(dest => dest.IsDeleted, opt => opt.Ignore())
                 .ForMember(dest => dest.IsActive, opt => opt.Ignore())
+                .ForMember(dest => dest.IsDeleted, opt => opt.Ignore())
                 .ForMember(dest => dest.IsConfirmed, opt => opt.Ignore())
-            ;
+                .ForMember(dest => dest.Product, opt => opt.Ignore())
+                .ForMember(dest => dest.User, opt => opt.Ignore());
+
+            // Entity → DTO mapping (isteğe bağlı)
+            CreateMap<ProductCommentEntity, ProductCommentDto>();
         }
     }
     public class ProductProfile : Profile
     {
         public ProductProfile()
         {
-            CreateMap<ProductEntity, ProductDto>().ReverseMap();
+            // Entity -> DTO
+            CreateMap<ProductEntity, ProductDto>()
+                .ForMember(dest => dest.Images,
+                           opt => opt.MapFrom(src => src.Images.Select(i => i.Url).ToList()))
+                .ReverseMap();
+
+            // DTO -> SaveProductViewModel
+            CreateMap<ProductDto, SaveProductViewModel>()
+                .ReverseMap();
         }
     }
     public class ProductImageProfile : Profile
