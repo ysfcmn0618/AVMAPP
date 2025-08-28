@@ -116,8 +116,7 @@ namespace AVMAPP.Services.Profiles
         {
             // Entity -> DTO
             CreateMap<ProductEntity, ProductDto>()
-                .ForMember(dest => dest.Images,
-                           opt => opt.MapFrom(src => src.Images.Select(i => i.Url).ToList()))
+                .ForMember(d => d.Images, opt => opt.MapFrom(s => s.Images))
                 .ReverseMap();
 
             // DTO -> SaveProductViewModel

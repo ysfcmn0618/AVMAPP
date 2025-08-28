@@ -10,17 +10,17 @@ namespace AVMAPP.Models.DTo.Models.Product
 {
     public class SaveProductViewModel
     {
-        public int SellerId { get; set; }
+        public Guid SellerId { get; set; }
 
         [Required]
         public int CategoryId { get; set; }
 
         public int? DiscountId { get; set; }
 
-        [Required, MinLength(3), MaxLength(100)]
+        [Required, MinLength(2), MaxLength(50)]
         public string Name { get; set; } = null!;
 
-        [Required, Range(0.01, double.MaxValue), DataType(DataType.Currency)]
+        [Required, Range(typeof(decimal), "0.01", "79228162514264337593543950335"), DataType(DataType.Currency)]
         public decimal Price { get; set; }
 
         [MaxLength(1000)]

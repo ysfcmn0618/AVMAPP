@@ -27,6 +27,7 @@ namespace AVMAPP.Data.Infrastructure.AVMDbContext
         public DbSet<CategoryEntity> Categories { get; set; }
         public DbSet<CartItemEntity> CartItems { get; set; }
         public DbSet<ContactFormEntity> ContactForms { get; set; }
+        public DbSet<DiscountEntity> Discounts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -41,6 +42,7 @@ namespace AVMAPP.Data.Infrastructure.AVMDbContext
             builder.Entity<CategoryEntity>().ToTable("Categories");
             builder.Entity<CartItemEntity>().ToTable("CartItems");
             builder.Entity<ContactFormEntity>().ToTable("ContactForms");
+            builder.Entity<DiscountEntity>().ToTable("Discounts");
 
             // RoleEntity mapping********************************************************************
             builder.Entity<RoleEntity>().Property(r => r.CreatedAt)
@@ -95,6 +97,11 @@ namespace AVMAPP.Data.Infrastructure.AVMDbContext
             builder.Entity<ProductEntity>()
         .Property(p => p.Price)
         .HasColumnType("decimal(18,2)");
+            builder.Entity<ProductEntity>()
+                .HasOne(o=>o.Discount)
+                .WithOne()
+                .HasForeignKey<ProductEntity>(p=>p.DiscountId)
+                .OnDelete(DeleteBehavior.SetNull);
             //bir ürünün çok yorumu bir yorum bir ürününün olabilir
             builder.Entity<ProductEntity>()
                 .HasMany(c => c.Comments)
@@ -123,8 +130,9 @@ namespace AVMAPP.Data.Infrastructure.AVMDbContext
                 .OnDelete(DeleteBehavior.Restrict);
             builder.Entity<OrderItemEntity>()
        .Property(p => p.UnitPrice)
-       .HasColumnType("decimal(18,2)");           
-
+       .HasColumnType("decimal(18,2)");
+            //Discount Entity mapping --------------------------------------------------------
+            
             AppDbSeeder.Seed(builder);
         }
     }

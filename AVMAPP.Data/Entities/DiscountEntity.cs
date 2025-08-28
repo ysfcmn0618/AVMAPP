@@ -15,16 +15,7 @@ namespace AVMAPP.Data.Entities
         public DateTime EndDate { get; set; }
         public bool Enabled { get; set; } = true;
     }
-
-    internal class DiscountEntityConfiguration : IEntityTypeConfiguration<DiscountEntity>
-    {
-        public void Configure(EntityTypeBuilder<DiscountEntity> builder)
-        {
-            builder.HasKey(e => e.Id);
-            builder.Property(e => e.Enabled).IsRequired().HasDefaultValue(true);
-            builder.Property(e => e.CreatedAt).IsRequired();           
-        }
-    }
+    
 
     
 }
