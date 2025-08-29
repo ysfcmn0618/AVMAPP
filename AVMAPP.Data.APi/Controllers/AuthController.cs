@@ -41,7 +41,7 @@ namespace AVMAPP.API.Controllers
                 {
                     existingUser.Id,
                     existingUser.Email,
-                    Role = existingUser.Role.Name
+                    Roles = existingUser.Role.Name
                 }
             });
         }
@@ -49,6 +49,7 @@ namespace AVMAPP.API.Controllers
         [HttpPost("logout")]
         public IActionResult Logout()
         {
+            Response.Cookies.Delete("jwt");
             return Ok(new { Message = "Logout successful. Please remove the token on client side." });
         }
         [HttpPost("register")]

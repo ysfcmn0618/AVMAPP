@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 using System.Net;
 using System.Net.Http;
 using System.Net.Mail;
@@ -60,18 +61,15 @@ namespace AVMAPP.ETicaret.MVC.Controllers
             return View();
         }
 
-        //[Route("login")]
-        [Route("/login")]
         [HttpPost]
+        [Route("/login")]
         public async Task<IActionResult> Login(LoginViewModel loginDto)
         {
             if (!ModelState.IsValid)
                 return View(loginDto);
 
-            var client = clientFactory.CreateClient("ApiClient");
-
-            var content = new StringContent(JsonSerializer.Serialize(loginDto), Encoding.UTF8, "application/json");
-            var response = await client.PostAsync("api/Auth/login", content);
+            // API'ye giriş isteği gönder
+            var response = await Client.PostAsJsonAsync("api/Auth/login", loginDto);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -79,23 +77,30 @@ namespace AVMAPP.ETicaret.MVC.Controllers
                 return View(loginDto);
             }
 
-            var responseString = await response.Content.ReadAsStringAsync();
-            var jsonDoc = JsonDocument.Parse(responseString);
-            var token = jsonDoc.RootElement.GetProperty("token").GetString();
+            // API'den token ve kullanıcı bilgilerini al
+            var loginResult = await response.Content.ReadFromJsonAsync<LoginResponseDto>();
 
-            if (!string.IsNullOrEmpty(token))
+            if (loginResult == null || string.IsNullOrEmpty(loginResult.Token) || loginResult.User == null)
             {
-                Response.Cookies.Append("jwt_token", token, new CookieOptions
-                {
-                    HttpOnly = true,
-                    Secure = true,
-                    SameSite = SameSiteMode.Strict,
-                    Expires = DateTime.UtcNow.AddMinutes(60)
-                });
+                ModelState.AddModelError("", "Giriş işlemi başarısız oldu.");
+                return View(loginDto);
             }
+
+            // JWT token'ı cookie'de sakla (HttpOnly)
+            Response.Cookies.Append("jwt_token", loginResult.Token, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict,
+                Expires = DateTime.UtcNow.AddMinutes(60)
+            });
+
+            // MVC Cookie Authentication ile kullanıcıyı oturum açtır
+            await LogInAsync(loginResult.User);
 
             return RedirectToAction("Index", "Home");
         }
+
 
         [Route("forgot-password")]
         [HttpGet]
@@ -223,32 +228,31 @@ namespace AVMAPP.ETicaret.MVC.Controllers
             return RedirectToAction(nameof(Login));
         }
         private async Task LogInAsync(UserDto user)
-        {           
-            if (user == null)
-            {
-                return;
-            }
-
+        {
             var claims = new List<Claim>
-            {
-                new(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new(ClaimTypes.Name, user.FirstName),
-                new(ClaimTypes.Surname, user.LastName),
-                new(ClaimTypes.Email, user.Email),
-                new(ClaimTypes.Role, user.Role.Name),
-            };
+    {
+        new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+        new Claim(ClaimTypes.Name, $"{user.FirstName} {user.LastName}"),
+        new Claim(ClaimTypes.Email, user.Email),
+        new Claim(ClaimTypes.Role, user.Role.Name)
+    };
 
-            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            var principal = new ClaimsPrincipal(identity);
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var authProperties = new AuthenticationProperties
             {
                 IsPersistent = true,
-                ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(30),
+                ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(60)
             };
 
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, authProperties);
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(claimsIdentity),
+                authProperties
+            );
         }
-        private async Task LogoutUser()
+        [Route("/logout")]
+        [HttpGet]
+        public async Task<IActionResult> LogoutUser()
         {
             // TODO: Authorization implemente edildikten sonra bu metot tamamlanacak...
 
@@ -258,6 +262,7 @@ namespace AVMAPP.ETicaret.MVC.Controllers
             RemoveCookie("surname");
             RemoveCookie("role");
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction(nameof(Login));
         }
         private async Task SendResetPasswordEmailAsync(UserDto user)
         {

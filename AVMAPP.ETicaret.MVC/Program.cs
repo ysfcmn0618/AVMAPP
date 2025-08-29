@@ -10,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddTransient<TokenAttachHandler>();
+
 builder.Services.ConfigureMvcServices(builder.Configuration);
 builder.Services.AddHttpClient("ApiClient", client =>
 {
@@ -23,6 +24,12 @@ builder.Services
     .AddCookie(options =>
     {
         options.LoginPath = "/login";
+    });
+
+builder.Services.AddAuthorization(options =>
+    {
+        options.AddPolicy("Buyer", policy => policy.RequireRole("Buyer"));
+        options.AddPolicy("Seller", policy => policy.RequireRole("Seller"));
     });
 
 var app = builder.Build();
