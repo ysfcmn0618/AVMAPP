@@ -1,4 +1,5 @@
-﻿using AVMAPP.Data.Entities;
+﻿using AutoMapper;
+using AVMAPP.Data.Entities;
 using AVMAPP.Data.Infrastructure;
 using AVMAPP.Models.DTo.Dtos;
 using AVMAPP.Services;
@@ -11,7 +12,7 @@ namespace AVMAPP.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class AuthController(IGenericRepository<UserEntity> _repo, TokenService _tokenService) : ControllerBase
+    public class AuthController(IGenericRepository<UserEntity> _repo, TokenService _tokenService,IMapper mapper) : ControllerBase
     {
         
 
@@ -49,6 +50,13 @@ namespace AVMAPP.API.Controllers
         public IActionResult Logout()
         {
             return Ok(new { Message = "Logout successful. Please remove the token on client side." });
+        }
+        [HttpPost("register")]
+        public async Task<IActionResult> Register(UserDto dto)
+        {
+            var user = mapper.Map<UserEntity>(dto);
+            await _repo.Add(user);
+            return Ok(new { message = "Kayıt başarılı" });
         }
     }
 }

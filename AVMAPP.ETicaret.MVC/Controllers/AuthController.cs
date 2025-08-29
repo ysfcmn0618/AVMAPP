@@ -35,19 +35,21 @@ namespace AVMAPP.ETicaret.MVC.Controllers
             //Mapleme işlemleri lazım
             var user = _mapper.Map<UserDto>(newUser);
 
-            var response = await Client.PostAsJsonAsync("api/User", user);
+            var response = await Client.PostAsJsonAsync("/api/auth/register", user);
 
             if (!response.IsSuccessStatusCode)
             {
                 ModelState.AddModelError(string.Empty, "Kayıt işlemi başarısız. Lütfen tekrar deneyin.");
                 return View(newUser);
             }
+            else {
+                SetSuccessMessage("Kayıt işlemi başarılı. Giriş yapabilirsiniz.");
 
-            SetSuccessMessage("Kayıt işlemi başarılı. Giriş yapabilirsiniz.");
+                ModelState.Clear();
+            }
 
-            ModelState.Clear();
 
-            return View();
+            return RedirectToAction("Index", "Home");
         }
 
 

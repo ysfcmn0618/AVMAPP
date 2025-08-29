@@ -72,6 +72,26 @@ namespace AVMAPP.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Discounts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DiscountRate = table.Column<byte>(type: "tinyint", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Enabled = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Discounts", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Roles",
                 columns: table => new
                 {
@@ -82,8 +102,7 @@ namespace AVMAPP.Data.Migrations
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    NormalizedName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    NormalizedName = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -95,15 +114,18 @@ namespace AVMAPP.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NormalizedUserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    NormalizedEmail = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AddressOther = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ResetPasswordToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     FullName = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -133,7 +155,7 @@ namespace AVMAPP.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    OrderCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OrderCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
@@ -164,9 +186,10 @@ namespace AVMAPP.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     SellerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
+                    DiscountId = table.Column<int>(type: "int", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Details = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     StockAmount = table.Column<byte>(type: "tinyint", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -182,6 +205,12 @@ namespace AVMAPP.Data.Migrations
                         principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Products_Discounts_DiscountId",
+                        column: x => x.DiscountId,
+                        principalTable: "Discounts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
                     table.ForeignKey(
                         name: "FK_Products_Users_SellerId",
                         column: x => x.SellerId,
@@ -248,7 +277,7 @@ namespace AVMAPP.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProductId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     StarCount = table.Column<byte>(type: "tinyint", nullable: false),
                     IsConfirmed = table.Column<bool>(type: "bit", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -302,46 +331,46 @@ namespace AVMAPP.Data.Migrations
                 columns: new[] { "Id", "Color", "CreatedAt", "Icon", "IsActive", "IsDeleted", "Name", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { 1, "#FF5733", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "icon-avg", false, false, "Elektronik", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 2, "#FF5733", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "icon-avg", false, false, "Kitap", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 3, "#FF5733", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "icon-avg", false, false, "Giyim", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 4, "#FF5733", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "icon-avg", false, false, "Ev & Yaşam", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 5, "#FF5733", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "icon-avg", false, false, "Spor & Outdoor", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 6, "#FF5733", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "icon-avg", false, false, "Güzellik & Kişisel Bakım", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 7, "#FF5733", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "icon-avg", false, false, "Oyun & Eğlence", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 8, "#FF5733", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "icon-avg", false, false, "Müzik & Film", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 9, "#FF5733", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "icon-avg", false, false, "Ofis & Kırtasiye", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 10, "#FF5733", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "icon-avg", false, false, "Evcil Hayvan", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                    { 1, "#FFFFFF", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "icon-avg", false, false, "Elektronik", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2, "#FFFFFF", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "icon-avg", false, false, "Kitap", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 3, "#FFFFFF", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "icon-avg", false, false, "Giyim", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 4, "#FFFFFF", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "icon-avg", false, false, "Ev & Yaşam", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 5, "#FFFFFF", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "icon-avg", false, false, "Spor & Outdoor", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 6, "#FFFFFF", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "icon-avg", false, false, "Güzellik & Kişisel Bakım", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 7, "#FFFFFF", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "icon-avg", false, false, "Oyun & Eğlence", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 8, "#FFFFFF", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "icon-avg", false, false, "Müzik & Film", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 9, "#FFFFFF", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "icon-avg", false, false, "Ofis & Kırtasiye", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 10, "#FFFFFF", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "icon-avg", false, false, "Evcil Hayvan", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.InsertData(
                 table: "Roles",
-                columns: new[] { "Id", "ConcurrencyStamp", "Description", "IsActive", "IsDeleted", "Name", "NormalizedName" },
+                columns: new[] { "Id", "CreatedAt", "Description", "IsActive", "IsDeleted", "Name", "NormalizedName", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { new Guid("c5e8a91e-bcc9-4e0c-a602-b66e4217766e"), null, null, false, false, "Seller", "SELLER" },
-                    { new Guid("d0ad2064-227a-4a60-b3ea-503b6cf3c407"), null, null, false, false, "Buyer", "BUYER" },
-                    { new Guid("e1f49a71-5580-4d0f-b31f-a3552df64a92"), null, null, false, false, "Admin", "ADMIN" }
+                    { new Guid("c5e8a91e-bcc9-4e0c-a602-b66e4217766e"), new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, true, false, "Seller", "SELLER", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { new Guid("d0ad2064-227a-4a60-b3ea-503b6cf3c407"), new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, true, false, "Buyer", "BUYER", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { new Guid("e1f49a71-5580-4d0f-b31f-a3552df64a92"), new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, true, false, "Admin", "ADMIN", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "Address", "AddressOther", "CreatedAt", "Email", "EmailConfirmed", "FirstName", "FullName", "IsActive", "IsDeleted", "LastName", "Password", "PasswordHash", "RefreshToken", "RefreshTokenExpiryTime", "ResetPasswordToken", "RoleId", "SecurityStamp", "UpdatedAt", "UserName" },
+                columns: new[] { "Id", "Address", "AddressOther", "ConcurrencyStamp", "CreatedAt", "Email", "EmailConfirmed", "FirstName", "FullName", "IsActive", "IsDeleted", "LastName", "NormalizedEmail", "NormalizedUserName", "Password", "PasswordHash", "RefreshToken", "RefreshTokenExpiryTime", "ResetPasswordToken", "RoleId", "SecurityStamp", "UpdatedAt", "UserName" },
                 values: new object[,]
                 {
-                    { new Guid("750ed85d-43c8-4d17-80d8-d9b50e6d5a7b"), null, null, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "buyer@test.com", true, null, null, true, false, null, "1111-0101", "AQAAAAIAAYagAAAAEFIJdP7yFBvj5H1Bs0zEmTwjYXoZmF4Ezm93t2B+/m3kDzPDoB5b2YNCdpyKQ/IjxQ==", null, null, null, new Guid("d0ad2064-227a-4a60-b3ea-503b6cf3c407"), "seed-stamp-buyer", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "testbuyer" },
-                    { new Guid("77e4b007-410a-482f-a088-b40461f946ff"), null, null, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "seller@test.com", true, null, null, true, false, null, "1111-0101", "AQAAAAIAAYagAAAAEHYo+ooJkTef/1AgVd04PWzmlgCznd+pn18vXkqzWJEFsbQBGrEL5M22DHUILR5GJA==", null, null, null, new Guid("c5e8a91e-bcc9-4e0c-a602-b66e4217766e"), "seed-stamp-seller", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "testseller" },
-                    { new Guid("b27b80d8-12f4-46a9-9ecc-f8db4913b801"), null, null, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin@test.com", true, null, null, true, false, null, "1111-0101", "AQAAAAIAAYagAAAAEN+N9sUk09P871lQPWMjUaZrTZmECuLiQanXo7KJ8+selOdUUefIoGX6MltCgjN+RA==", null, null, null, new Guid("e1f49a71-5580-4d0f-b31f-a3552df64a92"), "seed-stamp-admin", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "testadmin" }
+                    { new Guid("a1111111-1111-1111-1111-111111111111"), null, null, "38b7e000-c033-446b-98cf-7fffb4765426", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin@test.com", true, null, null, true, false, null, "ADMIN@TEST.COM", "TESTADMIN", null, "AQAAAAIAAYagAAAAEONqEsAUDFuUF4rEAf+vIPgrKSILcZPvyOAWODA6XXSeLh680RqwjmsNKn4t7923kw==", null, null, null, new Guid("e1f49a71-5580-4d0f-b31f-a3552df64a92"), "e7bd329d-5498-4cb3-b8fb-00ab0ae8a7c5", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "testadmin" },
+                    { new Guid("a2222222-2222-2222-2222-222222222222"), null, null, "fabde7d2-7cbb-4a13-99d3-c99aedb0298f", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "seller@test.com", true, null, null, true, false, null, "SELLER@TEST.COM", "TESTSELLER", null, "AQAAAAIAAYagAAAAEFSLR9BMJt94uID2KVD3Ak3T13GOX3iLbViZsrND29YZnHoEgUDYE4CJU+703yJsDQ==", null, null, null, new Guid("c5e8a91e-bcc9-4e0c-a602-b66e4217766e"), "076ea992-7fe4-48a2-9db6-17cf20b66b2d", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "testseller" },
+                    { new Guid("a3333333-3333-3333-3333-333333333333"), null, null, "f36aecf0-02b3-40ed-ac78-c710d831311c", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "buyer@test.com", true, null, null, true, false, null, "BUYER@TEST.COM", "TESTBUYER", null, "AQAAAAIAAYagAAAAELtTfwaOJm6ohXnx0TRK4qDPvoqvt/DklMN97GcrTpAs81n5n01shXI2XcJJR2FdfA==", null, null, null, new Guid("d0ad2064-227a-4a60-b3ea-503b6cf3c407"), "560ff942-364a-4393-a6b7-2e800875a528", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "testbuyer" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "Id", "CategoryId", "CreatedAt", "Details", "IsActive", "IsDeleted", "Name", "Price", "SellerId", "StockAmount", "UpdatedAt" },
+                columns: new[] { "Id", "CategoryId", "CreatedAt", "Description", "DiscountId", "IsActive", "IsDeleted", "Name", "Price", "SellerId", "StockAmount", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { 1, 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Yeni nesil telefon", false, false, "Akıllı Telefon", 10000m, new Guid("77e4b007-410a-482f-a088-b40461f946ff"), (byte)0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 2, 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Popüler roman", false, false, "Roman Kitabı", 150m, new Guid("77e4b007-410a-482f-a088-b40461f946ff"), (byte)0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 3, 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Pamuklu tişört", false, false, "Tişört", 50m, new Guid("77e4b007-410a-482f-a088-b40461f946ff"), (byte)0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                    { 1, 1, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Yeni nesil telefon", null, true, false, "Akıllı Telefon", 10000m, new Guid("a2222222-2222-2222-2222-222222222222"), (byte)100, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2, 2, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Popüler roman", null, true, false, "Roman Kitabı", 150m, new Guid("a2222222-2222-2222-2222-222222222222"), (byte)200, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 3, 3, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Pamuklu tişört", null, true, false, "Tişört", 50m, new Guid("a2222222-2222-2222-2222-222222222222"), (byte)245, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.InsertData(
@@ -349,8 +378,8 @@ namespace AVMAPP.Data.Migrations
                 columns: new[] { "Id", "Comment", "CreatedAt", "IsActive", "IsConfirmed", "IsDeleted", "ProductId", "StarCount", "UpdatedAt", "UserId" },
                 values: new object[,]
                 {
-                    { 1, "Bu kitabı çok beğendim!", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), true, false, false, 2, (byte)5, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("b27b80d8-12f4-46a9-9ecc-f8db4913b801") },
-                    { 2, "Oldukça rahattı", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), true, false, false, 3, (byte)4, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("b27b80d8-12f4-46a9-9ecc-f8db4913b801") }
+                    { 1, "Bu kitabı çok beğendim!", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), true, true, false, 2, (byte)5, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("a1111111-1111-1111-1111-111111111111") },
+                    { 2, "Oldukça rahattı", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), true, true, false, 3, (byte)4, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("a1111111-1111-1111-1111-111111111111") }
                 });
 
             migrationBuilder.InsertData(
@@ -397,6 +426,13 @@ namespace AVMAPP.Data.Migrations
                 name: "IX_Products_CategoryId",
                 table: "Products",
                 column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_DiscountId",
+                table: "Products",
+                column: "DiscountId",
+                unique: true,
+                filter: "[DiscountId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_SellerId",
@@ -449,6 +485,9 @@ namespace AVMAPP.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Categories");
+
+            migrationBuilder.DropTable(
+                name: "Discounts");
 
             migrationBuilder.DropTable(
                 name: "Users");

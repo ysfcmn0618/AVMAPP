@@ -2,10 +2,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AVMAPP.Data.Infrastructure.AVMDbContext.Seed
 {
@@ -13,64 +9,44 @@ namespace AVMAPP.Data.Infrastructure.AVMDbContext.Seed
     {
         public static void Seed(ModelBuilder builder)
         {
+            // Sabit GUID'ler (ilişkilerde ve tekrar migrationda tutarlılık için)
             var roleAdminId = Guid.Parse("e1f49a71-5580-4d0f-b31f-a3552df64a92");
             var roleSellerId = Guid.Parse("c5e8a91e-bcc9-4e0c-a602-b66e4217766e");
             var roleBuyerId = Guid.Parse("d0ad2064-227a-4a60-b3ea-503b6cf3c407");
 
-            var user1Id = Guid.NewGuid();
-            var user2Id = Guid.NewGuid();
-            var user3Id = Guid.NewGuid();
+            var user1Id = Guid.Parse("a1111111-1111-1111-1111-111111111111");
+            var user2Id = Guid.Parse("a2222222-2222-2222-2222-222222222222");
+            var user3Id = Guid.Parse("a3333333-3333-3333-3333-333333333333");
 
             var now = new DateTime(2025, 01, 01);
 
+            // Roller
             builder.Entity<RoleEntity>().HasData(
-                new RoleEntity { Id = roleAdminId, Name = "Admin", NormalizedName = "ADMIN" },
-                new RoleEntity { Id = roleSellerId, Name = "Seller", NormalizedName = "SELLER" },
-                new RoleEntity { Id = roleBuyerId, Name = "Buyer", NormalizedName = "BUYER" }
-            );
-
-            var hasher = new PasswordHasher<UserEntity>();
-            var adminHash = hasher.HashPassword(null, "Admin123!");
-            var sellerHash = hasher.HashPassword(null, "Seller123!");
-            var buyerHash = hasher.HashPassword(null, "Buyer123!");
-            builder.Entity<UserEntity>().HasData(
-                new UserEntity
+                new RoleEntity
                 {
-                    Id = user1Id,
-                    Email = "admin@test.com",
-                    UserName = "testadmin",
-                    EmailConfirmed = true,
-                    PasswordHash = adminHash,
-                    RoleId = roleAdminId,
-                    SecurityStamp = "seed-stamp-admin",
+                    Id = roleAdminId,
+                    Name = "Admin",
+                    NormalizedName = "ADMIN",
                     CreatedAt = now,
                     UpdatedAt = now,
                     IsActive = true,
                     IsDeleted = false
                 },
-                new UserEntity
+                new RoleEntity
                 {
-                    Id = user2Id,
-                    Email = "seller@test.com",
-                    UserName = "testseller",
-                    EmailConfirmed = true,
-                    PasswordHash = sellerHash,
-                    RoleId = roleSellerId,
-                    SecurityStamp = "seed-stamp-seller",
+                    Id = roleSellerId,
+                    Name = "Seller",
+                    NormalizedName = "SELLER",
                     CreatedAt = now,
                     UpdatedAt = now,
                     IsActive = true,
                     IsDeleted = false
                 },
-                new UserEntity
+                new RoleEntity
                 {
-                    Id = user3Id,
-                    Email = "buyer@test.com",
-                    UserName = "testbuyer",
-                    EmailConfirmed = true,
-                    PasswordHash = buyerHash,
-                    RoleId = roleBuyerId,
-                    SecurityStamp = "seed-stamp-buyer",
+                    Id = roleBuyerId,
+                    Name = "Buyer",
+                    NormalizedName = "BUYER",
                     CreatedAt = now,
                     UpdatedAt = now,
                     IsActive = true,
@@ -78,6 +54,63 @@ namespace AVMAPP.Data.Infrastructure.AVMDbContext.Seed
                 }
             );
 
+            // Kullanıcılar
+            var hasher = new PasswordHasher<UserEntity>();
+            builder.Entity<UserEntity>().HasData(
+                new UserEntity
+                {
+                    Id = user1Id,
+                    UserName = "testadmin",
+                    Email = "admin@test.com",
+                    EmailConfirmed = true,
+                    PasswordHash = hasher.HashPassword(null, "Admin123!"),
+                    RoleId = roleAdminId,
+                    SecurityStamp = Guid.NewGuid().ToString(),
+                    CreatedAt = now,
+                    UpdatedAt = now,
+                    IsActive = true,
+                    IsDeleted = false,
+                    NormalizedUserName = "TESTADMIN",
+                    NormalizedEmail = "ADMIN@TEST.COM",
+                    ConcurrencyStamp = Guid.NewGuid().ToString()
+                },
+                new UserEntity
+                {
+                    Id = user2Id,
+                    UserName = "testseller",
+                    Email = "seller@test.com",
+                    EmailConfirmed = true,
+                    PasswordHash = hasher.HashPassword(null, "Seller123!"),
+                    RoleId = roleSellerId,
+                    SecurityStamp = Guid.NewGuid().ToString(),
+                    CreatedAt = now,
+                    UpdatedAt = now,
+                    IsActive = true,
+                    IsDeleted = false,
+                    NormalizedUserName = "TESTSELLER",
+                    NormalizedEmail = "SELLER@TEST.COM",
+                    ConcurrencyStamp = Guid.NewGuid().ToString()
+                },
+                new UserEntity
+                {
+                    Id = user3Id,
+                    UserName = "testbuyer",
+                    Email = "buyer@test.com",
+                    EmailConfirmed = true,
+                    PasswordHash = hasher.HashPassword(null, "Buyer123!"),
+                    RoleId = roleBuyerId,
+                    SecurityStamp = Guid.NewGuid().ToString(),
+                    CreatedAt = now,
+                    UpdatedAt = now,
+                    IsActive = true,
+                    IsDeleted = false,
+                    NormalizedUserName = "TESTBUYER",
+                    NormalizedEmail = "BUYER@TEST.COM",
+                    ConcurrencyStamp = Guid.NewGuid().ToString()
+                }
+            );
+
+            // Kategoriler
             builder.Entity<CategoryEntity>().HasData(
                 new CategoryEntity { Id = 1, Name = "Elektronik" },
                 new CategoryEntity { Id = 2, Name = "Kitap" },
@@ -91,21 +124,87 @@ namespace AVMAPP.Data.Infrastructure.AVMDbContext.Seed
                 new CategoryEntity { Id = 10, Name = "Evcil Hayvan" }
             );
 
+            // Ürünler (SellerId: user2Id, CategoryId: int)
             builder.Entity<ProductEntity>().HasData(
-                new ProductEntity { Id = 1, Name = "Akıllı Telefon", Description = "Yeni nesil telefon", Price = 10000, CategoryId = 1, SellerId = user2Id },
-                new ProductEntity { Id = 2, Name = "Roman Kitabı", Description = "Popüler roman", Price = 150, CategoryId = 2, SellerId = user2Id },
-                new ProductEntity { Id = 3, Name = "Tişört", Description = "Pamuklu tişört", Price = 50, CategoryId = 3, SellerId = user2Id }
+                new ProductEntity
+                {
+                    Id = 1,
+                    Name = "Akıllı Telefon",
+                    Description = "Yeni nesil telefon",
+                    Price = 10000,
+                    CategoryId = 1,
+                    SellerId = user2Id,
+                    CreatedAt = now,
+                    UpdatedAt = now,
+                    IsActive = true,
+                    IsDeleted = false,
+                    StockAmount = 100
+                },
+                new ProductEntity
+                {
+                    Id = 2,
+                    Name = "Roman Kitabı",
+                    Description = "Popüler roman",
+                    Price = 150,
+                    CategoryId = 2,
+                    SellerId = user2Id,
+                    CreatedAt = now,
+                    UpdatedAt = now,
+                    IsActive = true,
+                    IsDeleted = false,
+                    StockAmount = 200
+                },
+                new ProductEntity
+                {
+                    Id = 3,
+                    Name = "Tişört",
+                    Description = "Pamuklu tişört",
+                    Price = 50,
+                    CategoryId = 3,
+                    SellerId = user2Id,
+                    CreatedAt = now,
+                    UpdatedAt = now,
+                    IsActive = true,
+                    IsDeleted = false,
+                    StockAmount = 245
+                }
             );
 
+            // Ürün Resimleri
             builder.Entity<ProductImageEntity>().HasData(
                 new ProductImageEntity { Id = 1, ProductId = 1, Url = "https://picsum.photos/200/300" },
                 new ProductImageEntity { Id = 2, ProductId = 2, Url = "https://picsum.photos/200/300" },
                 new ProductImageEntity { Id = 3, ProductId = 3, Url = "https://picsum.photos/200/300" }
             );
 
+            // Ürün Yorumları (UserId: user1Id, ProductId: int)
             builder.Entity<ProductCommentEntity>().HasData(
-                new ProductCommentEntity { Id = 1, ProductId = 2, UserId = user1Id, Comment = "Bu kitabı çok beğendim!", StarCount = 5, CreatedAt = now, UpdatedAt = now, IsActive = true, IsDeleted = false },
-                new ProductCommentEntity { Id = 2, ProductId = 3, UserId = user1Id, Comment = "Oldukça rahattı", StarCount = 4, CreatedAt = now, UpdatedAt = now, IsActive = true, IsDeleted = false }
+                new ProductCommentEntity
+                {
+                    Id = 1,
+                    ProductId = 2,
+                    UserId = user1Id,
+                    Comment = "Bu kitabı çok beğendim!",
+                    StarCount = 5,
+                    CreatedAt = now,
+                    UpdatedAt = now,
+                    IsActive = true,
+                    IsDeleted = false,
+                    IsConfirmed = true
+                },
+                new ProductCommentEntity
+                {
+                    Id = 2,
+                    ProductId = 3,
+                    UserId = user1Id,
+                    Comment = "Oldukça rahattı",
+                    StarCount = 4,
+                    CreatedAt = now,
+                    UpdatedAt = now,
+                    IsActive = true,
+                    IsDeleted = false,
+                    IsConfirmed = true
+                }
             );
         }
     }

@@ -96,7 +96,7 @@ namespace AVMAPP.Data.Migrations
                         new
                         {
                             Id = 1,
-                            Color = "#FF5733",
+                            Color = "#FFFFFF",
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Icon = "icon-avg",
                             IsActive = false,
@@ -107,7 +107,7 @@ namespace AVMAPP.Data.Migrations
                         new
                         {
                             Id = 2,
-                            Color = "#FF5733",
+                            Color = "#FFFFFF",
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Icon = "icon-avg",
                             IsActive = false,
@@ -118,7 +118,7 @@ namespace AVMAPP.Data.Migrations
                         new
                         {
                             Id = 3,
-                            Color = "#FF5733",
+                            Color = "#FFFFFF",
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Icon = "icon-avg",
                             IsActive = false,
@@ -129,7 +129,7 @@ namespace AVMAPP.Data.Migrations
                         new
                         {
                             Id = 4,
-                            Color = "#FF5733",
+                            Color = "#FFFFFF",
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Icon = "icon-avg",
                             IsActive = false,
@@ -140,7 +140,7 @@ namespace AVMAPP.Data.Migrations
                         new
                         {
                             Id = 5,
-                            Color = "#FF5733",
+                            Color = "#FFFFFF",
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Icon = "icon-avg",
                             IsActive = false,
@@ -151,7 +151,7 @@ namespace AVMAPP.Data.Migrations
                         new
                         {
                             Id = 6,
-                            Color = "#FF5733",
+                            Color = "#FFFFFF",
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Icon = "icon-avg",
                             IsActive = false,
@@ -162,7 +162,7 @@ namespace AVMAPP.Data.Migrations
                         new
                         {
                             Id = 7,
-                            Color = "#FF5733",
+                            Color = "#FFFFFF",
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Icon = "icon-avg",
                             IsActive = false,
@@ -173,7 +173,7 @@ namespace AVMAPP.Data.Migrations
                         new
                         {
                             Id = 8,
-                            Color = "#FF5733",
+                            Color = "#FFFFFF",
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Icon = "icon-avg",
                             IsActive = false,
@@ -184,7 +184,7 @@ namespace AVMAPP.Data.Migrations
                         new
                         {
                             Id = 9,
-                            Color = "#FF5733",
+                            Color = "#FFFFFF",
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Icon = "icon-avg",
                             IsActive = false,
@@ -195,7 +195,7 @@ namespace AVMAPP.Data.Migrations
                         new
                         {
                             Id = 10,
-                            Color = "#FF5733",
+                            Color = "#FFFFFF",
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Icon = "icon-avg",
                             IsActive = false,
@@ -245,6 +245,43 @@ namespace AVMAPP.Data.Migrations
                     b.ToTable("ContactForms", (string)null);
                 });
 
+            modelBuilder.Entity("AVMAPP.Data.Entities.DiscountEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<byte>("DiscountRate")
+                        .HasColumnType("tinyint");
+
+                    b.Property<bool>("Enabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Discounts", (string)null);
+                });
+
             modelBuilder.Entity("AVMAPP.Data.Entities.OrderEntity", b =>
                 {
                     b.Property<int>("Id")
@@ -263,7 +300,6 @@ namespace AVMAPP.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("OrderCode")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -332,7 +368,6 @@ namespace AVMAPP.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Comment")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedAt")
@@ -374,12 +409,12 @@ namespace AVMAPP.Data.Migrations
                             Comment = "Bu kitabı çok beğendim!",
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true,
-                            IsConfirmed = false,
+                            IsConfirmed = true,
                             IsDeleted = false,
                             ProductId = 2,
                             StarCount = (byte)5,
                             UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            UserId = new Guid("b27b80d8-12f4-46a9-9ecc-f8db4913b801")
+                            UserId = new Guid("a1111111-1111-1111-1111-111111111111")
                         },
                         new
                         {
@@ -387,12 +422,12 @@ namespace AVMAPP.Data.Migrations
                             Comment = "Oldukça rahattı",
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true,
-                            IsConfirmed = false,
+                            IsConfirmed = true,
                             IsDeleted = false,
                             ProductId = 3,
                             StarCount = (byte)4,
                             UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            UserId = new Guid("b27b80d8-12f4-46a9-9ecc-f8db4913b801")
+                            UserId = new Guid("a1111111-1111-1111-1111-111111111111")
                         });
                 });
 
@@ -410,9 +445,12 @@ namespace AVMAPP.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Details")
+                    b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("DiscountId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -440,6 +478,10 @@ namespace AVMAPP.Data.Migrations
 
                     b.HasIndex("CategoryId");
 
+                    b.HasIndex("DiscountId")
+                        .IsUnique()
+                        .HasFilter("[DiscountId] IS NOT NULL");
+
                     b.HasIndex("SellerId");
 
                     b.ToTable("Products", (string)null);
@@ -449,43 +491,43 @@ namespace AVMAPP.Data.Migrations
                         {
                             Id = 1,
                             CategoryId = 1,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Details = "Yeni nesil telefon",
-                            IsActive = false,
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Yeni nesil telefon",
+                            IsActive = true,
                             IsDeleted = false,
                             Name = "Akıllı Telefon",
                             Price = 10000m,
-                            SellerId = new Guid("77e4b007-410a-482f-a088-b40461f946ff"),
-                            StockAmount = (byte)0,
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            SellerId = new Guid("a2222222-2222-2222-2222-222222222222"),
+                            StockAmount = (byte)100,
+                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 2,
                             CategoryId = 2,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Details = "Popüler roman",
-                            IsActive = false,
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Popüler roman",
+                            IsActive = true,
                             IsDeleted = false,
                             Name = "Roman Kitabı",
                             Price = 150m,
-                            SellerId = new Guid("77e4b007-410a-482f-a088-b40461f946ff"),
-                            StockAmount = (byte)0,
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            SellerId = new Guid("a2222222-2222-2222-2222-222222222222"),
+                            StockAmount = (byte)200,
+                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 3,
                             CategoryId = 3,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Details = "Pamuklu tişört",
-                            IsActive = false,
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Pamuklu tişört",
+                            IsActive = true,
                             IsDeleted = false,
                             Name = "Tişört",
                             Price = 50m,
-                            SellerId = new Guid("77e4b007-410a-482f-a088-b40461f946ff"),
-                            StockAmount = (byte)0,
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            SellerId = new Guid("a2222222-2222-2222-2222-222222222222"),
+                            StockAmount = (byte)245,
+                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -561,9 +603,6 @@ namespace AVMAPP.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("ConcurrencyStamp")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
@@ -583,6 +622,7 @@ namespace AVMAPP.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -598,32 +638,32 @@ namespace AVMAPP.Data.Migrations
                         new
                         {
                             Id = new Guid("e1f49a71-5580-4d0f-b31f-a3552df64a92"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsActive = false,
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsActive = true,
                             IsDeleted = false,
                             Name = "Admin",
                             NormalizedName = "ADMIN",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = new Guid("c5e8a91e-bcc9-4e0c-a602-b66e4217766e"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsActive = false,
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsActive = true,
                             IsDeleted = false,
                             Name = "Seller",
                             NormalizedName = "SELLER",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = new Guid("d0ad2064-227a-4a60-b3ea-503b6cf3c407"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsActive = false,
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsActive = true,
                             IsDeleted = false,
                             Name = "Buyer",
                             NormalizedName = "BUYER",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -637,6 +677,10 @@ namespace AVMAPP.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("AddressOther")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedAt")
@@ -664,8 +708,15 @@ namespace AVMAPP.Data.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Password")
+                    b.Property<string>("NormalizedEmail")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PasswordHash")
@@ -705,46 +756,52 @@ namespace AVMAPP.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("b27b80d8-12f4-46a9-9ecc-f8db4913b801"),
+                            Id = new Guid("a1111111-1111-1111-1111-111111111111"),
+                            ConcurrencyStamp = "38b7e000-c033-446b-98cf-7fffb4765426",
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "admin@test.com",
                             EmailConfirmed = true,
                             IsActive = true,
                             IsDeleted = false,
-                            Password = "1111-0101",
-                            PasswordHash = "AQAAAAIAAYagAAAAEN+N9sUk09P871lQPWMjUaZrTZmECuLiQanXo7KJ8+selOdUUefIoGX6MltCgjN+RA==",
+                            NormalizedEmail = "ADMIN@TEST.COM",
+                            NormalizedUserName = "TESTADMIN",
+                            PasswordHash = "AQAAAAIAAYagAAAAEONqEsAUDFuUF4rEAf+vIPgrKSILcZPvyOAWODA6XXSeLh680RqwjmsNKn4t7923kw==",
                             RoleId = new Guid("e1f49a71-5580-4d0f-b31f-a3552df64a92"),
-                            SecurityStamp = "seed-stamp-admin",
+                            SecurityStamp = "e7bd329d-5498-4cb3-b8fb-00ab0ae8a7c5",
                             UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             UserName = "testadmin"
                         },
                         new
                         {
-                            Id = new Guid("77e4b007-410a-482f-a088-b40461f946ff"),
+                            Id = new Guid("a2222222-2222-2222-2222-222222222222"),
+                            ConcurrencyStamp = "fabde7d2-7cbb-4a13-99d3-c99aedb0298f",
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "seller@test.com",
                             EmailConfirmed = true,
                             IsActive = true,
                             IsDeleted = false,
-                            Password = "1111-0101",
-                            PasswordHash = "AQAAAAIAAYagAAAAEHYo+ooJkTef/1AgVd04PWzmlgCznd+pn18vXkqzWJEFsbQBGrEL5M22DHUILR5GJA==",
+                            NormalizedEmail = "SELLER@TEST.COM",
+                            NormalizedUserName = "TESTSELLER",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFSLR9BMJt94uID2KVD3Ak3T13GOX3iLbViZsrND29YZnHoEgUDYE4CJU+703yJsDQ==",
                             RoleId = new Guid("c5e8a91e-bcc9-4e0c-a602-b66e4217766e"),
-                            SecurityStamp = "seed-stamp-seller",
+                            SecurityStamp = "076ea992-7fe4-48a2-9db6-17cf20b66b2d",
                             UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             UserName = "testseller"
                         },
                         new
                         {
-                            Id = new Guid("750ed85d-43c8-4d17-80d8-d9b50e6d5a7b"),
+                            Id = new Guid("a3333333-3333-3333-3333-333333333333"),
+                            ConcurrencyStamp = "f36aecf0-02b3-40ed-ac78-c710d831311c",
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "buyer@test.com",
                             EmailConfirmed = true,
                             IsActive = true,
                             IsDeleted = false,
-                            Password = "1111-0101",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFIJdP7yFBvj5H1Bs0zEmTwjYXoZmF4Ezm93t2B+/m3kDzPDoB5b2YNCdpyKQ/IjxQ==",
+                            NormalizedEmail = "BUYER@TEST.COM",
+                            NormalizedUserName = "TESTBUYER",
+                            PasswordHash = "AQAAAAIAAYagAAAAELtTfwaOJm6ohXnx0TRK4qDPvoqvt/DklMN97GcrTpAs81n5n01shXI2XcJJR2FdfA==",
                             RoleId = new Guid("d0ad2064-227a-4a60-b3ea-503b6cf3c407"),
-                            SecurityStamp = "seed-stamp-buyer",
+                            SecurityStamp = "560ff942-364a-4393-a6b7-2e800875a528",
                             UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             UserName = "testbuyer"
                         });
@@ -813,12 +870,19 @@ namespace AVMAPP.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("AVMAPP.Data.Entities.DiscountEntity", "Discount")
+                        .WithOne()
+                        .HasForeignKey("AVMAPP.Data.Entities.ProductEntity", "DiscountId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
                     b.HasOne("AVMAPP.Data.Entities.UserEntity", "Seller")
                         .WithMany("Products")
                         .HasForeignKey("SellerId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Category");
+
+                    b.Navigation("Discount");
 
                     b.Navigation("Seller");
                 });
