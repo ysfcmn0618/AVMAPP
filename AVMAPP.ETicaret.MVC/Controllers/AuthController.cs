@@ -5,13 +5,9 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Data;
 using System.Net;
-using System.Net.Http;
 using System.Net.Mail;
 using System.Security.Claims;
-using System.Text;
-using System.Text.Json;
 namespace AVMAPP.ETicaret.MVC.Controllers
 {
     [AllowAnonymous]
@@ -80,7 +76,11 @@ namespace AVMAPP.ETicaret.MVC.Controllers
             // API'den token ve kullanıcı bilgilerini al
             var loginResult = await response.Content.ReadFromJsonAsync<LoginResponseDto>();
 
-            if (loginResult == null || string.IsNullOrEmpty(loginResult.Token) || loginResult.User == null)
+            if (loginResult == null
+               || string.IsNullOrEmpty(loginResult.Token)
+               || loginResult.User == null
+               || loginResult.User.Role == null
+               || string.IsNullOrEmpty(loginResult.User.Role.Name))
             {
                 ModelState.AddModelError("", "Giriş işlemi başarısız oldu.");
                 return View(loginDto);
@@ -231,11 +231,11 @@ namespace AVMAPP.ETicaret.MVC.Controllers
         {
             var claims = new List<Claim>
     {
-        new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-        new Claim(ClaimTypes.Name, $"{user.FirstName} {user.LastName}"),
-        new Claim(ClaimTypes.Email, user.Email),
-        new Claim(ClaimTypes.Role, user.Role.Name)
-    };
+             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+             new Claim(ClaimTypes.Name, $"{user.FirstName ?? ""} {user.LastName ?? ""}".Trim()),
+             new Claim(ClaimTypes.Email, user.Email ?? string.Empty),
+             new Claim(ClaimTypes.Role, (user.Role?.Name ?? "").Replace("buyer","Buyer").Replace("seller","Seller"))
+            };
 
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var authProperties = new AuthenticationProperties
@@ -250,7 +250,7 @@ namespace AVMAPP.ETicaret.MVC.Controllers
                 authProperties
             );
         }
-        [Route("/logout")]
+        [NonAction]
         [HttpGet]
         public async Task<IActionResult> LogoutUser()
         {

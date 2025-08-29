@@ -30,6 +30,7 @@ builder.Services.AddAuthorization(options =>
     {
         options.AddPolicy("Buyer", policy => policy.RequireRole("Buyer"));
         options.AddPolicy("Seller", policy => policy.RequireRole("Seller"));
+        options.AddPolicy("BuyerOrSeller", policy => policy.RequireRole("Buyer", "Seller"));
     });
 
 var app = builder.Build();
