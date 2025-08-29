@@ -3,6 +3,7 @@ using AVMAPP.Data.APi.Models;
 using AVMAPP.Data.APi.Models.Dtos;
 using AVMAPP.Data.Entities;
 using AVMAPP.Models.DTo.Dtos;
+using AVMAPP.Models.DTo.Models.Auth;
 using AVMAPP.Models.DTo.Models.Home;
 using AVMAPP.Models.DTo.Models.Product;
 using System;
@@ -29,6 +30,8 @@ namespace AVMAPP.Services.Profiles
             CreateMap<UserEntity, UserDto>()
                 .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role.ToString()))
                 .ReverseMap();
+            CreateMap<RegisterUserViewModel, UserDto>()
+           .ReverseMap();
         }
     }
     public class  FormMessageProfile:Profile

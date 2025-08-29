@@ -1,9 +1,9 @@
-﻿@model SaveProductViewModel
+﻿@using AVMAPP.Models.DTo.Models.ViewModels
+@model SaveProductViewModel
 @inject IHttpClientFactory clientFactory;
 @{
     var client = clientFactory.CreateClient("Api.Data");
-    ViewData["Title"] = "Create Product";
-
+    ViewData["Title"] = "Edit Product";
     var discounts = await client.GetFromJsonAsync<List<DiscountSelectItemViewModel>>("Discounts");
     var categories = await client.GetFromJsonAsync<List<CategorySelectItemViewModel>>("Categories");
 
@@ -20,9 +20,9 @@
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-lg-6 mx-auto">
-            <h2 class="mb-3">Create Product</h2>
+            <h2 class="mb-3">Edit Product</h2>
             <partial name="Partials/ViewMessages" />
-            <form asp-action="Create" method="post" enctype="multipart/form-data">
+            <form asp-action="Edit" asp-route-productId="@(Context.GetRouteValue("productId"))" method="post">
                 <div class="form-group">
                     <label asp-for="CategoryId">Category</label>
                     <select asp-for="CategoryId" asp-items="@(new SelectList(categories, nameof(CategorySelectItemViewModel.Id), nameof(CategorySelectItemViewModel.Name)))" class="form-control">
@@ -44,7 +44,7 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="Price">Price</label>
-                    <input asp-for="Price" class="form-control" />
+                    <input asp-for="Price" class="form-control" type="number" step="0.01" />
                     <span asp-validation-for="Price" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -57,10 +57,8 @@
                     <input asp-for="StockAmount" class="form-control" />
                     <span asp-validation-for="StockAmount" class="text-danger"></span>
                 </div>
-                <div class="form-group">
-                    <partial name="Partials/ImageUpload" model="imageUploadModel" />
-                </div>
-                <button type="submit" class="btn btn-primary">Create</button>
+
+                <button type="submit" class="btn btn-primary">Save</button>
             </form>
         </div>
     </div>

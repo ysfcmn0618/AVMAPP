@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AVMAPP.File.APi\AVMAPP.File.APi.csproj" />
+    <ProjectReference Include="..\AVMAPP.Models.DTo\AVMAPP.Models.DTO.csproj" />
     <ProjectReference Include="..\AVMAPP.Moldels.DTo\AVMAPP.Models.DTo.csproj" />
     <ProjectReference Include="..\AVMAPP.Services\AVMAPP.Services.csproj" />
   </ItemGroup>

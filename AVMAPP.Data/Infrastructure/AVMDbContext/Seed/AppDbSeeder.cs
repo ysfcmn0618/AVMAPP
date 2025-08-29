@@ -30,6 +30,9 @@ namespace AVMAPP.Data.Infrastructure.AVMDbContext.Seed
             );
 
             var hasher = new PasswordHasher<UserEntity>();
+            var adminHash = hasher.HashPassword(null, "Admin123!");
+            var sellerHash = hasher.HashPassword(null, "Seller123!");
+            var buyerHash = hasher.HashPassword(null, "Buyer123!");
             builder.Entity<UserEntity>().HasData(
                 new UserEntity
                 {
@@ -37,7 +40,7 @@ namespace AVMAPP.Data.Infrastructure.AVMDbContext.Seed
                     Email = "admin@test.com",
                     UserName = "testadmin",
                     EmailConfirmed = true,
-                    PasswordHash = hasher.HashPassword(null, "Admin123!"),
+                    PasswordHash = adminHash,
                     RoleId = roleAdminId,
                     SecurityStamp = "seed-stamp-admin",
                     CreatedAt = now,
@@ -51,7 +54,7 @@ namespace AVMAPP.Data.Infrastructure.AVMDbContext.Seed
                     Email = "seller@test.com",
                     UserName = "testseller",
                     EmailConfirmed = true,
-                    PasswordHash = hasher.HashPassword(null, "Seller123!"),
+                    PasswordHash = sellerHash,
                     RoleId = roleSellerId,
                     SecurityStamp = "seed-stamp-seller",
                     CreatedAt = now,
@@ -65,7 +68,7 @@ namespace AVMAPP.Data.Infrastructure.AVMDbContext.Seed
                     Email = "buyer@test.com",
                     UserName = "testbuyer",
                     EmailConfirmed = true,
-                    PasswordHash = hasher.HashPassword(null, "Buyer123!"),
+                    PasswordHash = buyerHash,
                     RoleId = roleBuyerId,
                     SecurityStamp = "seed-stamp-buyer",
                     CreatedAt = now,
@@ -89,9 +92,9 @@ namespace AVMAPP.Data.Infrastructure.AVMDbContext.Seed
             );
 
             builder.Entity<ProductEntity>().HasData(
-                new ProductEntity { Id = 1, Name = "Akıllı Telefon", Details = "Yeni nesil telefon", Price = 10000, CategoryId = 1, SellerId = user2Id },
-                new ProductEntity { Id = 2, Name = "Roman Kitabı", Details = "Popüler roman", Price = 150, CategoryId = 2, SellerId = user2Id },
-                new ProductEntity { Id = 3, Name = "Tişört", Details = "Pamuklu tişört", Price = 50, CategoryId = 3, SellerId = user2Id }
+                new ProductEntity { Id = 1, Name = "Akıllı Telefon", Description = "Yeni nesil telefon", Price = 10000, CategoryId = 1, SellerId = user2Id },
+                new ProductEntity { Id = 2, Name = "Roman Kitabı", Description = "Popüler roman", Price = 150, CategoryId = 2, SellerId = user2Id },
+                new ProductEntity { Id = 3, Name = "Tişört", Description = "Pamuklu tişört", Price = 50, CategoryId = 3, SellerId = user2Id }
             );
 
             builder.Entity<ProductImageEntity>().HasData(
