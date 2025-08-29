@@ -17,7 +17,8 @@ namespace AVMAPP.Models.DTo.Models.Profile
 
         [Required, MaxLength(256), EmailAddress]
         public string Email { get; set; } = null!;
-
+        [DataType(DataType.Password), MinLength(4, ErrorMessage = "En az 4 karakter girilmelidir")]
+        [RegularExpression(@"^\S.*$", ErrorMessage = "Boşluk ile başlamaz!")]
         public string? Password { get; set; }
     }
 }

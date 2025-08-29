@@ -1,13 +1,15 @@
 ﻿using AVMAPP.Models.DTo.Models.Order;
 using AVMAPP.Models.DTo.Models.Product;
 using AVMAPP.Models.DTo.Models.Profile;
+using Azure;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.Json;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AVMAPP.ETicaret.MVC.Controllers
 {
     [Authorize(Roles = "seller, buyer")]
-    public class ProfileController(IHttpClientFactory clientFactory) :BaseController
+    public class ProfileController(IHttpClientFactory clientFactory) : BaseController
     {
         private HttpClient Client => clientFactory.CreateClient("ApiClient");
         [HttpGet("/profile")]
@@ -20,7 +22,7 @@ namespace AVMAPP.ETicaret.MVC.Controllers
                 return RedirectToAction("Login", "Auth");
             }
 
-            var response = await Client.GetAsync($"/user/{userId}");
+            var response = await Client.GetAsync($"/api/user/{userId}");
 
             if (!response.IsSuccessStatusCode)
             {
@@ -44,6 +46,7 @@ namespace AVMAPP.ETicaret.MVC.Controllers
             return View(userViewModel);
         }
         [HttpPost("/profile")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit([FromForm] ProfileDetailsViewModel editMyProfileModel)
         {
             if (!IsUserLoggedIn())
@@ -63,20 +66,31 @@ namespace AVMAPP.ETicaret.MVC.Controllers
                 return View(editMyProfileModel);
             }
 
-            user.FirstName = editMyProfileModel.FirstName;
-            user.LastName = editMyProfileModel.LastName;
-
-            if (!string.IsNullOrWhiteSpace(editMyProfileModel.Password) && editMyProfileModel.Password != "******")
+            var payload = new
             {
-                user.Password = editMyProfileModel.Password;
+                FirstName = editMyProfileModel.FirstName?.Trim(),
+                LastName = editMyProfileModel.LastName?.Trim(),
+                Password = string.IsNullOrWhiteSpace(editMyProfileModel.Password) || editMyProfileModel.Password == "******"
+                            ? null
+                            : editMyProfileModel.Password
             }
-
-            var response = await Client.PutAsJsonAsync($"/user/{user.Id}", user);
+            ;
+            var jsonOptions = new System.Text.Json.JsonSerializerOptions
+            {
+                DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull
+            }
+            ;
+            var response = await Client.PutAsJsonAsync($"/api/user/{user.Id}", payload, jsonOptions);
 
             if (!response.IsSuccessStatusCode)
             {
-                ModelState.AddModelError(string.Empty, "Bir hata oluştu. Lütfen tekrar deneyin.");
-                return View(editMyProfileModel);
+                var errorContent = await response.Content.ReadAsStringAsync();
+                var errorMessage = $"Bir hata oluştu (Status: {(int)response.StatusCode}).";
+                if (!string.IsNullOrWhiteSpace(errorContent))
+                {
+                    errorMessage += $" Detay: {errorContent}";
+                }
+                ModelState.AddModelError(string.Empty, errorMessage);
             }
 
             TempData["SuccessMessage"] = "Profiliniz başarıyla güncellendi.";
@@ -93,7 +107,7 @@ namespace AVMAPP.ETicaret.MVC.Controllers
                 return RedirectToAction("Login", "Auth");
             }
 
-            var response = await Client.GetAsync($"/user/{userId}/orders");
+            var response = await Client.GetAsync($"/api/order/{userId}");
 
             if (!response.IsSuccessStatusCode)
             {
@@ -115,7 +129,7 @@ namespace AVMAPP.ETicaret.MVC.Controllers
                 return RedirectToAction("Login", "Auth");
             }
 
-            var response = await Client.GetAsync($"/products?sellerId={userId}");
+            var response = await Client.GetAsync($"/api/products?sellerId={userId}");
             if (!response.IsSuccessStatusCode)
             {
                 return RedirectToAction("Login", "Auth");
