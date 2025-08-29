@@ -282,7 +282,7 @@
                     // Grow In Animation for Toggled State
                     animation-name: growIn;
                     animation-duration: 200ms;
-                    animation-timing-function: transform cubic-bezier(.18, 1.25, .4, 1), opacity cubic-bezier(0, 1, .4, 1);
+                    animation-timing-function: cubic-bezier(.18, 1.25, .4, 1);
 
                     .collapse-inner {
                         box-shadow: $box-shadow;
