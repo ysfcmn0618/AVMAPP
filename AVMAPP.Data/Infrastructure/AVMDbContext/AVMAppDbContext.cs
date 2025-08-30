@@ -91,7 +91,7 @@ namespace AVMAPP.Data.Infrastructure.AVMDbContext
             //bir ürünün çok resmi bir resmin bir ürünü olablir
             builder.Entity<ProductEntity>()
                 .HasMany(p => p.Images)
-                .WithOne(p => p.Product)
+                .WithOne()
                 .HasForeignKey(p => p.ProductId)
                 .OnDelete(DeleteBehavior.Restrict);
             builder.Entity<ProductEntity>()
