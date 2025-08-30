@@ -1,0 +1,77 @@
+﻿@model ProductListViewModel
+
+@{
+    ViewData["Title"] = "Ürün Listesi";
+}
+
+<h2>Ürün Listesi</h2>
+
+<form method="get" asp-action="List" class="row g-3 mb-4">
+    <div class="col-md-3">
+        <input type="text" name="Filter.Name" value="@Model.Filter.Name" class="form-control" placeholder="Ürün adı">
+    </div>
+    <div class="col-md-3">
+        <select name="Filter.CategoryId" class="form-select">
+            <option value="">Kategori seçin</option>
+            @if (Model.Categories != null)
+            {
+                foreach (var cat in Model.Categories)
+                {
+                    <option value="@cat.Id" selected="@(Model.Filter.CategoryId == cat.Id)">
+                        @cat.Name
+                    </option>
+                }
+            }
+        </select>
+    </div>
+    <div class="col-md-2">
+        <input type="number" name="Filter.MinPrice" value="@Model.Filter.MinPrice" class="form-control" placeholder="Min Fiyat">
+    </div>
+    <div class="col-md-2">
+        <input type="number" name="Filter.MaxPrice" value="@Model.Filter.MaxPrice" class="form-control" placeholder="Max Fiyat">
+    </div>
+    <div class="col-md-2">
+        <select name="Filter.IsActive" class="form-select">
+            <option value="">Durum</option>
+            <option value="true" selected="@(Model.Filter.IsActive == true)">Aktif</option>
+            <option value="false" selected="@(Model.Filter.IsActive == false)">Pasif</option>
+        </select>
+    </div>
+    <div class="col-md-12">
+        <button type="submit" class="btn btn-primary">Filtrele</button>
+    </div>
+</form>
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">@ViewBag.Error</div>
+}
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Ad</th>
+            <th>Kategori</th>
+            <th>Fiyat</th>
+            <th>Durum</th>
+            <th>İşlemler</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model.Products)
+        {
+            <tr>
+                <td>@product.Id</td>
+                <td>@product.Name</td>
+                <td>@(product.Category?.Name ?? "-")</td>
+                <td>@product.Price.ToString("C")</td>
+                <td>@(product.IsActive ? "Aktif" : "Pasif")</td>
+                <td>
+                    <a asp-action="Delete" asp-route-productId="@product.Id" class="btn btn-danger btn-sm"
+                       onclick="return confirm('Bu ürünü silmek istediğinize emin misiniz?');">Sil</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

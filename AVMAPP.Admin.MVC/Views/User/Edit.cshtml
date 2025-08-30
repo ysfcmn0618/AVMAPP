@@ -1,0 +1,74 @@
+﻿@model AVMAPP.Models.DTo.Dtos.UserDto
+
+@{
+    ViewData["Title"] = "Kullanıcı Düzenle";
+}
+
+<h2>Kullanıcı Düzenle</h2>
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+}
+
+<form asp-action="Edit" asp-route-userId="@Model.Id" method="post" class="row g-3">
+    <div class="col-md-6">
+        <label asp-for="FirstName" class="form-label">Ad</label>
+        <input asp-for="FirstName" class="form-control" />
+        <span asp-validation-for="FirstName" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="LastName" class="form-label">Soyad</label>
+        <input asp-for="LastName" class="form-control" />
+        <span asp-validation-for="LastName" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="Email" class="form-label">Email</label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="Role" class="form-label">Rol</label>
+        <select asp-for="Role.Id" class="form-select">
+            <option value="">Rol Seçin</option>
+            @foreach (var role in ViewBag.Roles as List<RoleDto>)
+            {
+                if (Model.Role?.Id == role.Id)
+                {
+                    <option value="@role.Id" selected>@role.Name</option>
+                }
+                else
+                {
+                    <option value="@role.Id">@role.Name</option>
+                }
+            }
+        </select>
+        <span asp-validation-for="Role.Id" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-6 form-check mt-3">
+        <input asp-for="IsActive" class="form-check-input" />
+        <label asp-for="IsActive" class="form-check-label">Aktif</label>
+    </div>
+
+    <div class="col-md-6 form-check mt-3">
+        <input asp-for="EmailConfirmed" class="form-check-input" />
+        <label asp-for="EmailConfirmed" class="form-check-label">Email Onaylı</label>
+    </div>
+
+    <div class="col-12 mt-3">
+        <button type="submit" class="btn btn-primary">Güncelle</button>
+        <a asp-action="List" class="btn btn-secondary">İptal</a>
+    </div>
+</form>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}
