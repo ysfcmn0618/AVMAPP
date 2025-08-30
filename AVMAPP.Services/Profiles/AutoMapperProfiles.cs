@@ -6,6 +6,7 @@ using AVMAPP.Models.DTo.Dtos;
 using AVMAPP.Models.DTo.Models.Auth;
 using AVMAPP.Models.DTo.Models.Home;
 using AVMAPP.Models.DTo.Models.Product;
+using AVMAPP.Models.DTO.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,6 +33,16 @@ namespace AVMAPP.Services.Profiles
                 .ReverseMap();
             CreateMap<RegisterUserViewModel, UserDto>()
            .ReverseMap();
+            CreateMap<RoleEntity, RoleDto>()
+                .ReverseMap();
+        }
+    }
+    public class RoleProfile : Profile
+    {
+        public RoleProfile()
+        {
+            CreateMap<RoleEntity, RoleDto>()
+                .ReverseMap();
         }
     }
     public class  FormMessageProfile:Profile

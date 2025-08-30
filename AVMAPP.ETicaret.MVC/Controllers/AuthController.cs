@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using AVMAPP.Models.DTo.Dtos;
 using AVMAPP.Models.DTo.Models.Auth;
+using AVMAPP.Models.DTO.Dtos;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -64,7 +65,6 @@ namespace AVMAPP.ETicaret.MVC.Controllers
             if (!ModelState.IsValid)
                 return View(loginDto);
 
-            // API'ye giriş isteği gönder
             var response = await Client.PostAsJsonAsync("api/Auth/login", loginDto);
 
             if (!response.IsSuccessStatusCode)
@@ -73,20 +73,14 @@ namespace AVMAPP.ETicaret.MVC.Controllers
                 return View(loginDto);
             }
 
-            // API'den token ve kullanıcı bilgilerini al
-            var loginResult = await response.Content.ReadFromJsonAsync<LoginResponseDto>();
+            var loginResult = await response.Content.ReadFromJsonAsync<AuthResponseDto>();
 
-            if (loginResult == null
-               || string.IsNullOrEmpty(loginResult.Token)
-               || loginResult.User == null
-               || loginResult.User.Role == null
-               || string.IsNullOrEmpty(loginResult.User.Role.Name))
+            if (loginResult == null || string.IsNullOrEmpty(loginResult.Token) || loginResult.User == null)
             {
                 ModelState.AddModelError("", "Giriş işlemi başarısız oldu.");
                 return View(loginDto);
             }
-
-            // JWT token'ı cookie'de sakla (HttpOnly)
+            HttpContext.Session.SetString("AccessToken", loginResult.Token);
             Response.Cookies.Append("jwt_token", loginResult.Token, new CookieOptions
             {
                 HttpOnly = true,
@@ -95,7 +89,6 @@ namespace AVMAPP.ETicaret.MVC.Controllers
                 Expires = DateTime.UtcNow.AddMinutes(60)
             });
 
-            // MVC Cookie Authentication ile kullanıcıyı oturum açtır
             await LogInAsync(loginResult.User);
 
             return RedirectToAction("Index", "Home");

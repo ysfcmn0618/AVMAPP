@@ -23,7 +23,7 @@ namespace AVMAPP.Data.Entities
         public string? AddressOther { get; set; }
         public string? Password { get; set; } 
         public string? ResetPasswordToken { get; set; }
-        public Guid RoleId { get; set; }
+        public int RoleId { get; set; }
         public RoleEntity Role { get; set; } = null!;
         public string? FullName { get; set; }
         public virtual ICollection<OrderEntity>? Orders { get; set; }

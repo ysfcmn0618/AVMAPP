@@ -2,9 +2,11 @@
 using AVMAPP.Data.APi.Models;
 using AVMAPP.Data.Entities;
 using AVMAPP.Data.Infrastructure;
+using AVMAPP.Models.DTO.Models.Product;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace AVMAPP.Data.APi.Controllers
 {
@@ -55,5 +57,30 @@ namespace AVMAPP.Data.APi.Controllers
             await repo.Delete(id);
             return NoContent();
         }
+        [HttpGet("filter")]
+        public async Task<IActionResult> Filter([FromQuery] ProductFilterViewModel filter)
+        {
+            var query = repo.Query().AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(filter.Name))
+                query = query.Where(p => p.Name.Contains(filter.Name));
+
+            if (filter.CategoryId.HasValue)
+                query = query.Where(p => p.CategoryId == filter.CategoryId.Value);
+
+            if (filter.MinPrice.HasValue)
+                query = query.Where(p => p.Price >= filter.MinPrice.Value);
+
+            if (filter.MaxPrice.HasValue)
+                query = query.Where(p => p.Price <= filter.MaxPrice.Value);
+
+            if (filter.IsActive.HasValue)
+                query = query.Where(p => p.IsActive == filter.IsActive.Value);
+
+            var products = await query.ToListAsync();
+
+            return Ok(mapper.Map<List<ProductDto>>(products));
+        }
+
     }
 }

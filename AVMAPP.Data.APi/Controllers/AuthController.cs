@@ -2,6 +2,7 @@
 using AVMAPP.Data.Entities;
 using AVMAPP.Data.Infrastructure;
 using AVMAPP.Models.DTo.Dtos;
+using AVMAPP.Models.DTO.Dtos;
 using AVMAPP.Services;
 using AVMAPP.Services.Helpers;
 using Microsoft.AspNetCore.Authorization;
@@ -19,31 +20,29 @@ namespace AVMAPP.API.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LogInDto loginDto)
         {
-            if (string.IsNullOrWhiteSpace(loginDto.Email) || string.IsNullOrWhiteSpace(loginDto.Password))
-                return BadRequest("Email and password are required.");
+            if (loginDto == null || string.IsNullOrWhiteSpace(loginDto.Email) || string.IsNullOrWhiteSpace(loginDto.Password))
+                return BadRequest("Email ve password gerekli.");
 
             var existingUser = await _repo.Query()
                 .Include(u => u.Role)
                 .SingleOrDefaultAsync(u => u.Email == loginDto.Email);
 
             if (existingUser == null)
-                return Unauthorized("Invalid email or password.");
+                return Unauthorized("Kullanıcı adı veya parola geçersiz.");
 
             if (!PasswordHelper.VerifyPassword(loginDto.Password, existingUser.Password))
-                return Unauthorized("Invalid email or password.");
+                return Unauthorized("Kullanıcı adı veya parola geçersiz..");
 
             var token = _tokenService.GenerateToken(existingUser.Id, existingUser.Email, existingUser.Role.Name);
 
-            return Ok(new
+
+            var result = new AuthResponseDto
             {
                 Token = token,
-                User = new
-                {
-                    existingUser.Id,
-                    existingUser.Email,
-                    Roles = existingUser.Role.Name
-                }
-            });
+                User = mapper.Map<UserDto>(existingUser)
+            };
+
+            return Ok(result);
         }
         [Authorize]
         [HttpPost("logout")]

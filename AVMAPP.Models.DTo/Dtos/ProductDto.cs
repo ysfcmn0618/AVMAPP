@@ -1,4 +1,5 @@
-﻿using AVMAPP.Data.Entities;
+﻿using AVMAPP.Data.APi.Models.Dtos;
+using AVMAPP.Data.Entities;
 using AVMAPP.Models.DTo.Dtos;
 
 namespace AVMAPP.Data.APi.Models
@@ -13,6 +14,7 @@ namespace AVMAPP.Data.APi.Models
         public decimal Price { get; set; }
         public string Description { get; set; } = "Undefined";
         public byte StockAmount { get; set; } = 0;
+        public CategoryDto? Category { get; set; }
         public ICollection<ProductImageDto> Images { get; set; } = new List<ProductImageDto>();
         public ICollection<ProductCommentDto> Comments { get; set; } = new List<ProductCommentDto>();
         public DateTime CreatedAt { get; set; }

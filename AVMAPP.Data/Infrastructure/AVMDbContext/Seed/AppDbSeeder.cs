@@ -10,9 +10,9 @@ namespace AVMAPP.Data.Infrastructure.AVMDbContext.Seed
         public static void Seed(ModelBuilder builder)
         {
             // Sabit GUID'ler (ilişkilerde ve tekrar migrationda tutarlılık için)
-            var roleAdminId = Guid.Parse("e1f49a71-5580-4d0f-b31f-a3552df64a92");
-            var roleSellerId = Guid.Parse("c5e8a91e-bcc9-4e0c-a602-b66e4217766e");
-            var roleBuyerId = Guid.Parse("d0ad2064-227a-4a60-b3ea-503b6cf3c407");
+            var roleAdminId = 1;
+            var roleSellerId = 2;
+            var roleBuyerId = 3;
 
             var user1Id = Guid.Parse("a1111111-1111-1111-1111-111111111111");
             var user2Id = Guid.Parse("a2222222-2222-2222-2222-222222222222");

@@ -19,6 +19,14 @@ builder.Services.AddHttpClient("ApiClient", client =>
 })
 .AddHttpMessageHandler<TokenAttachHandler>();
 
+builder.Services.AddDistributedMemoryCache(); // Session verisi için bellek cache
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Session süresi
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
 builder.Services
     .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
@@ -28,9 +36,9 @@ builder.Services
 
 builder.Services.AddAuthorization(options =>
     {
-        options.AddPolicy("Buyer", policy => policy.RequireRole("Buyer"));
-        options.AddPolicy("Seller", policy => policy.RequireRole("Seller"));
-        options.AddPolicy("BuyerOrSeller", policy => policy.RequireRole("Buyer", "Seller"));
+        options.AddPolicy("Buyer", policy => policy.RequireRole("buyer"));
+        options.AddPolicy("Seller", policy => policy.RequireRole("seller"));
+        options.AddPolicy("BuyerOrSeller", policy => policy.RequireRole("buyer", "seller"));
     });
 
 var app = builder.Build();
@@ -42,7 +50,7 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
+app.UseSession();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
