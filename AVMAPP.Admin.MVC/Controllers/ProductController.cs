@@ -59,15 +59,19 @@ namespace AVMAPP.Admin.MVC.Controllers
 
 
         // GET: /products/{id}/edit
-        [HttpGet("{id:int}/edit")]
+        [HttpGet]
+        [Route("products/{id:int}/edit")]
         public async Task<IActionResult> Edit(int id)
         {
             // API'den ürün detayını çek
             var response = await Client.GetAsync($"api/products/{id}");
-            if (!response.IsSuccessStatusCode)
+            if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
                 TempData["Error"] = "Ürün bulunamadı.";
-                return RedirectToAction("Index");
+            }
+            else
+            {
+                TempData["Error"] = "Ürün yüklenirken bir hata oluştu.";
             }
 
             var json = await response.Content.ReadAsStringAsync();
