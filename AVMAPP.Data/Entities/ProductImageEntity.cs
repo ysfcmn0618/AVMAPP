@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace AVMAPP.Data.Entities
 {
     public class ProductImageEntity : IGenericField
     {
-        public int ProductId { get; set; } 
+        public int ProductId { get; set; }
+        [JsonIgnore]
         public ProductEntity? Product { get; set; }
         public string Url { get; set; } = null!;
 

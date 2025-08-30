@@ -68,6 +68,7 @@
                 <td>@product.Price.ToString("C")</td>
                 <td>@(product.IsActive ? "Aktif" : "Pasif")</td>
                 <td>
+                    <a asp-action="Edit" asp-controller="Product" asp-route-productId="@product.Id" class="btn btn-warning btn-sm">Düzenle</a>
                     <a asp-action="Delete" asp-route-productId="@product.Id" class="btn btn-danger btn-sm"
                        onclick="return confirm('Bu ürünü silmek istediğinize emin misiniz?');">Sil</a>
                 </td>
