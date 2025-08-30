@@ -6,7 +6,7 @@ namespace AVMAPP.Models.DTO.Models.User
     public class UserListViewModel
     {
         public List<UserDto> Users { get; set; } = new();
-        public UserFilterViewModel Filter { get; set; } = new(); // ileride filtreleme ekleyebiliriz
+        public UserFilterViewModel Filter { get; set; } = new(); 
     }
 
 }
