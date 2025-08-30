@@ -33,8 +33,7 @@ namespace AVMAPP.Services.Profiles
                 .ReverseMap();
             CreateMap<RegisterUserViewModel, UserDto>()
            .ReverseMap();
-            CreateMap<RoleEntity, RoleDto>()
-                .ReverseMap();
+           
         }
     }
     public class RoleProfile : Profile

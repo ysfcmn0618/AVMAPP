@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 
 namespace AVMAPP.Admin.MVC.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "admin")]
     public class UserController(IHttpClientFactory clientFactory) : Controller
     {
         private HttpClient Client => clientFactory.CreateClient("ApiClient");

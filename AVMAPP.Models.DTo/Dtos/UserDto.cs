@@ -1,12 +1,6 @@
-﻿using AVMAPP.Data.APi.Models;
-using AVMAPP.Data.APi.Models.Dtos;
-using AVMAPP.Data.Entities;
+﻿
 using AVMAPP.Models.DTO.Dtos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace AVMAPP.Models.DTo.Dtos
 {
@@ -23,7 +17,9 @@ namespace AVMAPP.Models.DTo.Dtos
         public bool EmailConfirmed { get; set; } = false;
 
         public RoleDto? Role { get; set; }
+        [System.Text.Json.Serialization.JsonIgnore]
         public string? ResetPasswordToken { get; set; }
+        [System.Text.Json.Serialization.JsonIgnore]
         public string? Password { get; set; } // boş bırakılabilir
     }
 

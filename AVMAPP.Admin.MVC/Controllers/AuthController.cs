@@ -46,7 +46,7 @@ namespace AVMAPP.Admin.MVC.Controllers
                 ModelState.AddModelError(string.Empty, "Giriş işlemi başarısız.");
                 return View(loginModel);
             }
-           
+
             // Admin rol kontrolü
             if (loginResult.User.Role?.Name?.ToLower() != "admin")
             {
@@ -57,9 +57,13 @@ namespace AVMAPP.Admin.MVC.Controllers
             // Cookie Authentication ile oturum aç
             await DoLoginAsync(loginResult.User);
 
-            // ReturnUrl varsa yönlendir
+            // ReturnUrl varsa ve yerel ise yönlendir
             if (Request.Query.ContainsKey("ReturnUrl"))
-                return Redirect(Request.Query["ReturnUrl"]!);
+            {
+                var returnUrl = Request.Query["ReturnUrl"]!.ToString();
+                if (Url.IsLocalUrl(returnUrl))
+                    return LocalRedirect(returnUrl);
+            }
 
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
@@ -85,8 +89,7 @@ namespace AVMAPP.Admin.MVC.Controllers
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, $"{user.FirstName} {user.LastName}".Trim()),
                 new Claim(ClaimTypes.Email, user.Email ?? ""),
-                new Claim(ClaimTypes.Role, user.Role?.Name ?? "Undefined")
-            };
+               new Claim(ClaimTypes.Role,user.Role?.Name?.Equals("admin", StringComparison.OrdinalIgnoreCase) == true ? "Admin" : (user.Role?.Name ?? "Undefined"))};
 
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var principal = new ClaimsPrincipal(identity);
@@ -95,7 +98,7 @@ namespace AVMAPP.Admin.MVC.Controllers
                 IsPersistent = true,
                 ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(30),
             };
-
+            HttpContext.Session.Remove("AccessToken");
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, authProperties);
         }
 

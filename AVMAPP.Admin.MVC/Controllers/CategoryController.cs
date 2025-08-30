@@ -1,5 +1,4 @@
 ﻿using AVMAPP.Data.APi.Models.Dtos;
-using AVMAPP.Data.Entities;
 using AVMAPP.Models.DTo.Models.ViewModels;
 using AVMAPP.Models.DTO.Models.Category;
 using Microsoft.AspNetCore.Authorization;
@@ -39,6 +38,7 @@ namespace AVMAPP.Admin.MVC.Controllers
 
         [Route("create")]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([FromForm] SaveCategoryViewModel newCategoryModel)
         {
             if (!ModelState.IsValid)
@@ -69,6 +69,7 @@ namespace AVMAPP.Admin.MVC.Controllers
 
         [Route("{categoryId:int}/edit")]
         [HttpGet]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit([FromRoute] int categoryId)
         {
 
@@ -97,6 +98,7 @@ namespace AVMAPP.Admin.MVC.Controllers
 
         [Route("{categoryId:int}/edit")]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit([FromRoute] int categoryId, [FromForm] SaveCategoryViewModel editCategoryModel)
         {
             if (!ModelState.IsValid)

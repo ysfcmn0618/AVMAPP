@@ -9,7 +9,7 @@ namespace AVMAPP.Data.Entities
 {
     public class RoleEntity 
     {
-        public int Id { get; set; } =  0;
+        public int Id { get; set; } 
         public string Name { get; set; } = "Undefined";
         public string? Description { get; set; }
         public DateTime CreatedAt { get; set; }
