@@ -1,19 +1,26 @@
 ﻿using AVMAPP.Data.Infrastructure.AVMDbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.Json;
+using System;
 
 namespace AVMAPP.Data.Infrastructure.Factories
 {
     public class AVMAppDbContextFactory : IDesignTimeDbContextFactory<AVMAppDbContext>
     {
-        AVMAppDbContext IDesignTimeDbContextFactory<AVMAppDbContext>.CreateDbContext(string[] args)
+        public AVMAppDbContext CreateDbContext(string[] args)
         {
-            var optionsBuilder = new DbContextOptionsBuilder<AVMAppDbContext>();
+            var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production";
 
-            // ✅ Buraya kendi connection string'ini yaz
-            optionsBuilder.UseSqlServer("Server=YSFCMN-HOME\\SQLEXPRESS;Database=AVMAppSMadeDb;Trusted_Connection=True;TrustServerCertificate=Yes");
-            //var connectionString = "Server=(localdb)\\MSSQLLocalDB;Database=AVMAppDb;Trusted_Connection=True;";
-            //optionsBuilder.UseSqlServer(connectionString);
+            // Modern approach: SetBasePath yerine Directory.GetCurrentDirectory() ile builder oluştur
+            var configuration = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{environment}.json", optional: true, reloadOnChange: true)
+                .Build();
+
+            var optionsBuilder = new DbContextOptionsBuilder<AVMAppDbContext>();
+            optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
 
             return new AVMAppDbContext(optionsBuilder.Options);
         }
