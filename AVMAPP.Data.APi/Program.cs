@@ -1,7 +1,9 @@
 using AVMAPP.Data.APi.Models;
+using AVMAPP.Data.Infrastructure.AVMDbContext;
 using AVMAPP.Services;
 using AVMAPP.Services.Profiles;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -52,6 +54,11 @@ builder.Services.AddSwaggerGen();
 builder.Services.ConfigureServices(builder.Configuration);
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AVMAppDbContext>();
+    db.Database.Migrate();
+}
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -65,4 +72,4 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run();
+await app.RunAsync();
