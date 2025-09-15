@@ -5,12 +5,13 @@ using AVMAPP.Data.Infrastructure;
 using AVMAPP.Models.DTo.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace AVMAPP.Data.APi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class OrderItemController(IGenericRepository<OrderItemEntity> repo,IMapper mapper) : ControllerBase
+    public class OrderItemController(IGenericRepository<OrderItemEntity> repo, IMapper mapper) : ControllerBase
     {
         [Authorize]
         [HttpGet]
@@ -27,6 +28,18 @@ namespace AVMAPP.Data.APi.Controllers
             if (id != orderItemDto.Id)
             {
                 return BadRequest("ID mismatch");
+            }
+            var userIdStr = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+            if (!Guid.TryParse(userIdStr, out var userId))
+            {
+                return Unauthorized();
+            }
+            var existingOrder = await repo.GetAll()
+                .Where(oi => oi.Order.UserId == userId && oi.OrderId == id)
+                .FirstOrDefaultAsync();
+            if (existingOrder == null)
+            {
+                return NotFound();
             }
             var orderItemEntity = mapper.Map<OrderItemEntity>(orderItemDto);
             var updatedOrderItem = await repo.Update(orderItemEntity);

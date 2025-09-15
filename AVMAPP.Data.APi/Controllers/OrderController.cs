@@ -29,6 +29,7 @@ namespace AVMAPP.Data.APi.Controllers
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById(int id)
         {
+            //Kullanıcının böyle bir siparişi var mı?
             var order = await repo.GetByIdAsync(id);
             if (order is null)
             {

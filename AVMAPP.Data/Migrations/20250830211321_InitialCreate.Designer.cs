@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AVMAPP.Data.Migrations
 {
     [DbContext(typeof(AVMAppDbContext))]
-    [Migration("20250829135558_InitialCreate")]
+    [Migration("20250830211321_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -602,9 +602,11 @@ namespace AVMAPP.Data.Migrations
 
             modelBuilder.Entity("AVMAPP.Data.Entities.RoleEntity", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
@@ -640,7 +642,7 @@ namespace AVMAPP.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("e1f49a71-5580-4d0f-b31f-a3552df64a92"),
+                            Id = 1,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true,
                             IsDeleted = false,
@@ -650,7 +652,7 @@ namespace AVMAPP.Data.Migrations
                         },
                         new
                         {
-                            Id = new Guid("c5e8a91e-bcc9-4e0c-a602-b66e4217766e"),
+                            Id = 2,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true,
                             IsDeleted = false,
@@ -660,7 +662,7 @@ namespace AVMAPP.Data.Migrations
                         },
                         new
                         {
-                            Id = new Guid("d0ad2064-227a-4a60-b3ea-503b6cf3c407"),
+                            Id = 3,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true,
                             IsDeleted = false,
@@ -734,8 +736,8 @@ namespace AVMAPP.Data.Migrations
                     b.Property<string>("ResetPasswordToken")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("RoleId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
@@ -760,7 +762,7 @@ namespace AVMAPP.Data.Migrations
                         new
                         {
                             Id = new Guid("a1111111-1111-1111-1111-111111111111"),
-                            ConcurrencyStamp = "38b7e000-c033-446b-98cf-7fffb4765426",
+                            ConcurrencyStamp = "b213da9a-7ef7-41ee-9727-ae952f025232",
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "admin@test.com",
                             EmailConfirmed = true,
@@ -768,16 +770,16 @@ namespace AVMAPP.Data.Migrations
                             IsDeleted = false,
                             NormalizedEmail = "ADMIN@TEST.COM",
                             NormalizedUserName = "TESTADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEONqEsAUDFuUF4rEAf+vIPgrKSILcZPvyOAWODA6XXSeLh680RqwjmsNKn4t7923kw==",
-                            RoleId = new Guid("e1f49a71-5580-4d0f-b31f-a3552df64a92"),
-                            SecurityStamp = "e7bd329d-5498-4cb3-b8fb-00ab0ae8a7c5",
+                            PasswordHash = "AQAAAAIAAYagAAAAEK75vPpAQnDHXyqmAqyC8iHU4JLmdyI7w4T2DFZMeWU9Y6khOqDwdGh1XB/vCzmJyA==",
+                            RoleId = 1,
+                            SecurityStamp = "39422823-ef4d-4ca6-a5b3-6d87d2122da7",
                             UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             UserName = "testadmin"
                         },
                         new
                         {
                             Id = new Guid("a2222222-2222-2222-2222-222222222222"),
-                            ConcurrencyStamp = "fabde7d2-7cbb-4a13-99d3-c99aedb0298f",
+                            ConcurrencyStamp = "4b0a33df-e1e8-4a36-bccc-0d84ad67b3e1",
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "seller@test.com",
                             EmailConfirmed = true,
@@ -785,16 +787,16 @@ namespace AVMAPP.Data.Migrations
                             IsDeleted = false,
                             NormalizedEmail = "SELLER@TEST.COM",
                             NormalizedUserName = "TESTSELLER",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFSLR9BMJt94uID2KVD3Ak3T13GOX3iLbViZsrND29YZnHoEgUDYE4CJU+703yJsDQ==",
-                            RoleId = new Guid("c5e8a91e-bcc9-4e0c-a602-b66e4217766e"),
-                            SecurityStamp = "076ea992-7fe4-48a2-9db6-17cf20b66b2d",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPaFL8uXg8AAKKd0M22Dw6gNDZlNYw7CBdz6jPSl0sahXz23Cz7tA7681yH4EFAC9w==",
+                            RoleId = 2,
+                            SecurityStamp = "6030ee6b-5621-4443-861f-cc2fa7c02fea",
                             UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             UserName = "testseller"
                         },
                         new
                         {
                             Id = new Guid("a3333333-3333-3333-3333-333333333333"),
-                            ConcurrencyStamp = "f36aecf0-02b3-40ed-ac78-c710d831311c",
+                            ConcurrencyStamp = "7a9ac97c-ea65-43fb-a985-6c440f53027f",
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "buyer@test.com",
                             EmailConfirmed = true,
@@ -802,9 +804,9 @@ namespace AVMAPP.Data.Migrations
                             IsDeleted = false,
                             NormalizedEmail = "BUYER@TEST.COM",
                             NormalizedUserName = "TESTBUYER",
-                            PasswordHash = "AQAAAAIAAYagAAAAELtTfwaOJm6ohXnx0TRK4qDPvoqvt/DklMN97GcrTpAs81n5n01shXI2XcJJR2FdfA==",
-                            RoleId = new Guid("d0ad2064-227a-4a60-b3ea-503b6cf3c407"),
-                            SecurityStamp = "560ff942-364a-4393-a6b7-2e800875a528",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPSwGnR1jVg7RjLXbt6kuY3s6jt/wt/VwbD0v6Vc8UsaQabN2WsImniB5L5foYa+cw==",
+                            RoleId = 3,
+                            SecurityStamp = "a369c605-4578-4719-8b69-8f6efa9ab444",
                             UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             UserName = "testbuyer"
                         });
@@ -815,8 +817,8 @@ namespace AVMAPP.Data.Migrations
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("RoleId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
 
                     b.HasKey("UserId", "RoleId");
 

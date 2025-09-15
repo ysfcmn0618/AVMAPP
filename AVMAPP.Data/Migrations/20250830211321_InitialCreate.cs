@@ -95,7 +95,8 @@ namespace AVMAPP.Data.Migrations
                 name: "Roles",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
@@ -127,7 +128,7 @@ namespace AVMAPP.Data.Migrations
                     AddressOther = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ResetPasswordToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RoleId = table.Column<int>(type: "int", nullable: false),
                     FullName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -224,7 +225,7 @@ namespace AVMAPP.Data.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    RoleId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -348,9 +349,9 @@ namespace AVMAPP.Data.Migrations
                 columns: new[] { "Id", "CreatedAt", "Description", "IsActive", "IsDeleted", "Name", "NormalizedName", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { new Guid("c5e8a91e-bcc9-4e0c-a602-b66e4217766e"), new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, true, false, "Seller", "SELLER", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { new Guid("d0ad2064-227a-4a60-b3ea-503b6cf3c407"), new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, true, false, "Buyer", "BUYER", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { new Guid("e1f49a71-5580-4d0f-b31f-a3552df64a92"), new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, true, false, "Admin", "ADMIN", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                    { 1, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, true, false, "Admin", "ADMIN", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, true, false, "Seller", "SELLER", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 3, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, true, false, "Buyer", "BUYER", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.InsertData(
@@ -358,9 +359,9 @@ namespace AVMAPP.Data.Migrations
                 columns: new[] { "Id", "Address", "AddressOther", "ConcurrencyStamp", "CreatedAt", "Email", "EmailConfirmed", "FirstName", "FullName", "IsActive", "IsDeleted", "LastName", "NormalizedEmail", "NormalizedUserName", "Password", "PasswordHash", "RefreshToken", "RefreshTokenExpiryTime", "ResetPasswordToken", "RoleId", "SecurityStamp", "UpdatedAt", "UserName" },
                 values: new object[,]
                 {
-                    { new Guid("a1111111-1111-1111-1111-111111111111"), null, null, "38b7e000-c033-446b-98cf-7fffb4765426", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin@test.com", true, null, null, true, false, null, "ADMIN@TEST.COM", "TESTADMIN", null, "AQAAAAIAAYagAAAAEONqEsAUDFuUF4rEAf+vIPgrKSILcZPvyOAWODA6XXSeLh680RqwjmsNKn4t7923kw==", null, null, null, new Guid("e1f49a71-5580-4d0f-b31f-a3552df64a92"), "e7bd329d-5498-4cb3-b8fb-00ab0ae8a7c5", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "testadmin" },
-                    { new Guid("a2222222-2222-2222-2222-222222222222"), null, null, "fabde7d2-7cbb-4a13-99d3-c99aedb0298f", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "seller@test.com", true, null, null, true, false, null, "SELLER@TEST.COM", "TESTSELLER", null, "AQAAAAIAAYagAAAAEFSLR9BMJt94uID2KVD3Ak3T13GOX3iLbViZsrND29YZnHoEgUDYE4CJU+703yJsDQ==", null, null, null, new Guid("c5e8a91e-bcc9-4e0c-a602-b66e4217766e"), "076ea992-7fe4-48a2-9db6-17cf20b66b2d", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "testseller" },
-                    { new Guid("a3333333-3333-3333-3333-333333333333"), null, null, "f36aecf0-02b3-40ed-ac78-c710d831311c", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "buyer@test.com", true, null, null, true, false, null, "BUYER@TEST.COM", "TESTBUYER", null, "AQAAAAIAAYagAAAAELtTfwaOJm6ohXnx0TRK4qDPvoqvt/DklMN97GcrTpAs81n5n01shXI2XcJJR2FdfA==", null, null, null, new Guid("d0ad2064-227a-4a60-b3ea-503b6cf3c407"), "560ff942-364a-4393-a6b7-2e800875a528", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "testbuyer" }
+                    { new Guid("a1111111-1111-1111-1111-111111111111"), null, null, "b213da9a-7ef7-41ee-9727-ae952f025232", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin@test.com", true, null, null, true, false, null, "ADMIN@TEST.COM", "TESTADMIN", null, "AQAAAAIAAYagAAAAEK75vPpAQnDHXyqmAqyC8iHU4JLmdyI7w4T2DFZMeWU9Y6khOqDwdGh1XB/vCzmJyA==", null, null, null, 1, "39422823-ef4d-4ca6-a5b3-6d87d2122da7", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "testadmin" },
+                    { new Guid("a2222222-2222-2222-2222-222222222222"), null, null, "4b0a33df-e1e8-4a36-bccc-0d84ad67b3e1", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "seller@test.com", true, null, null, true, false, null, "SELLER@TEST.COM", "TESTSELLER", null, "AQAAAAIAAYagAAAAEPaFL8uXg8AAKKd0M22Dw6gNDZlNYw7CBdz6jPSl0sahXz23Cz7tA7681yH4EFAC9w==", null, null, null, 2, "6030ee6b-5621-4443-861f-cc2fa7c02fea", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "testseller" },
+                    { new Guid("a3333333-3333-3333-3333-333333333333"), null, null, "7a9ac97c-ea65-43fb-a985-6c440f53027f", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "buyer@test.com", true, null, null, true, false, null, "BUYER@TEST.COM", "TESTBUYER", null, "AQAAAAIAAYagAAAAEPSwGnR1jVg7RjLXbt6kuY3s6jt/wt/VwbD0v6Vc8UsaQabN2WsImniB5L5foYa+cw==", null, null, null, 3, "a369c605-4578-4719-8b69-8f6efa9ab444", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "testbuyer" }
                 });
 
             migrationBuilder.InsertData(
