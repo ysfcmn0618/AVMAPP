@@ -48,20 +48,20 @@
                 <div class="col-lg-6">
                     <div class="header__top__left">
                         <ul>
-                            <li><i class="fa fa-envelope"></i> hello@colorlib.com</li>
-                            <li>Free Shipping for all Order of $99</li>
+                            <li><i class="fa fa-envelope"></i> yanofis@hotmail.com</li>
+                            <li>1250₺'lık tüm siparişlerde ücretsiz kargo</li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="header__top__right">
                         <div class="header__top__right__social">
-                            <a href="#"><i class="fa fa-facebook"></i></a>
-                            <a href="#"><i class="fa fa-twitter"></i></a>
-                            <a href="#"><i class="fa fa-linkedin"></i></a>
-                            <a href="#"><i class="fa fa-pinterest-p"></i></a>
+                            <a target="_blank" href="https://www.facebook.com/share/g/15uPV1xvuU/?mibextid=wwXIfr"><i class="fa fa-facebook"></i></a>
+                            <a target="_blank" href="https://www.instagram.com/ayanofiss?igsh=MXZ4bzUyM2ZhbzN3cA%3D%3D&utm_source=qr "><i class="fa fa-instagram"></i></a>
+                            @* <a href="#"><i class="fa fa-linkedin"></i></a>
+        <a href="#"><i class="fa fa-pinterest-p"></i></a> *@
                         </div>
-                        <div class="header__top__right__language">
+                       @* <div class="header__top__right__language">
                             <img src="~/theme/img/language.png" alt="">
                             <div>English</div>
                             <span class="arrow_carrot-down"></span>
@@ -69,7 +69,7 @@
                                 <li><a href="#">Türkçe</a></li>
                                 <li><a href="#">English</a></li>
                             </ul>
-                        </div>
+                        </div>*@
                         <div class="header__top__right__auth header__top__right__language">
                             @if (IsAuthenticated)
                             {
@@ -101,28 +101,29 @@
             <div class="col-lg-6">
                 <nav class="header__menu">
                     <ul>
-                        <li @(IsCurrentPage("Index", "Home") ? "class=active" : "")><a asp-controller="Home" asp-action="Index">Home</a></li>
-                        <li @(IsCurrentPage("Listing", "Home") ? "class=active" : "")><a asp-controller="Home" asp-action="Listing">Shop</a></li>
-                        <li @(IsCurrentPage("Index", "Blog") ? "class=active" : "")><a asp-controller="Blog" asp-action="Index">Blog</a></li>
-                        <li>
+                        <li @(IsCurrentPage("Index", "Home") ? "class=active" : "")><a asp-controller="Home" asp-action="Index">ANASAYFA</a></li>
+                        @*<li @(IsCurrentPage("Listing", "Home") ? "class=active" : "")><a asp-controller="Home" asp-action="Listing">Shop</a></li>*@
+                        <li @(IsCurrentPage("Index", "AboutUs") ? "class=active" : "")><a asp-controller="Home" asp-action="AboutUs">HAKKIMIZDA</a></li>
+                        <li @(IsCurrentPage("Index", "Listing") ? "class=active" : "")><a asp-controller="Home" asp-action="Listing">ÜRÜNLER</a></li>
+                       @* <li>
                             <a href="#">Pages</a>
                             <ul class="header__menu__dropdown">
                                 <li><a asp-controller="Home" asp-action="ProductDetail" asp-route-productId="1">Shop Details</a></li>
                                 <li><a asp-controller="Cart" asp-action="Edit">Shoping Cart</a></li>
                             </ul>
-                        </li>
-                        <li @(IsCurrentPage("Contact", "Home") ? "class=active" : "")><a asp-controller="Home" asp-action="Contact">Contact</a></li>
+                        </li>*@
+                        <li @(IsCurrentPage("Contact", "Home") ? "class=active" : "")><a asp-controller="Home" asp-action="Contact">İLETİŞİM</a></li>
                     </ul>
                 </nav>
             </div>
             <div class="col-lg-3">
                 <div class="header__cart">
-                    <ul>
+                    @*<ul>
                         <li><a asp-controller="Product" asp-action="Create" title="Add New Product"><i class="fa fa-plus"></i></a></li>
                         <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
                         <li><a asp-controller="Cart" asp-action="Edit"><i class="fa fa-shopping-bag"></i> <span>@cartItemCount</span></a></li>
                     </ul>
-                    <div class="header__cart__price">item: <span>@(cartTotalPrice.ToString("C"))</span></div>
+                    <div class="header__cart__price">item: <span>@(cartTotalPrice.ToString("C"))</span></div>*@
                 </div>
             </div>
         </div>

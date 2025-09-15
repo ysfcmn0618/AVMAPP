@@ -48,7 +48,7 @@ namespace AVMAPP.ETicaret.MVC.Controllers
 
             return View();
         }
-        [HttpGet("/product/list")]
+        [HttpGet("/listing")]
         public async Task<IActionResult> Listing()
         {
             // TODO: add paging support
