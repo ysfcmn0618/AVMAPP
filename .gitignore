@@ -482,3 +482,6 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+/ConsoleAppBasicAlgorithm
+/AVMAPP.ETicaret.MVC/appsettings.Production.json
+/AVMAPP.Data.APi/appsettings.Production.json
