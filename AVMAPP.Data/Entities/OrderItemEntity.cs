@@ -9,6 +9,7 @@ namespace AVMAPP.Data.Entities
     public class OrderItemEntity: IGenericField
     {
         public int OrderId { get; set; }
+        public OrderEntity Order { get; set; } = null!;
         public int ProductId { get; set; }
         public byte Quantity { get; set; }
         public decimal UnitPrice { get; set; }

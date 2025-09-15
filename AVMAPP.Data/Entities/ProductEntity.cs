@@ -9,6 +9,7 @@ namespace AVMAPP.Data.Entities
 {
     public class ProductEntity : IGenericField
     {
+        public int Id { get; set; }
         public Guid SellerId { get; set; }
         public UserEntity Seller { get; set; } = null!;
         public int CategoryId { get; set; }
@@ -28,6 +29,6 @@ namespace AVMAPP.Data.Entities
         public DateTime UpdatedAt { get; set; }
         public bool IsActive { get; set; }
         public bool IsDeleted { get; set; }
-        public int Id { get; set; }
+        
     }
 }

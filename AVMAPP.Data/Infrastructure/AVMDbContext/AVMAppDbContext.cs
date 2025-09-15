@@ -89,9 +89,9 @@ namespace AVMAPP.Data.Infrastructure.AVMDbContext
                 .OnDelete(DeleteBehavior.Restrict).IsRequired(false);
             //ProductEntity mapping ************************************************************
             //bir ürünün çok resmi bir resmin bir ürünü olablir
-            builder.Entity<ProductEntity>()
-                .HasMany(p => p.Images)
-                .WithOne()
+            builder.Entity<ProductImageEntity>()
+                .HasOne(pi => pi.Product)
+                .WithMany(p => p.Images)
                 .HasForeignKey(p => p.ProductId)
                 .OnDelete(DeleteBehavior.Restrict);
             builder.Entity<ProductEntity>()

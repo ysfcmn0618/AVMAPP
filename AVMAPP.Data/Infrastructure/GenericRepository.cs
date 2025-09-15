@@ -59,8 +59,7 @@ namespace AVMAPP.Data.Infrastructure
 
         public async Task<T> Update(T entity)
         {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-
+            if (entity == null) throw new ArgumentNullException(nameof(entity));            
             _dbContext.Entry(entity).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
             return entity;
