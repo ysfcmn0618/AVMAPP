@@ -48,22 +48,29 @@ namespace AVMAPP.ETicaret.MVC.Controllers
 
             return View();
         }
-        [HttpGet("/listing")]
-        public async Task<IActionResult> Listing()
+        [HttpGet("/products")]
+        public async Task<IActionResult> Products()
         {
-            // TODO: add paging support
-
-            var response = await Client.GetAsync("/products");
-
-            if (!response.IsSuccessStatusCode)
+            try
             {
-                return NotFound();
+                var products = await Client.GetFromJsonAsync<IEnumerable<ProductListingViewModel>>("/Products");
+
+                if (products == null || !products.Any())
+                {
+                    ViewBag.Message = "Ürün bulunamadı.";
+                    return View(new List<ProductListingViewModel>());
+                }
+
+                return View(products);
             }
-
-            var products = await response.Content.ReadFromJsonAsync<IEnumerable<ProductListingViewModel>>();
-
-            return View(products);
+            catch (HttpRequestException ex)
+            {
+                // API erişim hatası
+                ViewBag.Message = "API’ye ulaşılamıyor: " + ex.Message;
+                return View(new List<ProductListingViewModel>());
+            }
         }
+
         [HttpGet("/product/{productId:int}/details")]
         public async Task<IActionResult> ProductDetail([FromRoute] int productId)
         {
