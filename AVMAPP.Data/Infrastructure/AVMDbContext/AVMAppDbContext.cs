@@ -98,9 +98,9 @@ namespace AVMAPP.Data.Infrastructure.AVMDbContext
         .Property(p => p.Price)
         .HasColumnType("decimal(18,2)");
             builder.Entity<ProductEntity>()
-                .HasOne(o=>o.Discount)
+                .HasOne(o => o.Discount)
                 .WithOne()
-                .HasForeignKey<ProductEntity>(p=>p.DiscountId)
+                .HasForeignKey<ProductEntity>(p => p.DiscountId)
                 .OnDelete(DeleteBehavior.SetNull);
             //bir ürünün çok yorumu bir yorum bir ürününün olabilir
             builder.Entity<ProductEntity>()
@@ -119,7 +119,7 @@ namespace AVMAPP.Data.Infrastructure.AVMDbContext
             //Order Entitiy mapping ------------------------------------------------------------
             builder.Entity<OrderEntity>()
                 .HasMany(o => o.OrderItems)
-                .WithOne()
+                .WithOne(o=>o.Order)
                 .HasForeignKey(o => o.OrderId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired(true);
@@ -129,10 +129,14 @@ namespace AVMAPP.Data.Infrastructure.AVMDbContext
                 .HasForeignKey(u => u.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
             builder.Entity<OrderItemEntity>()
-       .Property(p => p.UnitPrice)
-       .HasColumnType("decimal(18,2)");
+                .Property(p => p.UnitPrice)
+                .HasColumnType("decimal(18,2)");
+            builder.Entity<OrderItemEntity>()
+                .HasOne(oi => oi.Order)
+                .WithMany(o => o.OrderItems)
+                .HasForeignKey(oi => oi.OrderId);
             //Discount Entity mapping --------------------------------------------------------
-            
+
             AppDbSeeder.Seed(builder);
         }
     }
