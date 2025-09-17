@@ -468,8 +468,8 @@ namespace AVMAPP.Data.Migrations
                     b.Property<Guid>("SellerId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<byte>("StockAmount")
-                        .HasColumnType("tinyint");
+                    b.Property<int>("StockAmount")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -498,7 +498,7 @@ namespace AVMAPP.Data.Migrations
                             Name = "Akıllı Telefon",
                             Price = 10000m,
                             SellerId = new Guid("a2222222-2222-2222-2222-222222222222"),
-                            StockAmount = (byte)100,
+                            StockAmount = 100,
                             UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
@@ -512,7 +512,7 @@ namespace AVMAPP.Data.Migrations
                             Name = "Roman Kitabı",
                             Price = 150m,
                             SellerId = new Guid("a2222222-2222-2222-2222-222222222222"),
-                            StockAmount = (byte)200,
+                            StockAmount = 200,
                             UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
@@ -526,7 +526,7 @@ namespace AVMAPP.Data.Migrations
                             Name = "Tişört",
                             Price = 50m,
                             SellerId = new Guid("a2222222-2222-2222-2222-222222222222"),
-                            StockAmount = (byte)245,
+                            StockAmount = 245,
                             UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
@@ -759,7 +759,7 @@ namespace AVMAPP.Data.Migrations
                         new
                         {
                             Id = new Guid("a1111111-1111-1111-1111-111111111111"),
-                            ConcurrencyStamp = "b213da9a-7ef7-41ee-9727-ae952f025232",
+                            ConcurrencyStamp = "b31afd9e-f989-4ea4-859f-dbbd3df1513a",
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "admin@test.com",
                             EmailConfirmed = true,
@@ -767,16 +767,16 @@ namespace AVMAPP.Data.Migrations
                             IsDeleted = false,
                             NormalizedEmail = "ADMIN@TEST.COM",
                             NormalizedUserName = "TESTADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEK75vPpAQnDHXyqmAqyC8iHU4JLmdyI7w4T2DFZMeWU9Y6khOqDwdGh1XB/vCzmJyA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBNx0FQdxZgMhRy6jQGS58c3Xn2jBSbAp+ZT2uMWEIjO8GLIHWlC0qt0s/95sPNbbA==",
                             RoleId = 1,
-                            SecurityStamp = "39422823-ef4d-4ca6-a5b3-6d87d2122da7",
+                            SecurityStamp = "93b97512-86d2-4e3a-8402-1a7eef4c3963",
                             UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             UserName = "testadmin"
                         },
                         new
                         {
                             Id = new Guid("a2222222-2222-2222-2222-222222222222"),
-                            ConcurrencyStamp = "4b0a33df-e1e8-4a36-bccc-0d84ad67b3e1",
+                            ConcurrencyStamp = "3ba40972-9947-43c8-997b-bce2f93a5672",
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "seller@test.com",
                             EmailConfirmed = true,
@@ -784,16 +784,16 @@ namespace AVMAPP.Data.Migrations
                             IsDeleted = false,
                             NormalizedEmail = "SELLER@TEST.COM",
                             NormalizedUserName = "TESTSELLER",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPaFL8uXg8AAKKd0M22Dw6gNDZlNYw7CBdz6jPSl0sahXz23Cz7tA7681yH4EFAC9w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPegjCuX1rFD94+VnLFBE5tsy4kF66yiIyYcJv+vSoBR3wPBPLrSdyK6R7OQRfGFWA==",
                             RoleId = 2,
-                            SecurityStamp = "6030ee6b-5621-4443-861f-cc2fa7c02fea",
+                            SecurityStamp = "fc9e275e-c446-4b57-86f6-89ed9b84210d",
                             UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             UserName = "testseller"
                         },
                         new
                         {
                             Id = new Guid("a3333333-3333-3333-3333-333333333333"),
-                            ConcurrencyStamp = "7a9ac97c-ea65-43fb-a985-6c440f53027f",
+                            ConcurrencyStamp = "4ddb4f07-6563-4da4-9e47-c21e06be24d0",
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "buyer@test.com",
                             EmailConfirmed = true,
@@ -801,9 +801,9 @@ namespace AVMAPP.Data.Migrations
                             IsDeleted = false,
                             NormalizedEmail = "BUYER@TEST.COM",
                             NormalizedUserName = "TESTBUYER",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPSwGnR1jVg7RjLXbt6kuY3s6jt/wt/VwbD0v6Vc8UsaQabN2WsImniB5L5foYa+cw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKe/3mEZ3kTbxf37Nap8dybSftS3yOXd2Zlkq6BdupHzb65Sp2IzyLEu2WfGKAOKzQ==",
                             RoleId = 3,
-                            SecurityStamp = "a369c605-4578-4719-8b69-8f6efa9ab444",
+                            SecurityStamp = "97ea2cc9-a130-49db-8138-902c4b7efc10",
                             UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             UserName = "testbuyer"
                         });
@@ -840,11 +840,13 @@ namespace AVMAPP.Data.Migrations
 
             modelBuilder.Entity("AVMAPP.Data.Entities.OrderItemEntity", b =>
                 {
-                    b.HasOne("AVMAPP.Data.Entities.OrderEntity", null)
+                    b.HasOne("AVMAPP.Data.Entities.OrderEntity", "Order")
                         .WithMany("OrderItems")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("AVMAPP.Data.Entities.ProductCommentEntity", b =>

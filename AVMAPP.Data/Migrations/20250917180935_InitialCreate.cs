@@ -191,7 +191,7 @@ namespace AVMAPP.Data.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StockAmount = table.Column<byte>(type: "tinyint", nullable: false),
+                    StockAmount = table.Column<int>(type: "int", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
@@ -359,9 +359,9 @@ namespace AVMAPP.Data.Migrations
                 columns: new[] { "Id", "Address", "AddressOther", "ConcurrencyStamp", "CreatedAt", "Email", "EmailConfirmed", "FirstName", "FullName", "IsActive", "IsDeleted", "LastName", "NormalizedEmail", "NormalizedUserName", "Password", "PasswordHash", "RefreshToken", "RefreshTokenExpiryTime", "ResetPasswordToken", "RoleId", "SecurityStamp", "UpdatedAt", "UserName" },
                 values: new object[,]
                 {
-                    { new Guid("a1111111-1111-1111-1111-111111111111"), null, null, "b213da9a-7ef7-41ee-9727-ae952f025232", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin@test.com", true, null, null, true, false, null, "ADMIN@TEST.COM", "TESTADMIN", null, "AQAAAAIAAYagAAAAEK75vPpAQnDHXyqmAqyC8iHU4JLmdyI7w4T2DFZMeWU9Y6khOqDwdGh1XB/vCzmJyA==", null, null, null, 1, "39422823-ef4d-4ca6-a5b3-6d87d2122da7", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "testadmin" },
-                    { new Guid("a2222222-2222-2222-2222-222222222222"), null, null, "4b0a33df-e1e8-4a36-bccc-0d84ad67b3e1", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "seller@test.com", true, null, null, true, false, null, "SELLER@TEST.COM", "TESTSELLER", null, "AQAAAAIAAYagAAAAEPaFL8uXg8AAKKd0M22Dw6gNDZlNYw7CBdz6jPSl0sahXz23Cz7tA7681yH4EFAC9w==", null, null, null, 2, "6030ee6b-5621-4443-861f-cc2fa7c02fea", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "testseller" },
-                    { new Guid("a3333333-3333-3333-3333-333333333333"), null, null, "7a9ac97c-ea65-43fb-a985-6c440f53027f", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "buyer@test.com", true, null, null, true, false, null, "BUYER@TEST.COM", "TESTBUYER", null, "AQAAAAIAAYagAAAAEPSwGnR1jVg7RjLXbt6kuY3s6jt/wt/VwbD0v6Vc8UsaQabN2WsImniB5L5foYa+cw==", null, null, null, 3, "a369c605-4578-4719-8b69-8f6efa9ab444", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "testbuyer" }
+                    { new Guid("a1111111-1111-1111-1111-111111111111"), null, null, "b31afd9e-f989-4ea4-859f-dbbd3df1513a", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin@test.com", true, null, null, true, false, null, "ADMIN@TEST.COM", "TESTADMIN", null, "AQAAAAIAAYagAAAAEBNx0FQdxZgMhRy6jQGS58c3Xn2jBSbAp+ZT2uMWEIjO8GLIHWlC0qt0s/95sPNbbA==", null, null, null, 1, "93b97512-86d2-4e3a-8402-1a7eef4c3963", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "testadmin" },
+                    { new Guid("a2222222-2222-2222-2222-222222222222"), null, null, "3ba40972-9947-43c8-997b-bce2f93a5672", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "seller@test.com", true, null, null, true, false, null, "SELLER@TEST.COM", "TESTSELLER", null, "AQAAAAIAAYagAAAAEPegjCuX1rFD94+VnLFBE5tsy4kF66yiIyYcJv+vSoBR3wPBPLrSdyK6R7OQRfGFWA==", null, null, null, 2, "fc9e275e-c446-4b57-86f6-89ed9b84210d", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "testseller" },
+                    { new Guid("a3333333-3333-3333-3333-333333333333"), null, null, "4ddb4f07-6563-4da4-9e47-c21e06be24d0", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "buyer@test.com", true, null, null, true, false, null, "BUYER@TEST.COM", "TESTBUYER", null, "AQAAAAIAAYagAAAAEKe/3mEZ3kTbxf37Nap8dybSftS3yOXd2Zlkq6BdupHzb65Sp2IzyLEu2WfGKAOKzQ==", null, null, null, 3, "97ea2cc9-a130-49db-8138-902c4b7efc10", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "testbuyer" }
                 });
 
             migrationBuilder.InsertData(
@@ -369,9 +369,9 @@ namespace AVMAPP.Data.Migrations
                 columns: new[] { "Id", "CategoryId", "CreatedAt", "Description", "DiscountId", "IsActive", "IsDeleted", "Name", "Price", "SellerId", "StockAmount", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { 1, 1, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Yeni nesil telefon", null, true, false, "Akıllı Telefon", 10000m, new Guid("a2222222-2222-2222-2222-222222222222"), (byte)100, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 2, 2, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Popüler roman", null, true, false, "Roman Kitabı", 150m, new Guid("a2222222-2222-2222-2222-222222222222"), (byte)200, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 3, 3, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Pamuklu tişört", null, true, false, "Tişört", 50m, new Guid("a2222222-2222-2222-2222-222222222222"), (byte)245, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                    { 1, 1, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Yeni nesil telefon", null, true, false, "Akıllı Telefon", 10000m, new Guid("a2222222-2222-2222-2222-222222222222"), 100, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2, 2, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Popüler roman", null, true, false, "Roman Kitabı", 150m, new Guid("a2222222-2222-2222-2222-222222222222"), 200, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 3, 3, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Pamuklu tişört", null, true, false, "Tişört", 50m, new Guid("a2222222-2222-2222-2222-222222222222"), 245, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.InsertData(

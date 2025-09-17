@@ -129,8 +129,17 @@ namespace AVMAPP.Services.Profiles
         {
             // Entity -> DTO
             CreateMap<ProductEntity, ProductDto>()
-                .ForMember(d => d.Images, opt => opt.MapFrom(s => s.Images))
-                .ReverseMap();
+            .ForMember(d => d.Images, opt => opt.MapFrom(s => s.Images))
+            .ForMember(d => d.Category, opt => opt.MapFrom(s => s.Category))
+            .ForMember(d => d.DiscountDto, opt => opt.MapFrom(s => s.Discount))
+            .ForMember(d => d.Comments, opt => opt.MapFrom(s => s.Comments))
+            .ReverseMap();
+
+            CreateMap<ProductDto, ProductListingViewModel>()
+            .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category != null ? src.Category.Name : "Undefined"))
+            .ForMember(dest => dest.DiscountPercentage, opt => opt.MapFrom(src => src.DiscountDto != null ? src.DiscountDto.DiscountRate : (byte?)null))
+            .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => src.Images != null && src.Images.Any() ? src.Images.First().Url : null))
+            .ForMember(dest => dest.DiscountedPrice,opt => opt.MapFrom(src => src.DiscountDto != null ? src.Price - (src.Price * src.DiscountDto.DiscountRate / 100) : (decimal?)null)); ;
 
             // DTO -> SaveProductViewModel
             CreateMap<ProductDto, SaveProductViewModel>()

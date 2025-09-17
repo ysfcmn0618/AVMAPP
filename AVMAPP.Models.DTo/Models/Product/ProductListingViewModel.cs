@@ -14,8 +14,7 @@ namespace AVMAPP.Models.DTo.Models.Product
         public decimal Price { get; set; }
         public byte? DiscountPercentage { get; set; }
 
-        public decimal? DiscountedPrice =>
-            DiscountPercentage.HasValue ? Price - Price * DiscountPercentage.Value / 100 : null;
+        public decimal? DiscountedPrice { get; set; }
 
         public string? ImageUrl { get; set; }
     }

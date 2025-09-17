@@ -19,7 +19,7 @@ namespace AVMAPP.Data.APi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var products = await repo.GetAllAsync();
+            var products = await repo.GetAllIncludingAsync(p => p.Images, p => p.Category, p => p.Discount,p => p.Comments);
             if (products == null) return NotFound("Ürün Bulunamadı.");
             return Ok(mapper.Map<IEnumerable<ProductDto>>(products));
         }

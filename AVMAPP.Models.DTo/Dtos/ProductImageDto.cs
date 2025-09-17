@@ -5,6 +5,7 @@ namespace AVMAPP.Data.APi.Models
     public class ProductImageDto
     {
         public int ProductId { get; set; }
+        [System.Text.Json.Serialization.JsonIgnore]
         public ProductEntity? Product { get; set; }
         public string Url { get; set; } = null!;
         public DateTime CreatedAt { get; set; }

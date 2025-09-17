@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AVMAPP.Data.APi.Models;
 using AVMAPP.Data.Entities;
 using AVMAPP.ETicaret.MVC.Models;
 using AVMAPP.Models.DTo.Models.Home;
@@ -53,19 +54,23 @@ namespace AVMAPP.ETicaret.MVC.Controllers
         {
             try
             {
-                var products = await Client.GetFromJsonAsync<IEnumerable<ProductListingViewModel>>("/Products");
+                var products = await Client.GetFromJsonAsync<IEnumerable<ProductDto>>("api/Product");
+
+                if (products == null)
+                {
+                    throw new Exception("API'den gelen ürünler null döndü!");
+                }
 
                 if (products == null || !products.Any())
                 {
                     ViewBag.Message = "Ürün bulunamadı.";
                     return View(new List<ProductListingViewModel>());
                 }
-
-                return View(products);
+                 var productsMapped= mapper.Map<IEnumerable<ProductListingViewModel>>(products);
+                return View(productsMapped);
             }
             catch (HttpRequestException ex)
             {
-                // API erişim hatası
                 ViewBag.Message = "API’ye ulaşılamıyor: " + ex.Message;
                 return View(new List<ProductListingViewModel>());
             }
