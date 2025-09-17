@@ -15,6 +15,7 @@ namespace AVMAPP.Data.APi.Controllers
     [ApiController]
     public class ProductController(IGenericRepository<ProductEntity> repo, IMapper mapper) : ControllerBase
     {
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -22,6 +23,7 @@ namespace AVMAPP.Data.APi.Controllers
             if (products == null) return NotFound("Ürün Bulunamadı.");
             return Ok(mapper.Map<IEnumerable<ProductDto>>(products));
         }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -29,7 +31,9 @@ namespace AVMAPP.Data.APi.Controllers
             if (product == null) return NotFound("Ürün Bulunamadı.");
             return Ok(mapper.Map<ProductDto>(product));
         }
+
         [HttpPost]
+        [Authorize(Policy = "SellerOnly")]
         public async Task<IActionResult> Add([FromBody] ProductDto productDto)
         {
             if (productDto == null) return BadRequest("Ürün bilgileri eksik.");
@@ -38,6 +42,8 @@ namespace AVMAPP.Data.APi.Controllers
             var addedProduct = await repo.Add(product);
             return CreatedAtAction(nameof(GetById), new { id = addedProduct.Id }, mapper.Map<ProductDto>(addedProduct));
         }
+
+        [Authorize(Policy = "AdminOrSeller")]
         [HttpPut("{id:int}")]
         public async Task<IActionResult> Update(int id, [FromBody] ProductDto productDto)
         {
@@ -49,7 +55,9 @@ namespace AVMAPP.Data.APi.Controllers
             await repo.Update(updatedProduct);
             return NoContent();
         }
+
         [HttpDelete("{id:int}")]
+        [Authorize(Policy = "AdminOrSeller")]
         public async Task<IActionResult> Delete(int id)
         {
             var product = await repo.GetByIdAsync(id);
@@ -57,6 +65,8 @@ namespace AVMAPP.Data.APi.Controllers
             await repo.Delete(id);
             return NoContent();
         }
+
+        [AllowAnonymous]
         [HttpGet("filter")]
         public async Task<IActionResult> Filter([FromQuery] ProductFilterViewModel filter)
         {

@@ -40,6 +40,7 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
     options.AddPolicy("BuyerOnly", policy => policy.RequireRole("Buyer"));
     options.AddPolicy("SellerOnly", policy => policy.RequireRole("Seller"));
+    options.AddPolicy("AdminOrSeller", policy => policy.RequireRole("Admin", "Seller"));
     options.AddPolicy("BuyerOrSeller", policy => policy.RequireRole("Buyer", "Seller"));
 });
 //Automapper configuration
