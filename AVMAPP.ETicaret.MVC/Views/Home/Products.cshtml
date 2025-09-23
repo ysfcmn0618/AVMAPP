@@ -2,7 +2,7 @@
 @model IEnumerable<ProductListingViewModel>
 
 @{
-    ViewData["Title"] = "Products";
+    ViewData["Title"] = "Ürünler";
     var discountedProducts = Model.Where(x => x.DiscountPercentage.HasValue).ToList();
     var nonDiscountedProducts = Model.Where(x => !x.DiscountPercentage.HasValue).ToList();
 }

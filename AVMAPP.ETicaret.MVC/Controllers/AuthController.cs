@@ -33,7 +33,7 @@ namespace AVMAPP.ETicaret.MVC.Controllers
             //Mapleme işlemleri lazım
             var user = _mapper.Map<UserDto>(newUser);
 
-            var response = await Client.PostAsJsonAsync("/api/auth/register", user);
+            var response = await Client.PostAsJsonAsync("api/Auth/register", user);
 
             if (!response.IsSuccessStatusCode)
             {
