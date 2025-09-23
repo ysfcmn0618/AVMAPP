@@ -3,7 +3,7 @@
 @inject IHttpClientFactory clientFactory;
 @{
     var client = clientFactory.CreateClient("Api.Data");
-    ViewData["Title"] = "Edit Product";
+    ViewData["Title"] = "Ürün Düzenle";
     var discounts = await client.GetFromJsonAsync<List<DiscountSelectItemViewModel>>("Discounts");
     var categories = await client.GetFromJsonAsync<List<CategorySelectItemViewModel>>("Categories");
 
