@@ -80,7 +80,8 @@ namespace AVMAPP.ETicaret.MVC.Controllers
                 ModelState.AddModelError("", "Giriş işlemi başarısız oldu.");
                 return View(loginDto);
             }
-            HttpContext.Session.SetString("AccessToken", loginResult.Token);
+
+            // JWT token cookie
             Response.Cookies.Append("jwt_token", loginResult.Token, new CookieOptions
             {
                 HttpOnly = true,
@@ -89,10 +90,28 @@ namespace AVMAPP.ETicaret.MVC.Controllers
                 Expires = DateTime.UtcNow.AddMinutes(60)
             });
 
+            // Kullanıcı adı ve ID cookie
+            Response.Cookies.Append("name", loginResult.User.FirstName ?? loginResult.User.Email, new CookieOptions
+            {
+                HttpOnly = false, // Razor view okuyabilsin
+                Secure = true,
+                SameSite = SameSiteMode.Lax,
+                Expires = DateTime.UtcNow.AddMinutes(60)
+            });
+
+            Response.Cookies.Append("userId", loginResult.User.Id.ToString(), new CookieOptions
+            {
+                HttpOnly = false,
+                Secure = true,
+                SameSite = SameSiteMode.Lax,
+                Expires = DateTime.UtcNow.AddMinutes(60)
+            });
+
             await LogInAsync(loginResult.User);
 
             return RedirectToAction("Index", "Home");
         }
+
 
 
         [Route("forgot-password")]
@@ -213,10 +232,8 @@ namespace AVMAPP.ETicaret.MVC.Controllers
         [HttpGet]
         public async Task<IActionResult> Logout()
         {
-            // JWT cookie’yi sil
             Response.Cookies.Delete("jwt_token");
 
-            // CookieAuthentication’dan çıkış yap
             await LogoutUser();
             return RedirectToAction(nameof(Login));
         }
@@ -244,8 +261,7 @@ namespace AVMAPP.ETicaret.MVC.Controllers
             );
         }
         [NonAction]
-        [HttpGet]
-        public async Task<IActionResult> LogoutUser()
+        public async Task LogoutUser()
         {
             // TODO: Authorization implemente edildikten sonra bu metot tamamlanacak...
 
@@ -255,7 +271,6 @@ namespace AVMAPP.ETicaret.MVC.Controllers
             RemoveCookie("surname");
             RemoveCookie("role");
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction(nameof(Login));
         }
         private async Task SendResetPasswordEmailAsync(UserDto user)
         {

@@ -30,7 +30,7 @@ namespace AVMAPP.API.Controllers
             if (existingUser == null)
                 return Unauthorized("Kullanıcı adı veya parola geçersiz.");
 
-            if (!PasswordHelper.VerifyPassword(loginDto.Password, existingUser.Password))
+            if (!PasswordHelper.VerifyPassword(loginDto.Password, existingUser.PasswordHash))
                 return Unauthorized("Kullanıcı adı veya parola geçersiz.");
 
             var token = _tokenService.GenerateToken(existingUser.Id, existingUser.Email, existingUser.Role.Name);

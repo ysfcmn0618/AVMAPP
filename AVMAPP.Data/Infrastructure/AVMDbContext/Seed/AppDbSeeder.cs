@@ -63,7 +63,7 @@ namespace AVMAPP.Data.Infrastructure.AVMDbContext.Seed
                     UserName = "testadmin",
                     Email = "admin@test.com",
                     EmailConfirmed = true,
-                    PasswordHash = hasher.HashPassword(null, "Admin123!"),
+                    PasswordHash = "$2b$12$UWvRj8WHnPh7nXe/cx4gkeNI0DNbGWmG3arPbGBUyQQa9R5hRkZ4.", // Admin123!
                     RoleId = roleAdminId,
                     SecurityStamp = Guid.NewGuid().ToString(),
                     CreatedAt = now,
@@ -80,7 +80,7 @@ namespace AVMAPP.Data.Infrastructure.AVMDbContext.Seed
                     UserName = "testseller",
                     Email = "seller@test.com",
                     EmailConfirmed = true,
-                    PasswordHash = hasher.HashPassword(null, "Seller123!"),
+                    PasswordHash = "$2b$12$xO/srWkQzcaTVNcRHcKAjeee/4KC75cR9fI7Ihw5.JQe9Jl/GziAW", // Seller123!
                     RoleId = roleSellerId,
                     SecurityStamp = Guid.NewGuid().ToString(),
                     CreatedAt = now,
@@ -97,7 +97,7 @@ namespace AVMAPP.Data.Infrastructure.AVMDbContext.Seed
                     UserName = "testbuyer",
                     Email = "buyer@test.com",
                     EmailConfirmed = true,
-                    PasswordHash = hasher.HashPassword(null, "Buyer123!"),
+                    PasswordHash = "$2b$12$BWogJtVAAIijaMAFiVuD6eEPfanzBhrlV5NnQdAqA18VZz6F2zF8q", // Buyer123!
                     RoleId = roleBuyerId,
                     SecurityStamp = Guid.NewGuid().ToString(),
                     CreatedAt = now,
@@ -109,6 +109,7 @@ namespace AVMAPP.Data.Infrastructure.AVMDbContext.Seed
                     ConcurrencyStamp = Guid.NewGuid().ToString()
                 }
             );
+
 
             // Kategoriler
             builder.Entity<CategoryEntity>().HasData(

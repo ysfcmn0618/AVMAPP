@@ -29,7 +29,7 @@ namespace AVMAPP.Services.Profiles
         public UserProfile()
         {
             CreateMap<UserEntity, UserDto>()
-                .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role.ToString()))
+                .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role))
                 .ReverseMap();
             CreateMap<RegisterUserViewModel, UserDto>()
            .ReverseMap();

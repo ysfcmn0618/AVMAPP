@@ -759,7 +759,7 @@ namespace AVMAPP.Data.Migrations
                         new
                         {
                             Id = new Guid("a1111111-1111-1111-1111-111111111111"),
-                            ConcurrencyStamp = "b31afd9e-f989-4ea4-859f-dbbd3df1513a",
+                            ConcurrencyStamp = "02cbc7b1-2af2-4d5d-991e-0f3d9cfe91b3",
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "admin@test.com",
                             EmailConfirmed = true,
@@ -767,16 +767,16 @@ namespace AVMAPP.Data.Migrations
                             IsDeleted = false,
                             NormalizedEmail = "ADMIN@TEST.COM",
                             NormalizedUserName = "TESTADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEBNx0FQdxZgMhRy6jQGS58c3Xn2jBSbAp+ZT2uMWEIjO8GLIHWlC0qt0s/95sPNbbA==",
+                            PasswordHash = "$2b$12$UWvRj8WHnPh7nXe/cx4gkeNI0DNbGWmG3arPbGBUyQQa9R5hRkZ4.",
                             RoleId = 1,
-                            SecurityStamp = "93b97512-86d2-4e3a-8402-1a7eef4c3963",
+                            SecurityStamp = "71bc61d7-0709-4702-b7fc-bd31984615dc",
                             UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             UserName = "testadmin"
                         },
                         new
                         {
                             Id = new Guid("a2222222-2222-2222-2222-222222222222"),
-                            ConcurrencyStamp = "3ba40972-9947-43c8-997b-bce2f93a5672",
+                            ConcurrencyStamp = "c51892fc-f754-4772-95ee-025b8a356111",
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "seller@test.com",
                             EmailConfirmed = true,
@@ -784,16 +784,16 @@ namespace AVMAPP.Data.Migrations
                             IsDeleted = false,
                             NormalizedEmail = "SELLER@TEST.COM",
                             NormalizedUserName = "TESTSELLER",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPegjCuX1rFD94+VnLFBE5tsy4kF66yiIyYcJv+vSoBR3wPBPLrSdyK6R7OQRfGFWA==",
+                            PasswordHash = "$2b$12$xO/srWkQzcaTVNcRHcKAjeee/4KC75cR9fI7Ihw5.JQe9Jl/GziAW",
                             RoleId = 2,
-                            SecurityStamp = "fc9e275e-c446-4b57-86f6-89ed9b84210d",
+                            SecurityStamp = "d0b7ac4a-ecee-4c59-a70e-4b94a493c3c5",
                             UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             UserName = "testseller"
                         },
                         new
                         {
                             Id = new Guid("a3333333-3333-3333-3333-333333333333"),
-                            ConcurrencyStamp = "4ddb4f07-6563-4da4-9e47-c21e06be24d0",
+                            ConcurrencyStamp = "5d9f4bb5-b6a9-4381-918d-47565c81642e",
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "buyer@test.com",
                             EmailConfirmed = true,
@@ -801,9 +801,9 @@ namespace AVMAPP.Data.Migrations
                             IsDeleted = false,
                             NormalizedEmail = "BUYER@TEST.COM",
                             NormalizedUserName = "TESTBUYER",
-                            PasswordHash = "AQAAAAIAAYagAAAAEKe/3mEZ3kTbxf37Nap8dybSftS3yOXd2Zlkq6BdupHzb65Sp2IzyLEu2WfGKAOKzQ==",
+                            PasswordHash = "$2b$12$BWogJtVAAIijaMAFiVuD6eEPfanzBhrlV5NnQdAqA18VZz6F2zF8q",
                             RoleId = 3,
-                            SecurityStamp = "97ea2cc9-a130-49db-8138-902c4b7efc10",
+                            SecurityStamp = "cd948a95-94f0-468a-9b3d-7d7ca8ab0d03",
                             UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             UserName = "testbuyer"
                         });

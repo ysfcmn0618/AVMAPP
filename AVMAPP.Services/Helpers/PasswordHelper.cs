@@ -13,14 +13,12 @@ namespace AVMAPP.Services.Helpers
     {
         public static string HashPassword(string password)
         {
-            using var sha256 = SHA256.Create();
-            var hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
-            return Convert.ToBase64String(hashedBytes);
+            return BCrypt.Net.BCrypt.HashPassword(password);
         }
+
         public static bool VerifyPassword(string enteredPassword, string storedHashedPassword)
         {
-            var hashOfInput = HashPassword(enteredPassword);
-            return hashOfInput == storedHashedPassword;
+            return BCrypt.Net.BCrypt.Verify(enteredPassword, storedHashedPassword);
         }
     }
 }
