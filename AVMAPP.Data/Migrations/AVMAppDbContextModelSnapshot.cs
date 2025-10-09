@@ -759,7 +759,7 @@ namespace AVMAPP.Data.Migrations
                         new
                         {
                             Id = new Guid("a1111111-1111-1111-1111-111111111111"),
-                            ConcurrencyStamp = "02cbc7b1-2af2-4d5d-991e-0f3d9cfe91b3",
+                            ConcurrencyStamp = "bdb390f9-9ef1-4906-95ae-610511e86d0b",
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "admin@test.com",
                             EmailConfirmed = true,
@@ -769,14 +769,14 @@ namespace AVMAPP.Data.Migrations
                             NormalizedUserName = "TESTADMIN",
                             PasswordHash = "$2b$12$UWvRj8WHnPh7nXe/cx4gkeNI0DNbGWmG3arPbGBUyQQa9R5hRkZ4.",
                             RoleId = 1,
-                            SecurityStamp = "71bc61d7-0709-4702-b7fc-bd31984615dc",
+                            SecurityStamp = "c08b1921-e9f7-42aa-a148-432af32e2f22",
                             UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             UserName = "testadmin"
                         },
                         new
                         {
                             Id = new Guid("a2222222-2222-2222-2222-222222222222"),
-                            ConcurrencyStamp = "c51892fc-f754-4772-95ee-025b8a356111",
+                            ConcurrencyStamp = "57a2ac12-f8fb-4101-8071-204e2223615a",
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "seller@test.com",
                             EmailConfirmed = true,
@@ -786,14 +786,14 @@ namespace AVMAPP.Data.Migrations
                             NormalizedUserName = "TESTSELLER",
                             PasswordHash = "$2b$12$xO/srWkQzcaTVNcRHcKAjeee/4KC75cR9fI7Ihw5.JQe9Jl/GziAW",
                             RoleId = 2,
-                            SecurityStamp = "d0b7ac4a-ecee-4c59-a70e-4b94a493c3c5",
+                            SecurityStamp = "b0b11169-dc0a-4e37-949f-e340292fe0d2",
                             UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             UserName = "testseller"
                         },
                         new
                         {
                             Id = new Guid("a3333333-3333-3333-3333-333333333333"),
-                            ConcurrencyStamp = "5d9f4bb5-b6a9-4381-918d-47565c81642e",
+                            ConcurrencyStamp = "13537c0b-195a-4d23-8c6d-cfcbab1b3f69",
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "buyer@test.com",
                             EmailConfirmed = true,
@@ -803,7 +803,7 @@ namespace AVMAPP.Data.Migrations
                             NormalizedUserName = "TESTBUYER",
                             PasswordHash = "$2b$12$BWogJtVAAIijaMAFiVuD6eEPfanzBhrlV5NnQdAqA18VZz6F2zF8q",
                             RoleId = 3,
-                            SecurityStamp = "cd948a95-94f0-468a-9b3d-7d7ca8ab0d03",
+                            SecurityStamp = "3bf04df6-974b-44a1-ab04-b45b15455feb",
                             UpdatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             UserName = "testbuyer"
                         });
