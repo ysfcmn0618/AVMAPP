@@ -34,3 +34,21 @@ body {
         .header__menu ul li:last-child {
             margin-right: 0; /* sonuncuda boşluk olmasın */
         }
+.hero__categories {
+    position: relative;
+}
+
+.hidden {
+    display: none;
+}
+
+.hero__categories__list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    z-index: 1000;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+

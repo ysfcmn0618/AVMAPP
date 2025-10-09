@@ -10,13 +10,15 @@ namespace AVMAPP.Data.APi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CategoryController(IGenericRepository<CategoryEntity> repo,IMapper mapper) : ControllerBase
+    public class CategoryController(IGenericRepository<CategoryEntity> repo, IMapper mapper) : ControllerBase
     {
-        [Authorize]
-        [HttpGet]        public async Task<IActionResult> GetAll()
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
         {
             var categories = await repo.GetAllAsync();
-            return Ok(categories);
+            var existingCategories = mapper.Map<List<CategoryDto>>(categories);
+            return Ok(existingCategories);
         }
         [Authorize]
         [HttpGet("{id}")]
@@ -47,12 +49,12 @@ namespace AVMAPP.Data.APi.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] CategoryDto category)
         {
-           
+
             try
             {
                 var existing = await repo.GetByIdAsync(id);
-               
-               existing= mapper.Map(category, existing);
+
+                existing = mapper.Map(category, existing);
                 var updatedCategory = await repo.Update(existing);
                 return Ok(updatedCategory);
             }

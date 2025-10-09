@@ -10,9 +10,11 @@
                 <div class="hero__categories">
                     <div class="hero__categories__all">
                         <i class="fa fa-bars"></i>
-                        <span>All categories</span>
+                        <span>Tüm Kategoriler</span>
                     </div>
-                    <vc:category-list />
+                    <div class="hero__categories__list" >
+                        <vc:category-list />
+                    </div>
                 </div>
             </div>
             <div class="col-lg-9">
@@ -20,11 +22,11 @@
                     <div class="hero__search__form">
                         <form action="#">
                             <div class="hero__search__categories">
-                                All Categories
+                                Kategoriler
                                 <span class="arrow_carrot-down"></span>
                             </div>
-                            <input type="text" placeholder="What do yo u need?">
-                            <button type="submit" class="site-btn">SEARCH</button>
+                            <input type="text" placeholder="Neye ihtiyacınız var?">
+                            <button type="submit" class="site-btn">Ara</button>
                         </form>
                     </div>
                     <div class="hero__search__phone">
@@ -54,5 +56,13 @@
 </section>
 @section Scripts {
     @await Html.PartialAsync("_ScriptsPartial")
+    <script src="/theme/js/jquery.nice-select.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(".hero__categories__all").click(function () {
+                $(".hero__categories__list").stop(true, true).slideToggle(300);
+            });
+        });
+    </script>
 }
 <!-- Hero Section End -->

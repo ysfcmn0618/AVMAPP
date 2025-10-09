@@ -1,15 +1,15 @@
 ﻿@model List<CategoryListViewModel>
 
 <ul>
-    @foreach (var item in Model)
+    @foreach (var category in Model)
     {
         <li>
-            <a href="#">
-                @if (!string.IsNullOrWhiteSpace(item.Icon))
+            <a href="/Products/Category/@category.Id">
+                @if (!string.IsNullOrWhiteSpace(category.Icon))
                 {
-                    <i class="@item.Icon mr-2"></i>
+                    <i class="@category.Icon mr-2"></i>
                 }
-                <div class=>@item.Name</div>
+                @category.Name
             </a>
         </li>
     }
