@@ -6,6 +6,7 @@ using AVMAPP.Models.DTo.Dtos;
 using AVMAPP.Models.DTo.Models.Auth;
 using AVMAPP.Models.DTo.Models.Home;
 using AVMAPP.Models.DTo.Models.Product;
+using AVMAPP.Models.DTo.Models.ViewModels;
 using AVMAPP.Models.DTO.Dtos;
 using System;
 using System.Collections.Generic;
@@ -68,6 +69,13 @@ namespace AVMAPP.Services.Profiles
             CreateMap<CategoryEntity, CategoryDto>()
                 .ForMember(dest => dest.Color, opt => opt.MapFrom(src => src.Color ?? "#FFFFFF"))
                 .ForMember(dest => dest.Icon, opt => opt.MapFrom(src => src.Icon ?? "icon-avg")).ReverseMap();
+        }
+    }
+    public class CategoryDtoProfile : Profile
+    {
+        public CategoryDtoProfile()
+        {
+            CreateMap<CategoryDto, CategoryListViewModel>().ReverseMap();
         }
     }
     public class CartItemProfile : Profile
